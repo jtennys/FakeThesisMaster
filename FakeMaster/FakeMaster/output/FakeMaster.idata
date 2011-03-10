@@ -1,0 +1,10 @@
+flash 2E8B SRAM   58:
+ 00 15 bytes
+flash 2E8F SRAM   72:
+ 00 6 bytes
+flash 2E93 SRAM   79:
+ <size at next line>   0
+  [size:] 1 bytes
+flash 2E97 SRAM   7B:
+ <size at next line>   0  0  0
+  [size:] 3 bytes

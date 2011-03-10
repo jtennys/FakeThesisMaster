@@ -1,0 +1,49 @@
+Starting MAKE...
+creating project.mk 
+lib/comp_serial.asm
+lib/comp_serialint.asm
+lib/comp_serialplus.asm
+lib/lcd_1.asm
+lib/lcd_2.asm
+lib/psocconfig.asm
+lib/psocconfigtbl.asm
+lib/psocdynamic.asm
+lib/psocdynamicint.asm
+lib/receive.asm
+lib/receiveint.asm
+lib/receiveplus.asm
+lib/rx_timeout.asm
+lib/rx_timeoutint.asm
+lib/transmit.asm
+lib/transmitint.asm
+lib/transmitplus.asm
+lib/tx_repeater.asm
+lib/tx_repeaterint.asm
+lib/tx_repeaterplus.asm
+lib/tx_timeout.asm
+lib/tx_timeoutint.asm
+./boot.asm
+./main.c
+ 
+Linking..
+LMM info: area 'InterruptRAM' uses 8 bytes in SRAM page 0
+LMM info: area 'COMP_SERIAL_RAM' item of 64 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 15 bytes allocated in SRAM page 0
+LMM info: area 'virtual_registers' uses 11 bytes in SRAM page 0
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'COMP_SERIAL_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'receiver_config_RAM' uses 0 bytes in SRAM page 0
+LMM info: area 'transmitter_config_RAM' uses 0 bytes in SRAM page 0
+  ROM 35% full. 11499 bytes used (does not include absolute areas).
+  RAM 7% full. 126 bytes used (does not include stack usage).
+idata dump at output/FakeMaster.idata
+ 
+FakeMaster - 0 error(s) 0 warning(s) 11:00:05
