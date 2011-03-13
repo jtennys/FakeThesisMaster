@@ -273,15 +273,6 @@ _LoadConfig_pc_listener:
 ; writing Port_1_GlobalSelect register
 	and		reg[ 6h], ~28h
 	or		reg[ 6h], 28h
-; writing Port_2_DriveMode_0 register
-	M8C_SetBank1
-	and		reg[ 8h], ~7fh
-	or		reg[ 8h], 7fh
-; writing Port_2_DriveMode_1 register
-	and		reg[ 9h], ~7fh
-; writing Port_2_DriveMode_2 register
-	M8C_SetBank0
-	and		reg[ bh], ~7fh
 ; writing OscillatorControl_1 register
 	M8C_SetBank1
 	and		reg[e1h], ~ffh
@@ -369,17 +360,7 @@ _UnloadConfig_pc_listener:
 ; writing Row_1_InputMux register
 	and		reg[b8h], ~f3h
 	or		reg[b8h], 42h
-; writing Port_2_DriveMode_2 register
-	and		reg[ bh], ~7fh
-	or		reg[ bh], 7fh
-; writing Port_2_DriveMode_1 register
-	M8C_SetBank1
-	and		reg[ 9h], ~7fh
-	or		reg[ 9h], 7fh
-; writing Port_2_DriveMode_0 register
-	and		reg[ 8h], ~7fh
 ; writing Port_1_GlobalSelect register
-	M8C_SetBank0
 	and		reg[ 6h], ~28h
 ; writing Port_1_DriveMode_2 register
 	and		reg[ 7h], ~28h

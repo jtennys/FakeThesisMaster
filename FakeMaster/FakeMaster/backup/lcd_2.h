@@ -14,7 +14,7 @@
 
 #include <m8c.h>
 
-#define LCD_2_BARGRAPH_ENABLE 0
+#define LCD_2_BARGRAPH_ENABLE 1
 
 /* Create pragmas to support proper argument and return value passing */
 #pragma fastcall16  LCD_2_Start

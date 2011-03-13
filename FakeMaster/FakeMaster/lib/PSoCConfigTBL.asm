@@ -30,7 +30,6 @@ LoadConfigTBL_pc_listener_Bank0:
 	db		3bh, 00h		;COMP_SERIAL_TX_CONTROL_REG(DCB12CR0)
 	db		39h, 00h		;COMP_SERIAL_TX_BUFFER_REG (DCB12DR1)
 	db		3ah, 00h		;COMP_SERIAL_(DCB12DR2)
-;  Instance name LCD_1, User Module LCD
 ;  Instance name TX_REPEATER, User Module TX8
 ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
 	db		2bh, 00h		;TX_REPEATER_CONTROL_REG  (DCB02CR0)
@@ -47,7 +46,6 @@ LoadConfigTBL_pc_listener_Bank1:
 	db		38h, 1dh		;COMP_SERIAL_TX_FUNC_REG   (DCB12FN)
 	db		39h, 06h		;COMP_SERIAL_TX_INPUT_REG  (DCB12IN)
 	db		3ah, 85h		;COMP_SERIAL_TX_OUTPUT_REG (DCB12OU)
-;  Instance name LCD_1, User Module LCD
 ;  Instance name TX_REPEATER, User Module TX8
 ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
 	db		28h, 1dh		;TX_REPEATER_FUNC_REG     (DCB02FN)
@@ -60,7 +58,6 @@ UnloadConfigTBL_pc_listener_Bank0:
 	db		3fh, 00h		;COMP_SERIAL_CONTROL_0 (DCB13CR0)
 ;       Instance name COMP_SERIAL, Block Name TX(DCB12)
 	db		3bh, 00h		;COMP_SERIAL_CONTROL_0 (DCB12CR0)
-;  Instance name LCD_1, User Module LCD
 ;  Instance name TX_REPEATER, User Module TX8
 ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
 	db		2bh, 00h		;TX_REPEATER_CONTROL_0 (DCB02CR0)
@@ -75,7 +72,6 @@ UnloadConfigTBL_pc_listener_Bank1:
 	db		38h, 00h		;COMP_SERIAL_DIG_BasicFunction (DCB12FN)
 	db		39h, 00h		;COMP_SERIAL_DIG_Input (DCB12IN)
 	db		3ah, 00h		;COMP_SERIAL_DIG_Output (DCB12OU)
-;  Instance name LCD_1, User Module LCD
 ;  Instance name TX_REPEATER, User Module TX8
 ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
 	db		28h, 00h		;TX_REPEATER_DIG_BasicFunction (DCB02FN)
@@ -86,12 +82,11 @@ UnloadConfigTBL_pc_listener_Bank1:
 ;  Instance name COMP_SERIAL, User Module UART
 ;       Instance name COMP_SERIAL, Block Name RX(DCB13)
 ;       Instance name COMP_SERIAL, Block Name TX(DCB12)
-;  Instance name LCD_1, User Module LCD
 ;  Instance name TX_REPEATER, User Module TX8
 ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
 	db		ffh
 LoadConfigTBL_receiver_config_Bank0:
-;  Instance name LCD_2, User Module LCD
+;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		2bh, 00h		;RECEIVE_CONTROL_REG  (DCB02CR0)
@@ -108,7 +103,7 @@ LoadConfigTBL_receiver_config_Bank0:
 	db		26h, 00h		;RX_TIMEOUT_COMPARE_MSB_REG(DBB01DR2)
 	db		ffh
 LoadConfigTBL_receiver_config_Bank1:
-;  Instance name LCD_2, User Module LCD
+;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		28h, 05h		;RECEIVE_FUNC_REG     (DCB02FN)
@@ -125,7 +120,7 @@ LoadConfigTBL_receiver_config_Bank1:
 	db		26h, 40h		;RX_TIMEOUT_OUTPUT_MSB_REG(DBB01OU)
 	db		ffh
 UnloadConfigTBL_receiver_config_Bank0:
-;  Instance name LCD_2, User Module LCD
+;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		2bh, 00h		;RECEIVE_CONTROL_0 (DCB02CR0)
@@ -136,7 +131,7 @@ UnloadConfigTBL_receiver_config_Bank0:
 	db		27h, 00h		;RX_TIMEOUT_CONTROL_0 (DBB01CR0)
 	db		ffh
 UnloadConfigTBL_receiver_config_Bank1:
-;  Instance name LCD_2, User Module LCD
+;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		28h, 00h		;RECEIVE_DIG_BasicFunction (DCB02FN)
@@ -153,7 +148,7 @@ UnloadConfigTBL_receiver_config_Bank1:
 	db		26h, 00h		;RX_TIMEOUT_DIG_Output (DBB01OU)
 	db		ffh
 
-;  Instance name LCD_2, User Module LCD
+;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 ;  Instance name RX_TIMEOUT, User Module Timer16

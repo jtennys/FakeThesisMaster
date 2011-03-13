@@ -70,8 +70,6 @@ void decodeTransmission(void);
 
 void sayHello(void);
 
-void moveMotor(int motor_id);
-
 void servoInstruction(char id, char length, char instruction, char address, char value);
 
 int clearConfig(int module_id);
@@ -98,6 +96,7 @@ int STATE;					// Stores the current configuration state of the system.
 void main()
 {	
 	int tempValue = 0;
+	int softwareReset = 0;
 	float angle = 0;
 	
 	NUM_MODULES = 0;
@@ -106,79 +105,41 @@ void main()
 	M8C_EnableIntMask(INT_MSK0,INT_MSK0_GPIO); //activate GPIO ISR
 	
 	unloadAllConfigs();
-	configToggle(RX_MODE);
 	
-	// Sit and wait for the worst case setup time to occur.
-	while(TIMEOUT < BOOT_TIMEOUT) { }
+	for(tempValue = 0; tempValue < 5; tempValue++)
+	{
+		// We test to see if at least one module is set up already.
+		// If it is, it means that we had a watchdog reset.
+		if(pingModule(1))
+		{
+			softwareReset = 1;
+			tempValue = 5;
+		}
+	}
 	
-	// Initialize all of the slave modules.
-	initializeSlaves();
+	// If this initialization isn't the result of a hardware reset,
+	// do our normal initialization.  Otherwise, start normal operation.
+	if(!softwareReset)
+	{
+		configToggle(RX_MODE);
+		
+		// Sit and wait for the worst case setup time to occur.
+		while(TIMEOUT < BOOT_TIMEOUT) { }
+		
+		// Initialize all of the slave modules.
+		initializeSlaves();
+	}
+	else
+	{
+		configToggle(PC_MODE);
+	}
 	
 	while(1)
 	{	
-		while(!COMP_SERIAL_bCmdCheck()) { }
-		
-		decodeTransmission();
-	}
-	{
-//		tempValue = 255-((NUM_MODULES + 4 + 2 + 36 + 2)%256);
-//		
-//		configToggle(TX_MODE);			// Toggle into TX mode.
-//		
-//		TRANSMIT_PutChar(255);			// Start byte one
-//		TRANSMIT_PutChar(255);			// Start byte two
-//		TRANSMIT_PutChar(NUM_MODULES);	// Max servo ID
-//		TRANSMIT_PutChar(4);			// The instruction length.
-//		TRANSMIT_PutChar(2);			// The instruction to carry out.
-//		TRANSMIT_PutChar(36);			// The address to read/write from/to.
-//		TRANSMIT_PutChar(2);			// The value to write or number of bytes to read.
-//		TRANSMIT_PutChar(tempValue);	// This is the checksum.
-//		
-//		// Wait for the transmission to finish.
-//		while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
-//		
-//		xmitWait();
-		servoInstruction(NUM_MODULES,4,2,36,2);
-		
-		tempValue = 0;
-		
-		configToggle(RX_MODE);	// Listen for the response.
-	
-		RX_TIMEOUT_Stop();
-		TIMEOUT = 0;
-		RX_TIMEOUT_Start();
-		
-		while(TIMEOUT < RX_TIMEOUT_DURATION)
+		if(COMP_SERIAL_bCmdCheck())
 		{
-			if(RECEIVE_cReadChar() == 255)
-			{
-				PARAM = RECEIVE_cGetChar();
-				PARAM = RECEIVE_cGetChar();
-				PARAM = RECEIVE_cGetChar();
-				PARAM = RECEIVE_cGetChar();
-				PARAM = RECEIVE_cGetChar();
-				tempValue += PARAM;
-				PARAM = RECEIVE_cGetChar();
-				tempValue += PARAM*256;
-				
-				angle = (((float)tempValue)/1023.0)*300.0;
-				
-				TIMEOUT = RX_TIMEOUT_DURATION;
-			}
+			decodeTransmission();
 		}
-		
-		RX_TIMEOUT_Stop();
-		TIMEOUT = 0;
-		
-		LCD_2_Start();
-		LCD_2_Position(0,0);
-		LCD_2_PrCString("                ");
-		LCD_2_Position(0,0);
-		LCD_2_PrCString("Angle: ");
-		LCD_2_Position(0,7);
-		LCD_2_PrString(ftoa(angle,&tempValue));
-		
-		configToggle(PC_MODE);
 	}
 }
 
@@ -284,11 +245,11 @@ int assignID(int assigned_ID)
 		}
 	}
 	
-	LCD_2_Start();
-	LCD_2_Position(0,0);
-	LCD_2_PrHexInt(NUM_MODULES);
-	LCD_2_Position(0,5);
-	LCD_2_PrCString("Modules!");
+	LCD_1_Start();
+	LCD_1_Position(0,0);
+	LCD_1_PrHexInt(NUM_MODULES);
+	LCD_1_Position(0,5);
+	LCD_1_PrCString("Modules!");
 	
 	RX_TIMEOUT_Stop();
 	TIMEOUT = 0;
@@ -413,7 +374,7 @@ void decodeTransmission(void)
 			}
 		}
 		else if((param[0] == 'r') || (param[0] == 'R'))
-		{
+		{			
 			if(param = COMP_SERIAL_szGetParam())
 			{
 				ID = atoi(param);
@@ -421,12 +382,9 @@ void decodeTransmission(void)
 				{
 					if((param[0] == 'a') || (param[0] == 'A'))
 					{
-			
+						COMP_SERIAL_CmdReset();
 						servoInstruction(ID,4,2,36,2);
 						configToggle(RX_MODE);
-						
-						angle[0] = '\0';
-						angle[1] = '\0';
 						
 						// Loop until we read a response or time out.
 						while(TIMEOUT < RX_TIMEOUT_DURATION)
@@ -465,8 +423,6 @@ void decodeTransmission(void)
 			}
 		}
 	}
-	
-//	COMP_SERIAL_CmdReset();
 }
 
 // This function receives a destination, command length, instruction type, address, and value.
@@ -518,8 +474,8 @@ void configToggle(int mode)
 	{
 		LoadConfig_pc_listener();
 		
-		COMP_SERIAL_CmdReset(); 						// Initializes the RX buffer
-		COMP_SERIAL_EnableInt(); // Enable RX interrupts  
+		//COMP_SERIAL_CmdReset(); 						// Initializes the RX buffer
+		COMP_SERIAL_IntCntl(COMP_SERIAL_ENABLE_RX_INT); // Enable RX interrupts  
 		COMP_SERIAL_Start(UART_PARITY_NONE);			// Starts the UART.
 		
 		TX_REPEATER_Start(TX_REPEATER_PARITY_NONE);		// Start the TX repeater.
@@ -532,7 +488,7 @@ void configToggle(int mode)
 		LoadConfig_receiver_config();
 		
 		// Clear the buffer.
-		RECEIVE_CmdReset();
+		//RECEIVE_CmdReset();
 		// Start the receiver.
 		RECEIVE_Start(RECEIVE_PARITY_NONE);
 		
@@ -607,48 +563,6 @@ void unloadConfig(int config_num)
 	{
 		UnloadConfig_transmitter_config();
 	}
-}
-
-void moveMotor(int motor_id)
-{
-	char checksum;
-	char length = 7;
-	char instruction = 3;
-	char address = 30;
-	char value = 6;
-	char motor = motor_id;
-	
-	// Calculate the checksum value for our servo communication.
-	checksum = 255-((motor + length + instruction + address + value)%256);
-	
-	LCD_1_Start();
-	LCD_1_Position(0,0);
-	LCD_1_PrHexByte(motor);
-	
-	// Toggle into transmit mode.
-	configToggle(TX_MODE);
-	
-	// Disconnect your children from the global bus, just in case.
-	PRT0GS &= 0b11100001;
-	
-	TRANSMIT_PutChar(255);			// Start byte one
-	TRANSMIT_PutChar(255);			// Start byte two
-	TRANSMIT_PutChar(motor);		// Servo ID
-	TRANSMIT_PutChar(length);		// The instruction length.
-	TRANSMIT_PutChar(instruction);	// The instruction to carry out.
-	TRANSMIT_PutChar(address);		// The address to read/write from/to.
-	TRANSMIT_PutChar(0);			// LSB of goal position
-	TRANSMIT_PutChar(3);			// MSB of goal position
-	TRANSMIT_PutChar(0);			// LSB of goal speed
-	TRANSMIT_PutChar(3);			// MSB of goal speed
-	TRANSMIT_PutChar(checksum);		// This is the checksum.
-	
-	// Wait for the transmission to finish.
-	while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
-	
-	xmitWait();
-	
-	configToggle(PC_MODE);
 }
 
 void initializeSlaves(void)
