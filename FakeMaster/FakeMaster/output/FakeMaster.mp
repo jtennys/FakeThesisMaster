@@ -1,5 +1,5 @@
-  ROM 23% full. 7443 bytes used (does not include absolute areas).
-  RAM 6% full. 109 bytes used (does not include stack usage).
+  ROM 22% full. 7373 bytes used (does not include absolute areas).
+  RAM 6% full. 110 bytes used (does not include stack usage).
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -110,8 +110,8 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        08AF  TX_REPEATER_SendData
        08AF  _TX_REPEATER_SendData
        08B2  bTX_REPEATER_ReadTxStatus
-       08B2  _TX_REPEATER_bReadTxStatus
        08B2  _bTX_REPEATER_ReadTxStatus
+       08B2  _TX_REPEATER_bReadTxStatus
        08B2  TX_REPEATER_bReadTxStatus
        08C5  TX_REPEATER_PutSHexByte
        08C5  _TX_REPEATER_PutSHexByte
@@ -328,37 +328,37 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   10E9   0DCA =   3530. bytes (rel,con,rom)
+                            text   10E9   0D84 =   3460. bytes (rel,con,rom)
 
        Addr  Global Symbol
       -----  --------------------------------
        10E9  _main
        10E9  __text_start
-       1197  _pingModule
-       1290  _assignID
-       13BD  _clearConfig
-       14BF  _sayHello
-       1514  _validTransmission
-       1567  _decodeTransmission
-       1746  _servoInstruction
-       17DD  _configToggle
-       18CC  _unloadAllConfigs
-       18D6  _unloadConfig
-       1905  _initializeSlaves
-       1A31  _xmitWait
-       1A50  _TX_TIMEOUT_ISR
-       1A66  _RX_TIMEOUT_ISR
-       1A7C  Dispatch_INTERRUPT_10
-       1AA6  Dispatch_INTERRUPT_9
-       1AC5  __divmod_16X16_16
-       1B13  __divmodu_16X16_16
-       1B1E  __i_div16_block_util
-       1B57  _atoi
-       1C98  _itoa
-       1E71  _isdigit
-       1E92  _isspace
-       1EC3  __xidata_end
-       1EB3  __text_end
+       1147  _pingModule
+       1240  _assignID
+       136D  _clearConfig
+       146F  _sayHello
+       14C4  _validTransmission
+       1517  _decodeTransmission
+       170F  _servoInstruction
+       1797  _configToggle
+       1886  _unloadAllConfigs
+       1890  _unloadConfig
+       18BF  _initializeSlaves
+       19EB  _xmitWait
+       1A0A  _TX_TIMEOUT_ISR
+       1A20  _RX_TIMEOUT_ISR
+       1A36  Dispatch_INTERRUPT_10
+       1A60  Dispatch_INTERRUPT_9
+       1A7F  __divmod_16X16_16
+       1ACD  __divmodu_16X16_16
+       1AD8  __i_div16_block_util
+       1B11  _atoi
+       1C52  _itoa
+       1E2B  _isdigit
+       1E4C  _isspace
+       1E77  __xidata_end
+       1E6D  __text_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -430,18 +430,19 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            data   0000   000A =     10. bytes (rel,con,ram)
+                            data   0000   000B =     11. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
        0000  __data_start
-       0061  _NUM_MODULES
-       0063  _STATE
+       0061  _STATE
+       0063  _NUM_MODULES
        0065  _TIMEOUT
-       0068  _PARAM
-       006A  _COMMAND_DESTINATION
-       006B  _COMMAND_SOURCE
-       006C  _COMMAND_TYPE
+       0069  _PARAM2
+       006A  _PARAM1
+       006B  _COMMAND_TYPE
+       006C  _COMMAND_DESTINATION
+       006D  _COMMAND_SOURCE
 
 Files Linked      [ module(s) ]
 
@@ -460,7 +461,7 @@ data = 0x0
 SSCParmBlk:0x00F7.0x00FF
 InterruptRAM = 0x0
 virtual_registers = 0x58
-transmitter_config_RAM = 0x6d
+transmitter_config_RAM = 0x6e
 pc_listener_RAM
-receiver_config_RAM = 0x6d
+receiver_config_RAM = 0x6e
 

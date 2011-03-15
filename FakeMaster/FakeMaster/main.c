@@ -89,7 +89,8 @@ int NUM_MODULES;			// Stores the number of modules that have been discovered.
 char COMMAND_SOURCE;		// Stores who the current command is from.
 char COMMAND_DESTINATION;	// Stores who the current command is for.
 char COMMAND_TYPE;			// Stores the type of command that was just read.
-char PARAM;					// Stores a parameter that accompanies the command (if any).
+char PARAM1;				// Stores a parameter that accompanies the command (if any).
+char PARAM2;				// Stores a parameter that accompanies the command (if any).
 
 int STATE;					// Stores the current configuration state of the system.
 
@@ -105,34 +106,14 @@ void main()
 	M8C_EnableIntMask(INT_MSK0,INT_MSK0_GPIO); //activate GPIO ISR
 	
 	unloadAllConfigs();
-	
-	for(tempValue = 0; tempValue < 5; tempValue++)
-	{
-		// We test to see if at least one module is set up already.
-		// If it is, it means that we had a watchdog reset.
-		if(pingModule(1))
-		{
-			softwareReset = 1;
-			tempValue = 5;
-		}
-	}
-	
-	// If this initialization isn't the result of a hardware reset,
-	// do our normal initialization.  Otherwise, start normal operation.
-	if(!softwareReset)
-	{
-		configToggle(RX_MODE);
+
+	configToggle(RX_MODE);
 		
-		// Sit and wait for the worst case setup time to occur.
-		while(TIMEOUT < BOOT_TIMEOUT) { }
+	// Sit and wait for the worst case setup time to occur.
+	while(TIMEOUT < BOOT_TIMEOUT) { }
 		
-		// Initialize all of the slave modules.
-		initializeSlaves();
-	}
-	else
-	{
-		configToggle(PC_MODE);
-	}
+	// Initialize all of the slave modules.
+	initializeSlaves();
 	
 	while(1)
 	{	
@@ -347,7 +328,7 @@ int validTransmission(void)
 		COMMAND_SOURCE = RECEIVE_cGetChar();
 		COMMAND_DESTINATION = RECEIVE_cGetChar();
 		COMMAND_TYPE = RECEIVE_cGetChar();
-		PARAM = RECEIVE_cGetChar();
+		PARAM1 = RECEIVE_cGetChar();
 		
 		valid_transmit = 1;
 	}
@@ -385,10 +366,10 @@ void decodeTransmission(void)
 						COMP_SERIAL_CmdReset();
 						servoInstruction(ID,4,2,36,2);
 						configToggle(RX_MODE);
-						
+							
 						// Loop until we read a response or time out.
 						while(TIMEOUT < RX_TIMEOUT_DURATION)
-						{					
+						{
 							if(RECEIVE_cReadChar() == SERVO_START)
 							{
 								if(RECEIVE_cGetChar() == SERVO_START)
@@ -416,12 +397,19 @@ void decodeTransmission(void)
 								}
 							}
 						}
-						
-						TIMEOUT = 0;
 					}
 				}
 			}
 		}
+	}
+	
+	if(STATE != PC_MODE)
+	{
+		configToggle(PC_MODE);
+	}
+	else
+	{
+		TIMEOUT = 0;
 	}
 }
 
@@ -445,7 +433,7 @@ void servoInstruction(char id, char length, char instruction, char address, char
 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
 	
 	// Wait for the transmission to finish.
-	while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
+	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
 	
 	// Make completely sure we're done.
 	xmitWait();
