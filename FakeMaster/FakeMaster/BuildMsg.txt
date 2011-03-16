@@ -31,18 +31,18 @@ LMM info: area 'RECEIVE_RAM' item of 16 bytes allocated in SRAM page 0
 LMM info: area 'virtual_registers' uses 9 bytes in SRAM page 0
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
-a 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 LMM info: area 'COMP_SERIAL_RAM' item of 1 bytes allocated in SRAM page 0
-: area 'RECEIVE_RAM' item of 1 bytes allocated in SRAM page 0
-m of 1 bytes allocated in SRAM page 0
-of 1 bytes allocated in SRAM page 0LMM info: area 'data' item of 1 bytes allocate
-of 1 bytes allocated in SRAM page 0LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
- of 1 bytes allocated in SRAM page 0
-tes allocated in SRAM page 0
-M' uses 0 bytes in SRAM page 0
-es 0 bytes in SRAM page0
-  ROM 22% full. 7373 bytes used (does not include absolute areas).
-  ROM 22% full. 7373 bytes used (does not include absolute areas).  RAM 6% full. 110 bytes used (does not include stack usage).
+LMM info: area 'RECEIVE_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'receiver_config_RAM' uses 0 bytes in SRAM page 0
+LMM info: area 'transmitter_config_RAM' uses 0 bytes in SRAM page 0
+  ROM 24% full. 7977 bytes used (does not include absolute areas).
+  RAM 6% full. 110 bytes used (does not include stack usage).
 idata dump at output/FakeMaster.idata
  
-FakeMaster - 0 error(s) 0 warning(s) 11:43:11
+FakeMaster - 0 error(s) 0 warning(s) 18:23:24

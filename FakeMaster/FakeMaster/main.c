@@ -71,6 +71,7 @@ void decodeTransmission(void);
 void sayHello(void);
 
 void servoInstruction(char id, char length, char instruction, char address, char value);
+void longServoInstruction(char id, char length, char instruction, char address, char value1, char value2);
 
 int clearConfig(int module_id);
 // This function checks the current mode and unloads the configuration for that mode.
@@ -347,11 +348,40 @@ void decodeTransmission(void)
 	
 	if(param = COMP_SERIAL_szGetParam())
 	{
-		if((param[0] == 'w') || (param[0] == 'W'))
+		if((param[0] == 'n') || (param[0] == 'N'))
+		{
+			COMP_SERIAL_CmdReset();
+			itoa(param,NUM_MODULES,10);
+			COMP_SERIAL_PutString(param);
+			COMP_SERIAL_PutChar('\n');
+		}
+		else if((param[0] == 'w') || (param[0] == 'W'))
 		{
 			if(param = COMP_SERIAL_szGetParam())
 			{
-				
+				ID = atoi(param);
+				if(param = COMP_SERIAL_szGetParam())
+				{
+					if((param[0] == 'a') || (param[0] == 'A'))
+					{
+						if(param = COMP_SERIAL_szGetParam())
+						{
+							COMP_SERIAL_CmdReset();
+							total = atoi(param);
+							angle[0] = total%256;
+							angle[1] = total/256;
+							longServoInstruction(ID,5,WRITE_SERVO,30,angle[0],angle[1]);
+						}
+					}
+					else if((param[0] == 'p') || (param[0] == 'P'))
+					{
+						if(param = COMP_SERIAL_szGetParam())
+						{
+							COMP_SERIAL_CmdReset();
+							servoInstruction(ID,4,WRITE_SERVO,24,atoi(param));
+						}
+					}
+				}
 			}
 		}
 		else if((param[0] == 'r') || (param[0] == 'R'))
@@ -364,7 +394,8 @@ void decodeTransmission(void)
 					if((param[0] == 'a') || (param[0] == 'A'))
 					{
 						COMP_SERIAL_CmdReset();
-						servoInstruction(ID,4,2,36,2);
+						tempByte = 2;
+						servoInstruction(ID,4,READ_SERVO,36,tempByte);
 						configToggle(RX_MODE);
 							
 						// Loop until we read a response or time out.
@@ -418,9 +449,12 @@ void decodeTransmission(void)
 void servoInstruction(char id, char length, char instruction, char address, char value)
 {
 	char checksum;
+	int total;
+	
+	total = id + length + instruction + address + value;
 	
 	// Calculate the checksum value for our servo communication.
-	checksum = 255-((id + length + instruction + address + value)%256);
+	checksum = 255-(total%256);
 	
 	// Talk to the servo.
 	TX_REPEATER_PutChar(SERVO_START);	// Start byte one
@@ -430,6 +464,35 @@ void servoInstruction(char id, char length, char instruction, char address, char
 	TX_REPEATER_PutChar(instruction);	// The instruction to carry out.
 	TX_REPEATER_PutChar(address);		// The address to read/write from/to.
 	TX_REPEATER_PutChar(value);			// The value to write or number of bytes to read.
+	TX_REPEATER_PutChar(checksum);		// This is the checksum.
+	
+	// Wait for the transmission to finish.
+	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
+	
+	// Make completely sure we're done.
+	xmitWait();
+}
+
+// This function receives a destination, command length, instruction type, address, and two values.
+void longServoInstruction(char id, char length, char instruction, char address, char value1, char value2)
+{
+	char checksum;
+	int total;
+	
+	total = id + length + instruction + address + value1 + value2;
+	
+	// Calculate the checksum value for our servo communication.
+	checksum = 255-(total%256);
+	
+	// Talk to the servo.
+	TX_REPEATER_PutChar(SERVO_START);	// Start byte one
+	TX_REPEATER_PutChar(SERVO_START);	// Start byte two
+	TX_REPEATER_PutChar(id);			// Servo ID
+	TX_REPEATER_PutChar(length);		// The instruction length.
+	TX_REPEATER_PutChar(instruction);	// The instruction to carry out.
+	TX_REPEATER_PutChar(address);		// The address to read/write from/to.
+	TX_REPEATER_PutChar(value1);		// The first value to write.
+	TX_REPEATER_PutChar(value2);		// The first value to write.
 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
 	
 	// Wait for the transmission to finish.
