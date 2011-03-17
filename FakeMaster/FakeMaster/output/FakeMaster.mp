@@ -1,4 +1,4 @@
-  ROM 26% full. 8484 bytes used (does not include absolute areas).
+  ROM 26% full. 8575 bytes used (does not include absolute areas).
   RAM 9% full. 166 bytes used (does not include stack usage).
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
@@ -110,8 +110,8 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        08AF  TX_REPEATER_SendData
        08AF  _TX_REPEATER_SendData
        08B2  bTX_REPEATER_ReadTxStatus
-       08B2  _bTX_REPEATER_ReadTxStatus
        08B2  _TX_REPEATER_bReadTxStatus
+       08B2  _bTX_REPEATER_ReadTxStatus
        08B2  TX_REPEATER_bReadTxStatus
        08C5  TX_REPEATER_PutSHexByte
        08C5  _TX_REPEATER_PutSHexByte
@@ -328,38 +328,38 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   10E9   11DB =   4571. bytes (rel,con,rom)
+                            text   10E9   1236 =   4662. bytes (rel,con,rom)
 
        Addr  Global Symbol
       -----  --------------------------------
        10E9  __text_start
        10E9  _main
        114A  _pingModule
-       1245  _assignID
-       1375  _clearConfig
-       147A  _sayHello
-       14D0  _validTransmission
-       155F  _decodeTransmission
-       1AB2  _servoInstruction
-       1B46  _longServoInstruction
-       1BE8  _configToggle
-       1CD7  _unloadAllConfigs
-       1CE1  _unloadConfig
-       1D10  _initializeSlaves
-       1E42  _xmitWait
-       1E61  _TX_TIMEOUT_ISR
-       1E77  _RX_TIMEOUT_ISR
-       1E8D  Dispatch_INTERRUPT_10
-       1EB7  Dispatch_INTERRUPT_9
-       1ED6  __divmod_16X16_16
-       1F24  __divmodu_16X16_16
-       1F2F  __i_div16_block_util
-       1F68  _atoi
-       20A9  _itoa
-       2282  _isdigit
-       22A3  _isspace
-       22D4  __xidata_end
-       22C4  __text_end
+       1239  _assignID
+       135D  _clearConfig
+       1456  _sayHello
+       14AC  _validTransmission
+       15A0  _decodeTransmission
+       1AF3  _servoInstruction
+       1B96  _longServoInstruction
+       1C47  _configToggle
+       1D36  _unloadAllConfigs
+       1D40  _unloadConfig
+       1D6F  _initializeSlaves
+       1E9D  _xmitWait
+       1EBC  _TX_TIMEOUT_ISR
+       1ED2  _RX_TIMEOUT_ISR
+       1EE8  Dispatch_INTERRUPT_10
+       1F12  Dispatch_INTERRUPT_9
+       1F31  __divmod_16X16_16
+       1F7F  __divmodu_16X16_16
+       1F8A  __i_div16_block_util
+       1FC3  _atoi
+       2104  _itoa
+       22DD  _isdigit
+       22FE  _isspace
+       232F  __xidata_end
+       231F  __text_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------

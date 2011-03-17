@@ -47,7 +47,7 @@
 // These defines are used for the initial probing stage, where receive waits are longer to make
 // sure of transmission failure or success.
 #define		BOOT_TIMEOUT				(200)	// This is boot wait time in 1 ms units.
-#define		MAX_TIMEOUTS				(10)	// Number of timeouts allowed before hello mode exit.
+#define		MAX_TIMEOUTS				(5)	// Number of timeouts allowed before hello mode exit.
 
 // This is the maximum number of allowable modules per branch out from the master
 #define		MAX_MODULES					(250)
@@ -151,19 +151,16 @@ int pingModule(int module_id)
 	
 	while((TIMEOUT < RX_TIMEOUT_DURATION) && (!response))
 	{
-		if(RECEIVE_cReadChar() == START_TRANSMIT)
-		{	
-			if(validTransmission())
+		if(validTransmission())
+		{
+			if(COMMAND_TYPE == PING)	// This is the response we are looking for.
 			{
-				if(COMMAND_TYPE == PING)	// This is the response we are looking for.
+				// If this is for me, check who it was from.
+				if(COMMAND_DESTINATION == MASTER_ID)
 				{
-					// If this is for me, check who it was from.
-					if(COMMAND_DESTINATION == MASTER_ID)
+					if(COMMAND_SOURCE == module_id)
 					{
-						if(COMMAND_SOURCE == module_id)
-						{
-							response = 1;
-						}
+						response = 1;
 					}
 				}
 			}
@@ -206,19 +203,16 @@ int assignID(int assigned_ID)
 	
 	while((TIMEOUT < RX_TIMEOUT_DURATION) && (!success))
 	{
-		if(RECEIVE_cReadChar() == START_TRANSMIT)
-		{	
-			if(validTransmission())
+		if(validTransmission())
+		{
+			if(COMMAND_TYPE == ID_ASSIGN_OK)	// This is the response we are looking for.
 			{
-				if(COMMAND_TYPE == ID_ASSIGN_OK)	// This is the response we are looking for.
+				// If this is for me, check who it was from.
+				if(COMMAND_DESTINATION == MASTER_ID)
 				{
-					// If this is for me, check who it was from.
-					if(COMMAND_DESTINATION == MASTER_ID)
+					if(COMMAND_SOURCE == assigned_ID)
 					{
-						if(COMMAND_SOURCE == assigned_ID)
-						{
-							success = 1;
-						}
+						success = 1;
 					}
 				}
 			}
@@ -268,19 +262,16 @@ int clearConfig(int module_id)
 		
 		while((TIMEOUT < RX_TIMEOUT_DURATION) && (!response))
 		{
-			if(RECEIVE_cReadChar() == START_TRANSMIT)
-			{	
-				if(validTransmission())
+			if(validTransmission())
+			{
+				if(COMMAND_TYPE == CONFIG_CLEARED)	// This is the response we are looking for.
 				{
-					if(COMMAND_TYPE == CONFIG_CLEARED)	// This is the response we are looking for.
+					// If this is for me, check who it was from.
+					if(COMMAND_DESTINATION == MASTER_ID)
 					{
-						// If this is for me, check who it was from.
-						if(COMMAND_DESTINATION == MASTER_ID)
+						if(COMMAND_SOURCE == module_id)
 						{
-							if(COMMAND_SOURCE == module_id)
-							{
-								response = 1;
-							}
+							response = 1;
 						}
 					}
 				}
@@ -322,21 +313,54 @@ int validTransmission(void)
 {
 	int valid_transmit = 0;
 	int i = 0;
+	char tempByte = 0;
 	
-	if(RECEIVE_cGetChar() == START_TRANSMIT)
+	while(TIMEOUT < RX_TIMEOUT_DURATION)
 	{
-		COMMAND_SOURCE = RECEIVE_cGetChar();
-		COMMAND_DESTINATION = RECEIVE_cGetChar();
-		COMMAND_TYPE = RECEIVE_cGetChar();
-		PARAM[0] = RECEIVE_cGetChar();
-		
-		while(PARAM[i] != END_TRANSMIT)
+		if(RECEIVE_cReadChar() == START_TRANSMIT)
 		{
-			i++;
-			PARAM[i] = RECEIVE_cGetChar();
+			while(TIMEOUT < RX_TIMEOUT_DURATION)
+			{
+				if(RECEIVE_cReadChar() == START_TRANSMIT)
+				{
+					while(TIMEOUT < RX_TIMEOUT_DURATION)
+					{
+						if(tempByte = RECEIVE_cReadChar())
+						{
+							COMMAND_SOURCE = tempByte;
+							
+							while(TIMEOUT < RX_TIMEOUT_DURATION)
+							{
+								if(tempByte = RECEIVE_cReadChar())
+								{
+									if(tempByte >= HELLO_BYTE)
+									{
+										COMMAND_TYPE = tempByte;
+										
+										while(TIMEOUT < RX_TIMEOUT_DURATION)
+										{
+											if(tempByte = RECEIVE_cReadChar())
+											{
+												if(tempByte != END_TRANSMIT)
+												{
+													PARAM[i] = tempByte;
+													i++;
+												}
+												else
+												{
+													valid_transmit = 1;
+													TIMEOUT = RX_TIMEOUT_DURATION;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
-		
-		valid_transmit = 1;
 	}
 	
 	return valid_transmit;
@@ -530,7 +554,7 @@ void servoInstruction(char id, char length, char instruction, char address, char
 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
 	
 	// Wait for the transmission to finish.
-	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
+	while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
 	
 	// Make completely sure we're done.
 	xmitWait();
@@ -559,7 +583,7 @@ void longServoInstruction(char id, char length, char instruction, char address, 
 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
 	
 	// Wait for the transmission to finish.
-	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
+	while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
 	
 	// Make completely sure we're done.
 	xmitWait();
@@ -689,23 +713,23 @@ void initializeSlaves(void)
 	// set by the RX_TIMEOUT_DURATION variable.
 	while(num_timeouts < MAX_TIMEOUTS)
 	{					
-		if(RECEIVE_cReadChar() == START_TRANSMIT)
-		{	
-			if(validTransmission())
+		if(validTransmission())
+		{
+			if(COMMAND_TYPE == HELLO_BYTE)	// Someone else is out there!
 			{
-				if(COMMAND_TYPE == HELLO_BYTE)	// Someone else is out there!
+				// If this is for me, assign them an ID.
+				if(COMMAND_DESTINATION == MASTER_ID)
 				{
-					// If this is for me, assign them an ID.
-					if(COMMAND_DESTINATION == MASTER_ID)
+					NUM_MODULES++;			// Increment the number of modules connected.
+					num_timeouts = 0;		// Reset number of timeouts since we found someone.
+		
+					if(!assignID(NUM_MODULES))
 					{
-						NUM_MODULES++;			// Increment the number of modules connected.
-						num_timeouts = 0;		// Reset number of timeouts since we found someone.
-			
-						if(!assignID(NUM_MODULES))
+						// If the module did not respond that the ID was assigned,
+						// make an effort to ping it in case that transmission was lost
+						// before ultimately deciding that the module didn't configure.
+						if(!pingModule(NUM_MODULES))
 						{
-							// If the module did not respond that the ID was assigned,
-							// make an effort to ping it in case that transmission was lost
-							// before ultimately deciding that the module didn't configure.
 							if(!pingModule(NUM_MODULES))
 							{
 								if(!pingModule(NUM_MODULES))
@@ -714,10 +738,7 @@ void initializeSlaves(void)
 									{
 										if(!pingModule(NUM_MODULES))
 										{
-											if(!pingModule(NUM_MODULES))
-											{
-												NUM_MODULES--;
-											}
+											NUM_MODULES--;
 										}
 									}
 								}
@@ -738,6 +759,8 @@ void initializeSlaves(void)
 			}
 		}
 	}
+	
+	configToggle(RX_MODE);
 	
 	// Switch back to PC mode.
 	configToggle(PC_MODE);
