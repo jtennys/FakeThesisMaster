@@ -61,11 +61,11 @@ FILE: .\boot.asm
 0023: 30       HALT  
                                    (0148) export __Start
                                    (0149) IF	(TOOLCHAIN & HITECH)
-0024: 7D 1C BC LJMP  Dispatch_INTERRUPT_9(0150) ELSE
+0024: 7D 1D 84 LJMP  Dispatch_INTERRUPT_9(0150) ELSE
 0027: 7E       RETI                (0151) export __bss_start
                                    (0152) export __data_start
                                    (0153) export __idata_start
-0028: 7D 1C 92 LJMP  Dispatch_INTERRUPT_10(0154) export __func_lit_start
+0028: 7D 1D 5A LJMP  Dispatch_INTERRUPT_10(0154) export __func_lit_start
 002B: 7E       RETI                (0155) export __text_start
                                    (0156) ENDIF
                                    (0157) export  _bGetPowerSetting
@@ -6436,14 +6436,14 @@ FILE: C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\main.c
 1110: 43 E0 20 OR    REG[224],32
 (0108) #include <string.h>
 (0109) #pragma interrupt_handler TX_TIMEOUT_ISR
-1113: 7C 1A DF LCALL _unloadAllConfigs
+1113: 7C 1B A6 LCALL _unloadAllConfigs
 (0110) #pragma interrupt_handler RX_TIMEOUT_ISR
 (0111) 
 1116: 50 00    MOV   A,0
 1118: 08       PUSH  A
 1119: 50 01    MOV   A,1
 111B: 08       PUSH  A
-111C: 7C 19 F0 LCALL _configToggle
+111C: 7C 1A B7 LCALL _configToggle
 111F: 38 FE    ADD   SP,254
 (0112) // These defines are used as parameters of the configToggle function.
 (0113) // Passing one or the other in the function call switches the system between PC, TX, and RX modes.
@@ -6458,7 +6458,7 @@ FILE: C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\main.c
 (0115) #define		RX_MODE						(1)
 (0116) #define		TX_MODE						(0)
 (0117) 
-1130: 7C 1B 18 LCALL _initializeSlaves
+1130: 7C 1B DF LCALL _initializeSlaves
 1133: 80 0F    JMP   0x1143
 (0118) // These defines are used as comparisons to find what port the newest module is connected to.
 (0119) #define		PORT_1						('A')
@@ -6472,7 +6472,7 @@ FILE: C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\main.c
 113F: A0 03    JZ    0x1143
 (0122) #define		PORT_4						('D')
 (0123) 
-1141: 93 DB    CALL  _decodeTransmission
+1141: 93 DE    CALL  _decodeTransmission
 1143: 8F F1    JMP   0x1135
 1145: 38 F8    ADD   SP,248
 1147: 20       POP   X
@@ -6497,7 +6497,7 @@ _pingModule:
 1154: 50 00    MOV   A,0
 1156: 08       PUSH  A
 1157: 08       PUSH  A
-1158: 7C 19 F0 LCALL _configToggle
+1158: 7C 1A B7 LCALL _configToggle
 115B: 38 FE    ADD   SP,254
 (0133) #define		MASTER_ID					(0)		// The master node's ID.
 (0134) #define		BROADCAST					(254)	// The broadcast ID for talking to all nodes.
@@ -6549,14 +6549,14 @@ _pingModule:
 119E: AF F2    JZ    0x1191
 (0145) 
 (0146) // These defines are used for the initial probing stage, where receive waits are longer to make
-11A0: 7C 1C 47 LCALL _xmitWait
+11A0: 7C 1D 0F LCALL _xmitWait
 (0147) // sure of transmission failure or success.
 (0148) #define		BOOT_TIMEOUT				(200)	// This is boot wait time in 1 ms units.
 11A3: 50 00    MOV   A,0
 11A5: 08       PUSH  A
 11A6: 50 01    MOV   A,1
 11A8: 08       PUSH  A
-11A9: 7C 19 F0 LCALL _configToggle
+11A9: 7C 1A B7 LCALL _configToggle
 11AC: 38 FE    ADD   SP,254
 (0149) #define		MAX_TIMEOUTS				(10)	// Number of timeouts allowed before hello mode exit.
 (0150) 
@@ -6584,7 +6584,7 @@ _pingModule:
 11CD: B0 3C    JNZ   0x120A
 (0157) // system configuration between receive and transmit modes for half duplex UART.
 (0158) void configToggle(int mode);
-11CF: 92 FA    CALL  _validTransmission
+11CF: 92 FD    CALL  _validTransmission
 11D1: 62 D0 00 MOV   REG[208],0
 11D4: 3C 60 00 CMP   [__r0],0
 11D7: B0 06    JNZ   0x11DE
@@ -6675,142 +6675,142 @@ _assignID:
 124F: 50 00    MOV   A,0
 1251: 08       PUSH  A
 1252: 08       PUSH  A
-1253: 97 9B    CALL  _configToggle
-1255: 38 FE    ADD   SP,254
+1253: 7C 1A B7 LCALL _configToggle
+1256: 38 FE    ADD   SP,254
 (0187) 
 (0188) int NUM_MODULES;			// Stores the number of modules that have been discovered.
 (0189) char COMMAND_SOURCE;		// Stores who the current command is from.
-1257: 10       PUSH  X
-1258: 50 FC    MOV   A,252
-125A: 7C 09 B8 LCALL 0x09B8
-125D: 20       POP   X
+1258: 10       PUSH  X
+1259: 50 FC    MOV   A,252
+125B: 7C 09 B8 LCALL 0x09B8
+125E: 20       POP   X
 (0190) char COMMAND_DESTINATION;	// Stores who the current command is for.
-125E: 10       PUSH  X
-125F: 50 FC    MOV   A,252
-1261: 7C 09 B8 LCALL 0x09B8
-1264: 20       POP   X
+125F: 10       PUSH  X
+1260: 50 FC    MOV   A,252
+1262: 7C 09 B8 LCALL 0x09B8
+1265: 20       POP   X
 (0191) char COMMAND_TYPE;			// Stores the type of command that was just read.
-1265: 10       PUSH  X
-1266: 50 00    MOV   A,0
-1268: 7C 09 B8 LCALL 0x09B8
-126B: 20       POP   X
+1266: 10       PUSH  X
+1267: 50 00    MOV   A,0
+1269: 7C 09 B8 LCALL 0x09B8
+126C: 20       POP   X
 (0192) char PARAM1;				// Stores a parameter that accompanies the command (if any).
-126C: 10       PUSH  X
-126D: 50 FB    MOV   A,251
-126F: 7C 09 B8 LCALL 0x09B8
-1272: 20       POP   X
+126D: 10       PUSH  X
+126E: 50 FB    MOV   A,251
+1270: 7C 09 B8 LCALL 0x09B8
+1273: 20       POP   X
 (0193) char PARAM2;				// Stores a parameter that accompanies the command (if any).
-1273: 10       PUSH  X
-1274: 50 C9    MOV   A,201
-1276: 7C 09 B8 LCALL 0x09B8
-1279: 20       POP   X
+1274: 10       PUSH  X
+1275: 50 C9    MOV   A,201
+1277: 7C 09 B8 LCALL 0x09B8
+127A: 20       POP   X
 (0194) 
-127A: 62 D0 00 MOV   REG[208],0
-127D: 52 FC    MOV   A,[X-4]
-127F: 10       PUSH  X
-1280: 7C 09 B8 LCALL 0x09B8
-1283: 20       POP   X
+127B: 62 D0 00 MOV   REG[208],0
+127E: 52 FC    MOV   A,[X-4]
+1280: 10       PUSH  X
+1281: 7C 09 B8 LCALL 0x09B8
+1284: 20       POP   X
 (0195) int STATE;					// Stores the current configuration state of the system.
-1284: 10       PUSH  X
-1285: 50 FD    MOV   A,253
-1287: 7C 09 B8 LCALL 0x09B8
-128A: 20       POP   X
+1285: 10       PUSH  X
+1286: 50 FD    MOV   A,253
+1288: 7C 09 B8 LCALL 0x09B8
+128B: 20       POP   X
 (0196) 
-128B: 10       PUSH  X
-128C: 50 FD    MOV   A,253
-128E: 7C 09 B8 LCALL 0x09B8
-1291: 20       POP   X
+128C: 10       PUSH  X
+128D: 50 FD    MOV   A,253
+128F: 7C 09 B8 LCALL 0x09B8
+1292: 20       POP   X
 (0197) void main()
 (0198) {	
 (0199) 	int tempValue = 0;
-1292: 10       PUSH  X
-1293: 7C 09 8B LCALL 0x098B
-1296: 62 D0 00 MOV   REG[208],0
-1299: 20       POP   X
-129A: 53 60    MOV   [__r0],A
-129C: 47 60 20 TST   [__r0],32
-129F: AF F2    JZ    0x1292
+1293: 10       PUSH  X
+1294: 7C 09 8B LCALL 0x098B
+1297: 62 D0 00 MOV   REG[208],0
+129A: 20       POP   X
+129B: 53 60    MOV   [__r0],A
+129D: 47 60 20 TST   [__r0],32
+12A0: AF F2    JZ    0x1293
 (0200) 	int softwareReset = 0;
 (0201) 	float angle = 0;
-12A1: 7C 1C 47 LCALL _xmitWait
+12A2: 7C 1D 0F LCALL _xmitWait
 (0202) 	
 (0203) 	NUM_MODULES = 0;
-12A4: 50 00    MOV   A,0
-12A6: 08       PUSH  A
-12A7: 50 01    MOV   A,1
-12A9: 08       PUSH  A
-12AA: 97 44    CALL  _configToggle
-12AC: 38 FE    ADD   SP,254
+12A5: 50 00    MOV   A,0
+12A7: 08       PUSH  A
+12A8: 50 01    MOV   A,1
+12AA: 08       PUSH  A
+12AB: 7C 1A B7 LCALL _configToggle
+12AE: 38 FE    ADD   SP,254
 (0204) 	
 (0205) 	M8C_EnableGInt;			// Turn on global interrupts for the transmission timeout timer.
-12AE: 10       PUSH  X
-12AF: 7C 0A 49 LCALL 0x0A49
-12B2: 20       POP   X
+12B0: 10       PUSH  X
+12B1: 7C 0A 49 LCALL 0x0A49
+12B4: 20       POP   X
 (0206) 	M8C_EnableIntMask(INT_MSK0,INT_MSK0_GPIO); //activate GPIO ISR
-12B3: 62 D0 00 MOV   REG[208],0
-12B6: 55 66 00 MOV   [TIMEOUT+1],0
-12B9: 55 65 00 MOV   [TIMEOUT],0
+12B5: 62 D0 00 MOV   REG[208],0
+12B8: 55 66 00 MOV   [TIMEOUT+1],0
+12BB: 55 65 00 MOV   [TIMEOUT],0
 (0207) 	
-12BC: 10       PUSH  X
-12BD: 7C 0A 45 LCALL 0x0A45
-12C0: 20       POP   X
-12C1: 80 48    JMP   0x130A
+12BE: 10       PUSH  X
+12BF: 7C 0A 45 LCALL 0x0A45
+12C2: 20       POP   X
+12C3: 80 48    JMP   0x130C
 (0208) 	unloadAllConfigs();
 (0209) 
 (0210) 	configToggle(RX_MODE);
 (0211) 		
-12C3: 10       PUSH  X
-12C4: 7C 0B 34 LCALL 0x0B34
-12C7: 62 D0 00 MOV   REG[208],0
-12CA: 20       POP   X
-12CB: 39 FC    CMP   A,252
-12CD: B0 3C    JNZ   0x130A
+12C5: 10       PUSH  X
+12C6: 7C 0B 34 LCALL 0x0B34
+12C9: 62 D0 00 MOV   REG[208],0
+12CC: 20       POP   X
+12CD: 39 FC    CMP   A,252
+12CF: B0 3C    JNZ   0x130C
 (0212) 	// Sit and wait for the worst case setup time to occur.
 (0213) 	while(TIMEOUT < BOOT_TIMEOUT) { }
-12CF: 91 FA    CALL  _validTransmission
-12D1: 62 D0 00 MOV   REG[208],0
-12D4: 3C 60 00 CMP   [__r0],0
-12D7: B0 06    JNZ   0x12DE
-12D9: 3C 5F 00 CMP   [__r1],0
-12DC: A0 2D    JZ    0x130A
+12D1: 91 FB    CALL  _validTransmission
+12D3: 62 D0 00 MOV   REG[208],0
+12D6: 3C 60 00 CMP   [__r0],0
+12D9: B0 06    JNZ   0x12E0
+12DB: 3C 5F 00 CMP   [__r1],0
+12DE: A0 2D    JZ    0x130C
 (0214) 		
 (0215) 	// Initialize all of the slave modules.
-12DE: 62 D0 00 MOV   REG[208],0
-12E1: 3C 6B CA CMP   [COMMAND_TYPE],202
-12E4: B0 25    JNZ   0x130A
+12E0: 62 D0 00 MOV   REG[208],0
+12E3: 3C 6B CA CMP   [COMMAND_TYPE],202
+12E6: B0 25    JNZ   0x130C
 (0216) 	initializeSlaves();
 (0217) 	
 (0218) 	while(1)
-12E6: 62 D0 00 MOV   REG[208],0
-12E9: 3C 6C 00 CMP   [COMMAND_DESTINATION],0
-12EC: B0 1D    JNZ   0x130A
+12E8: 62 D0 00 MOV   REG[208],0
+12EB: 3C 6C 00 CMP   [COMMAND_DESTINATION],0
+12EE: B0 1D    JNZ   0x130C
 (0219) 	{	
 (0220) 		if(COMP_SERIAL_bCmdCheck())
-12EE: 62 D0 00 MOV   REG[208],0
-12F1: 51 6D    MOV   A,[COMMAND_SOURCE]
-12F3: 62 D0 00 MOV   REG[208],0
-12F6: 53 5F    MOV   [__r1],A
-12F8: 50 00    MOV   A,0
-12FA: 3B FB    CMP   A,[X-5]
-12FC: B0 0D    JNZ   0x130A
-12FE: 51 5F    MOV   A,[__r1]
-1300: 3B FC    CMP   A,[X-4]
-1302: B0 07    JNZ   0x130A
+12F0: 62 D0 00 MOV   REG[208],0
+12F3: 51 6D    MOV   A,[COMMAND_SOURCE]
+12F5: 62 D0 00 MOV   REG[208],0
+12F8: 53 5F    MOV   [__r1],A
+12FA: 50 00    MOV   A,0
+12FC: 3B FB    CMP   A,[X-5]
+12FE: B0 0D    JNZ   0x130C
+1300: 51 5F    MOV   A,[__r1]
+1302: 3B FC    CMP   A,[X-4]
+1304: B0 07    JNZ   0x130C
 (0221) 		{
 (0222) 			decodeTransmission();
-1304: 56 01 01 MOV   [X+1],1
-1307: 56 00 00 MOV   [X+0],0
-130A: 62 D0 00 MOV   REG[208],0
-130D: 51 66    MOV   A,[TIMEOUT+1]
-130F: 11 05    SUB   A,5
-1311: 51 65    MOV   A,[TIMEOUT]
-1313: 31 80    XOR   A,128
-1315: 19 80    SBB   A,128
-1317: D0 0B    JNC   0x1323
-1319: 3D 00 00 CMP   [X+0],0
-131C: B0 06    JNZ   0x1323
-131E: 3D 01 00 CMP   [X+1],0
-1321: AF A1    JZ    0x12C3
+1306: 56 01 01 MOV   [X+1],1
+1309: 56 00 00 MOV   [X+0],0
+130C: 62 D0 00 MOV   REG[208],0
+130F: 51 66    MOV   A,[TIMEOUT+1]
+1311: 11 05    SUB   A,5
+1313: 51 65    MOV   A,[TIMEOUT]
+1315: 31 80    XOR   A,128
+1317: 19 80    SBB   A,128
+1319: D0 0B    JNC   0x1325
+131B: 3D 00 00 CMP   [X+0],0
+131E: B0 06    JNZ   0x1325
+1320: 3D 01 00 CMP   [X+1],0
+1323: AF A1    JZ    0x12C5
 (0223) 		}
 (0224) 	}
 (0225) }
@@ -6819,60 +6819,60 @@ _assignID:
 (0228) {
 (0229) 	int response = 0;
 (0230) 	
-1323: 10       PUSH  X
-1324: 7C 0D 0C LCALL 0x0D0C
-1327: 20       POP   X
+1325: 10       PUSH  X
+1326: 7C 0D 0C LCALL 0x0D0C
+1329: 20       POP   X
 (0231) 	configToggle(TX_MODE);	// Toggle into TX mode.
-1328: 10       PUSH  X
-1329: 50 00    MOV   A,0
-132B: 5C       MOV   X,A
-132C: 7C 0D 7F LCALL 0x0D7F
-132F: 20       POP   X
+132A: 10       PUSH  X
+132B: 50 00    MOV   A,0
+132D: 5C       MOV   X,A
+132E: 7C 0D 7F LCALL 0x0D7F
+1331: 20       POP   X
 (0232) 			
-1330: 10       PUSH  X
-1331: 62 D0 00 MOV   REG[208],0
-1334: 51 63    MOV   A,[NUM_MODULES]
-1336: 08       PUSH  A
-1337: 51 64    MOV   A,[NUM_MODULES+1]
-1339: 20       POP   X
-133A: 7C 0C 2F LCALL 0x0C2F
-133D: 20       POP   X
+1332: 10       PUSH  X
+1333: 62 D0 00 MOV   REG[208],0
+1336: 51 63    MOV   A,[NUM_MODULES]
+1338: 08       PUSH  A
+1339: 51 64    MOV   A,[NUM_MODULES+1]
+133B: 20       POP   X
+133C: 7C 0C 2F LCALL 0x0C2F
+133F: 20       POP   X
 (0233) 	// Transmit a hello.
-133E: 10       PUSH  X
-133F: 57 05    MOV   X,5
-1341: 50 00    MOV   A,0
-1343: 7C 0D 7F LCALL 0x0D7F
-1346: 20       POP   X
+1340: 10       PUSH  X
+1341: 57 05    MOV   X,5
+1343: 50 00    MOV   A,0
+1345: 7C 0D 7F LCALL 0x0D7F
+1348: 20       POP   X
 (0234) 	TRANSMIT_PutChar(START_TRANSMIT);
-1347: 10       PUSH  X
-1348: 50 01    MOV   A,1
-134A: 08       PUSH  A
-134B: 50 A0    MOV   A,160
-134D: 5C       MOV   X,A
-134E: 18       POP   A
-134F: 7C 0B FA LCALL 0x0BFA
+1349: 10       PUSH  X
+134A: 50 01    MOV   A,1
+134C: 08       PUSH  A
+134D: 50 A0    MOV   A,160
+134F: 5C       MOV   X,A
+1350: 18       POP   A
+1351: 7C 0B FA LCALL 0x0BFA
 (0235) 	TRANSMIT_PutChar(START_TRANSMIT);
 (0236) 	TRANSMIT_PutChar(MASTER_ID);
-1352: 7C 0A 49 LCALL 0x0A49
-1355: 20       POP   X
+1354: 7C 0A 49 LCALL 0x0A49
+1357: 20       POP   X
 (0237) 	TRANSMIT_PutChar(module_id);
-1356: 62 D0 00 MOV   REG[208],0
-1359: 55 66 00 MOV   [TIMEOUT+1],0
-135C: 55 65 00 MOV   [TIMEOUT],0
+1358: 62 D0 00 MOV   REG[208],0
+135B: 55 66 00 MOV   [TIMEOUT+1],0
+135E: 55 65 00 MOV   [TIMEOUT],0
 (0238) 	TRANSMIT_PutChar(PING);
-135F: 10       PUSH  X
-1360: 7C 0A 45 LCALL 0x0A45
-1363: 20       POP   X
+1361: 10       PUSH  X
+1362: 7C 0A 45 LCALL 0x0A45
+1365: 20       POP   X
 (0239) 	TRANSMIT_PutChar(END_TRANSMIT);
 (0240) 	TRANSMIT_PutChar(END_TRANSMIT);
-1364: 62 D0 00 MOV   REG[208],0
-1367: 52 01    MOV   A,[X+1]
-1369: 53 5F    MOV   [__r1],A
-136B: 52 00    MOV   A,[X+0]
-136D: 53 60    MOV   [__r0],A
-136F: 38 FE    ADD   SP,254
-1371: 20       POP   X
-1372: 7F       RET   
+1366: 62 D0 00 MOV   REG[208],0
+1369: 52 01    MOV   A,[X+1]
+136B: 53 5F    MOV   [__r1],A
+136D: 52 00    MOV   A,[X+0]
+136F: 53 60    MOV   [__r0],A
+1371: 38 FE    ADD   SP,254
+1373: 20       POP   X
+1374: 7F       RET   
 (0241) 	
 (0242) 	// Wait for the transmission to finish.
 (0243) 	while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
@@ -6880,154 +6880,154 @@ _assignID:
 _clearConfig:
   response             --> X+0
   module_id            --> X-5
-1373: 10       PUSH  X
-1374: 4F       MOV   X,SP
-1375: 38 02    ADD   SP,2
+1375: 10       PUSH  X
+1376: 4F       MOV   X,SP
+1377: 38 02    ADD   SP,2
 (0245) 	xmitWait();
-1377: 56 01 00 MOV   [X+1],0
-137A: 56 00 00 MOV   [X+0],0
+1379: 56 01 00 MOV   [X+1],0
+137C: 56 00 00 MOV   [X+0],0
 (0246) 	
 (0247) 	configToggle(RX_MODE);	// Listen for the response.
-137D: 50 00    MOV   A,0
-137F: 08       PUSH  A
-1380: 08       PUSH  A
-1381: 96 6D    CALL  _configToggle
-1383: 38 FE    ADD   SP,254
+137F: 50 00    MOV   A,0
+1381: 08       PUSH  A
+1382: 08       PUSH  A
+1383: 97 32    CALL  _configToggle
+1385: 38 FE    ADD   SP,254
 (0248) 	
 (0249) 	RX_TIMEOUT_Stop();
 (0250) 	TIMEOUT = 0;
-1385: 10       PUSH  X
-1386: 50 FC    MOV   A,252
-1388: 7C 09 B8 LCALL 0x09B8
-138B: 20       POP   X
+1387: 10       PUSH  X
+1388: 50 FC    MOV   A,252
+138A: 7C 09 B8 LCALL 0x09B8
+138D: 20       POP   X
 (0251) 	RX_TIMEOUT_Start();
-138C: 10       PUSH  X
-138D: 50 FC    MOV   A,252
-138F: 7C 09 B8 LCALL 0x09B8
-1392: 20       POP   X
+138E: 10       PUSH  X
+138F: 50 FC    MOV   A,252
+1391: 7C 09 B8 LCALL 0x09B8
+1394: 20       POP   X
 (0252) 	
-1393: 10       PUSH  X
-1394: 50 00    MOV   A,0
-1396: 7C 09 B8 LCALL 0x09B8
-1399: 20       POP   X
+1395: 10       PUSH  X
+1396: 50 00    MOV   A,0
+1398: 7C 09 B8 LCALL 0x09B8
+139B: 20       POP   X
 (0253) 	while((TIMEOUT < RX_TIMEOUT_DURATION) && (!response))
-139A: 62 D0 00 MOV   REG[208],0
-139D: 52 FC    MOV   A,[X-4]
-139F: 10       PUSH  X
-13A0: 7C 09 B8 LCALL 0x09B8
-13A3: 20       POP   X
+139C: 62 D0 00 MOV   REG[208],0
+139F: 52 FC    MOV   A,[X-4]
+13A1: 10       PUSH  X
+13A2: 7C 09 B8 LCALL 0x09B8
+13A5: 20       POP   X
 (0254) 	{
-13A4: 10       PUSH  X
-13A5: 50 CC    MOV   A,204
-13A7: 7C 09 B8 LCALL 0x09B8
-13AA: 20       POP   X
+13A6: 10       PUSH  X
+13A7: 50 CC    MOV   A,204
+13A9: 7C 09 B8 LCALL 0x09B8
+13AC: 20       POP   X
 (0255) 		if(RECEIVE_cReadChar() == START_TRANSMIT)
-13AB: 10       PUSH  X
-13AC: 50 FD    MOV   A,253
-13AE: 7C 09 B8 LCALL 0x09B8
-13B1: 20       POP   X
+13AD: 10       PUSH  X
+13AE: 50 FD    MOV   A,253
+13B0: 7C 09 B8 LCALL 0x09B8
+13B3: 20       POP   X
 (0256) 		{	
-13B2: 10       PUSH  X
-13B3: 50 FD    MOV   A,253
-13B5: 7C 09 B8 LCALL 0x09B8
-13B8: 20       POP   X
+13B4: 10       PUSH  X
+13B5: 50 FD    MOV   A,253
+13B7: 7C 09 B8 LCALL 0x09B8
+13BA: 20       POP   X
 (0257) 			if(validTransmission())
 (0258) 			{
 (0259) 				if(COMMAND_TYPE == PING)	// This is the response we are looking for.
-13B9: 10       PUSH  X
-13BA: 7C 09 8B LCALL 0x098B
-13BD: 62 D0 00 MOV   REG[208],0
-13C0: 20       POP   X
-13C1: 53 60    MOV   [__r0],A
-13C3: 47 60 20 TST   [__r0],32
-13C6: AF F2    JZ    0x13B9
+13BB: 10       PUSH  X
+13BC: 7C 09 8B LCALL 0x098B
+13BF: 62 D0 00 MOV   REG[208],0
+13C2: 20       POP   X
+13C3: 53 60    MOV   [__r0],A
+13C5: 47 60 20 TST   [__r0],32
+13C8: AF F2    JZ    0x13BB
 (0260) 				{
 (0261) 					// If this is for me, check who it was from.
-13C8: 7C 1C 47 LCALL _xmitWait
+13CA: 7C 1D 0F LCALL _xmitWait
 (0262) 					if(COMMAND_DESTINATION == MASTER_ID)
 (0263) 					{
-13CB: 50 00    MOV   A,0
-13CD: 08       PUSH  A
-13CE: 50 01    MOV   A,1
-13D0: 08       PUSH  A
-13D1: 96 1D    CALL  _configToggle
-13D3: 38 FE    ADD   SP,254
+13CD: 50 00    MOV   A,0
+13CF: 08       PUSH  A
+13D0: 50 01    MOV   A,1
+13D2: 08       PUSH  A
+13D3: 96 E2    CALL  _configToggle
+13D5: 38 FE    ADD   SP,254
 (0264) 						if(COMMAND_SOURCE == module_id)
 (0265) 						{
-13D5: 3D FB 00 CMP   [X-5],0
-13D8: B0 06    JNZ   0x13DF
-13DA: 3D FC FE CMP   [X-4],254
-13DD: A0 89    JZ    0x1467
+13D7: 3D FB 00 CMP   [X-5],0
+13DA: B0 06    JNZ   0x13E1
+13DC: 3D FC FE CMP   [X-4],254
+13DF: A0 89    JZ    0x1469
 (0266) 							response = 1;
 (0267) 						}
-13DF: 10       PUSH  X
-13E0: 7C 0A 49 LCALL 0x0A49
-13E3: 20       POP   X
+13E1: 10       PUSH  X
+13E2: 7C 0A 49 LCALL 0x0A49
+13E5: 20       POP   X
 (0268) 					}
-13E4: 62 D0 00 MOV   REG[208],0
-13E7: 55 66 00 MOV   [TIMEOUT+1],0
-13EA: 55 65 00 MOV   [TIMEOUT],0
+13E6: 62 D0 00 MOV   REG[208],0
+13E9: 55 66 00 MOV   [TIMEOUT+1],0
+13EC: 55 65 00 MOV   [TIMEOUT],0
 (0269) 				}
-13ED: 10       PUSH  X
-13EE: 7C 0A 45 LCALL 0x0A45
-13F1: 20       POP   X
-13F2: 80 48    JMP   0x143B
+13EF: 10       PUSH  X
+13F0: 7C 0A 45 LCALL 0x0A45
+13F3: 20       POP   X
+13F4: 80 48    JMP   0x143D
 (0270) 			}
 (0271) 		}
 (0272) 	}
 (0273) 	
-13F4: 10       PUSH  X
-13F5: 7C 0B 34 LCALL 0x0B34
-13F8: 62 D0 00 MOV   REG[208],0
-13FB: 20       POP   X
-13FC: 39 FC    CMP   A,252
-13FE: B0 3C    JNZ   0x143B
+13F6: 10       PUSH  X
+13F7: 7C 0B 34 LCALL 0x0B34
+13FA: 62 D0 00 MOV   REG[208],0
+13FD: 20       POP   X
+13FE: 39 FC    CMP   A,252
+1400: B0 3C    JNZ   0x143D
 (0274) 	RX_TIMEOUT_Stop();
 (0275) 	TIMEOUT = 0;
-1400: 90 C9    CALL  _validTransmission
-1402: 62 D0 00 MOV   REG[208],0
-1405: 3C 60 00 CMP   [__r0],0
-1408: B0 06    JNZ   0x140F
-140A: 3C 5F 00 CMP   [__r1],0
-140D: A0 2D    JZ    0x143B
+1402: 90 CA    CALL  _validTransmission
+1404: 62 D0 00 MOV   REG[208],0
+1407: 3C 60 00 CMP   [__r0],0
+140A: B0 06    JNZ   0x1411
+140C: 3C 5F 00 CMP   [__r1],0
+140F: A0 2D    JZ    0x143D
 (0276) 	RX_TIMEOUT_Start();
 (0277) 	
-140F: 62 D0 00 MOV   REG[208],0
-1412: 3C 6B CD CMP   [COMMAND_TYPE],205
-1415: B0 25    JNZ   0x143B
+1411: 62 D0 00 MOV   REG[208],0
+1414: 3C 6B CD CMP   [COMMAND_TYPE],205
+1417: B0 25    JNZ   0x143D
 (0278) 	return response;
 (0279) }
 (0280) 
-1417: 62 D0 00 MOV   REG[208],0
-141A: 3C 6C 00 CMP   [COMMAND_DESTINATION],0
-141D: B0 1D    JNZ   0x143B
+1419: 62 D0 00 MOV   REG[208],0
+141C: 3C 6C 00 CMP   [COMMAND_DESTINATION],0
+141F: B0 1D    JNZ   0x143D
 (0281) int assignID(int assigned_ID)
 (0282) {
-141F: 62 D0 00 MOV   REG[208],0
-1422: 51 6D    MOV   A,[COMMAND_SOURCE]
-1424: 62 D0 00 MOV   REG[208],0
-1427: 53 5F    MOV   [__r1],A
-1429: 50 00    MOV   A,0
-142B: 3B FB    CMP   A,[X-5]
-142D: B0 0D    JNZ   0x143B
-142F: 51 5F    MOV   A,[__r1]
-1431: 3B FC    CMP   A,[X-4]
-1433: B0 07    JNZ   0x143B
+1421: 62 D0 00 MOV   REG[208],0
+1424: 51 6D    MOV   A,[COMMAND_SOURCE]
+1426: 62 D0 00 MOV   REG[208],0
+1429: 53 5F    MOV   [__r1],A
+142B: 50 00    MOV   A,0
+142D: 3B FB    CMP   A,[X-5]
+142F: B0 0D    JNZ   0x143D
+1431: 51 5F    MOV   A,[__r1]
+1433: 3B FC    CMP   A,[X-4]
+1435: B0 07    JNZ   0x143D
 (0283) 	int success = 0;		// Stores 0 on fail, 1 on success.
 (0284) 	
-1435: 56 01 01 MOV   [X+1],1
-1438: 56 00 00 MOV   [X+0],0
-143B: 62 D0 00 MOV   REG[208],0
-143E: 51 66    MOV   A,[TIMEOUT+1]
-1440: 11 05    SUB   A,5
-1442: 51 65    MOV   A,[TIMEOUT]
-1444: 31 80    XOR   A,128
-1446: 19 80    SBB   A,128
-1448: D0 0B    JNC   0x1454
-144A: 3D 00 00 CMP   [X+0],0
-144D: B0 06    JNZ   0x1454
-144F: 3D 01 00 CMP   [X+1],0
-1452: AF A1    JZ    0x13F4
+1437: 56 01 01 MOV   [X+1],1
+143A: 56 00 00 MOV   [X+0],0
+143D: 62 D0 00 MOV   REG[208],0
+1440: 51 66    MOV   A,[TIMEOUT+1]
+1442: 11 05    SUB   A,5
+1444: 51 65    MOV   A,[TIMEOUT]
+1446: 31 80    XOR   A,128
+1448: 19 80    SBB   A,128
+144A: D0 0B    JNC   0x1456
+144C: 3D 00 00 CMP   [X+0],0
+144F: B0 06    JNZ   0x1456
+1451: 3D 01 00 CMP   [X+1],0
+1454: AF A1    JZ    0x13F6
 (0285) 	configToggle(TX_MODE);	// Switch to TX mode.
 (0286) 
 (0287) 	// Transmit the assignment.
@@ -7036,28 +7036,28 @@ _clearConfig:
 (0290) 	TRANSMIT_PutChar(MASTER_ID);
 (0291) 	TRANSMIT_PutChar(BLANK_MODULE_ID);
 (0292) 	TRANSMIT_PutChar(ID_ASSIGNMENT);
-1454: 10       PUSH  X
-1455: 7C 0A 49 LCALL 0x0A49
-1458: 20       POP   X
+1456: 10       PUSH  X
+1457: 7C 0A 49 LCALL 0x0A49
+145A: 20       POP   X
 (0293) 	TRANSMIT_PutChar(assigned_ID);
-1459: 62 D0 00 MOV   REG[208],0
-145C: 55 66 00 MOV   [TIMEOUT+1],0
-145F: 55 65 00 MOV   [TIMEOUT],0
+145B: 62 D0 00 MOV   REG[208],0
+145E: 55 66 00 MOV   [TIMEOUT+1],0
+1461: 55 65 00 MOV   [TIMEOUT],0
 (0294) 	TRANSMIT_PutChar(END_TRANSMIT);
-1462: 10       PUSH  X
-1463: 7C 0A 45 LCALL 0x0A45
-1466: 20       POP   X
+1464: 10       PUSH  X
+1465: 7C 0A 45 LCALL 0x0A45
+1468: 20       POP   X
 (0295) 	TRANSMIT_PutChar(END_TRANSMIT);
 (0296) 	
 (0297) 	// Wait for the transmission to finish.
-1467: 62 D0 00 MOV   REG[208],0
-146A: 52 01    MOV   A,[X+1]
-146C: 53 5F    MOV   [__r1],A
-146E: 52 00    MOV   A,[X+0]
-1470: 53 60    MOV   [__r0],A
-1472: 38 FE    ADD   SP,254
-1474: 20       POP   X
-1475: 7F       RET   
+1469: 62 D0 00 MOV   REG[208],0
+146C: 52 01    MOV   A,[X+1]
+146E: 53 5F    MOV   [__r1],A
+1470: 52 00    MOV   A,[X+0]
+1472: 53 60    MOV   [__r0],A
+1474: 38 FE    ADD   SP,254
+1476: 20       POP   X
+1477: 7F       RET   
 (0298) 	while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
 (0299) 	
 (0300) 	xmitWait();
@@ -7065,70 +7065,70 @@ _clearConfig:
 (0302) 	configToggle(RX_MODE);	// Switch back to receive mode.
 (0303) 	
 _sayHello:
-1476: 50 00    MOV   A,0
-1478: 08       PUSH  A
-1479: 08       PUSH  A
-147A: 95 74    CALL  _configToggle
-147C: 38 FE    ADD   SP,254
+1478: 50 00    MOV   A,0
+147A: 08       PUSH  A
+147B: 08       PUSH  A
+147C: 96 39    CALL  _configToggle
+147E: 38 FE    ADD   SP,254
 (0304) 	RX_TIMEOUT_Stop();
 (0305) 	TIMEOUT = 0;
 (0306) 	RX_TIMEOUT_Start();
-147E: 10       PUSH  X
-147F: 50 FC    MOV   A,252
-1481: 7C 09 B8 LCALL 0x09B8
-1484: 20       POP   X
+1480: 10       PUSH  X
+1481: 50 FC    MOV   A,252
+1483: 7C 09 B8 LCALL 0x09B8
+1486: 20       POP   X
 (0307) 	
-1485: 10       PUSH  X
-1486: 50 FC    MOV   A,252
-1488: 7C 09 B8 LCALL 0x09B8
-148B: 20       POP   X
+1487: 10       PUSH  X
+1488: 50 FC    MOV   A,252
+148A: 7C 09 B8 LCALL 0x09B8
+148D: 20       POP   X
 (0308) 	while((TIMEOUT < RX_TIMEOUT_DURATION) && (!success))
-148C: 10       PUSH  X
-148D: 50 00    MOV   A,0
-148F: 7C 09 B8 LCALL 0x09B8
-1492: 20       POP   X
+148E: 10       PUSH  X
+148F: 50 00    MOV   A,0
+1491: 7C 09 B8 LCALL 0x09B8
+1494: 20       POP   X
 (0309) 	{
-1493: 10       PUSH  X
-1494: 50 FB    MOV   A,251
-1496: 7C 09 B8 LCALL 0x09B8
-1499: 20       POP   X
+1495: 10       PUSH  X
+1496: 50 FB    MOV   A,251
+1498: 7C 09 B8 LCALL 0x09B8
+149B: 20       POP   X
 (0310) 		if(RECEIVE_cReadChar() == START_TRANSMIT)
-149A: 10       PUSH  X
-149B: 50 C8    MOV   A,200
-149D: 7C 09 B8 LCALL 0x09B8
-14A0: 20       POP   X
+149C: 10       PUSH  X
+149D: 50 C8    MOV   A,200
+149F: 7C 09 B8 LCALL 0x09B8
+14A2: 20       POP   X
 (0311) 		{	
-14A1: 10       PUSH  X
-14A2: 50 FD    MOV   A,253
-14A4: 7C 09 B8 LCALL 0x09B8
-14A7: 20       POP   X
+14A3: 10       PUSH  X
+14A4: 50 FD    MOV   A,253
+14A6: 7C 09 B8 LCALL 0x09B8
+14A9: 20       POP   X
 (0312) 			if(validTransmission())
-14A8: 10       PUSH  X
-14A9: 50 FD    MOV   A,253
-14AB: 7C 09 B8 LCALL 0x09B8
-14AE: 20       POP   X
+14AA: 10       PUSH  X
+14AB: 50 FD    MOV   A,253
+14AD: 7C 09 B8 LCALL 0x09B8
+14B0: 20       POP   X
 (0313) 			{
 (0314) 				if(COMMAND_TYPE == ID_ASSIGN_OK)	// This is the response we are looking for.
 (0315) 				{
-14AF: 10       PUSH  X
-14B0: 7C 09 8B LCALL 0x098B
-14B3: 62 D0 00 MOV   REG[208],0
-14B6: 20       POP   X
-14B7: 53 60    MOV   [__r0],A
-14B9: 47 60 20 TST   [__r0],32
-14BC: AF F2    JZ    0x14AF
+14B1: 10       PUSH  X
+14B2: 7C 09 8B LCALL 0x098B
+14B5: 62 D0 00 MOV   REG[208],0
+14B8: 20       POP   X
+14B9: 53 60    MOV   [__r0],A
+14BB: 47 60 20 TST   [__r0],32
+14BE: AF F2    JZ    0x14B1
 (0316) 					// If this is for me, check who it was from.
 (0317) 					if(COMMAND_DESTINATION == MASTER_ID)
-14BE: 97 87    CALL  _xmitWait
+14C0: 7C 1D 0F LCALL _xmitWait
 (0318) 					{
 (0319) 						if(COMMAND_SOURCE == assigned_ID)
-14C0: 50 00    MOV   A,0
-14C2: 08       PUSH  A
-14C3: 50 01    MOV   A,1
+14C3: 50 00    MOV   A,0
 14C5: 08       PUSH  A
-14C6: 95 28    CALL  _configToggle
-14C8: 38 FE    ADD   SP,254
-14CA: 7F       RET   
+14C6: 50 01    MOV   A,1
+14C8: 08       PUSH  A
+14C9: 95 EC    CALL  _configToggle
+14CB: 38 FE    ADD   SP,254
+14CD: 7F       RET   
 (0320) 						{
 (0321) 							success = 1;
 (0322) 						}
@@ -7136,60 +7136,60 @@ _sayHello:
 (0324) 				}
 _validTransmission:
   valid_transmit       --> X+0
-14CB: 10       PUSH  X
-14CC: 4F       MOV   X,SP
-14CD: 38 02    ADD   SP,2
+14CE: 10       PUSH  X
+14CF: 4F       MOV   X,SP
+14D0: 38 02    ADD   SP,2
 (0325) 			}
-14CF: 56 01 00 MOV   [X+1],0
-14D2: 56 00 00 MOV   [X+0],0
+14D2: 56 01 00 MOV   [X+1],0
+14D5: 56 00 00 MOV   [X+0],0
 (0326) 		}
 (0327) 	}
-14D5: 10       PUSH  X
-14D6: 7C 0B 2C LCALL 0x0B2C
-14D9: 62 D0 00 MOV   REG[208],0
-14DC: 20       POP   X
-14DD: 39 FC    CMP   A,252
-14DF: B0 2F    JNZ   0x150F
+14D8: 10       PUSH  X
+14D9: 7C 0B 2C LCALL 0x0B2C
+14DC: 62 D0 00 MOV   REG[208],0
+14DF: 20       POP   X
+14E0: 39 FC    CMP   A,252
+14E2: B0 2F    JNZ   0x1512
 (0328) 	
 (0329) 	LCD_1_Start();
-14E1: 10       PUSH  X
-14E2: 7C 0B 2C LCALL 0x0B2C
-14E5: 20       POP   X
-14E6: 62 D0 00 MOV   REG[208],0
-14E9: 53 6D    MOV   [COMMAND_SOURCE],A
+14E4: 10       PUSH  X
+14E5: 7C 0B 2C LCALL 0x0B2C
+14E8: 20       POP   X
+14E9: 62 D0 00 MOV   REG[208],0
+14EC: 53 6D    MOV   [COMMAND_SOURCE],A
 (0330) 	LCD_1_Position(0,0);
-14EB: 10       PUSH  X
-14EC: 7C 0B 2C LCALL 0x0B2C
-14EF: 20       POP   X
-14F0: 62 D0 00 MOV   REG[208],0
-14F3: 53 6C    MOV   [COMMAND_DESTINATION],A
+14EE: 10       PUSH  X
+14EF: 7C 0B 2C LCALL 0x0B2C
+14F2: 20       POP   X
+14F3: 62 D0 00 MOV   REG[208],0
+14F6: 53 6C    MOV   [COMMAND_DESTINATION],A
 (0331) 	LCD_1_PrHexInt(NUM_MODULES);
-14F5: 10       PUSH  X
-14F6: 7C 0B 2C LCALL 0x0B2C
-14F9: 20       POP   X
-14FA: 62 D0 00 MOV   REG[208],0
-14FD: 53 6B    MOV   [COMMAND_TYPE],A
+14F8: 10       PUSH  X
+14F9: 7C 0B 2C LCALL 0x0B2C
+14FC: 20       POP   X
+14FD: 62 D0 00 MOV   REG[208],0
+1500: 53 6B    MOV   [COMMAND_TYPE],A
 (0332) 	LCD_1_Position(0,5);
-14FF: 10       PUSH  X
-1500: 7C 0B 2C LCALL 0x0B2C
-1503: 20       POP   X
-1504: 62 D0 00 MOV   REG[208],0
-1507: 53 6A    MOV   [PARAM1],A
+1502: 10       PUSH  X
+1503: 7C 0B 2C LCALL 0x0B2C
+1506: 20       POP   X
+1507: 62 D0 00 MOV   REG[208],0
+150A: 53 6A    MOV   [PARAM1],A
 (0333) 	LCD_1_PrCString("Modules!");
 (0334) 	
-1509: 56 01 01 MOV   [X+1],1
-150C: 56 00 00 MOV   [X+0],0
+150C: 56 01 01 MOV   [X+1],1
+150F: 56 00 00 MOV   [X+0],0
 (0335) 	RX_TIMEOUT_Stop();
 (0336) 	TIMEOUT = 0;
 (0337) 	RX_TIMEOUT_Start();
-150F: 62 D0 00 MOV   REG[208],0
-1512: 52 01    MOV   A,[X+1]
-1514: 53 5F    MOV   [__r1],A
-1516: 52 00    MOV   A,[X+0]
-1518: 53 60    MOV   [__r0],A
-151A: 38 FE    ADD   SP,254
-151C: 20       POP   X
-151D: 7F       RET   
+1512: 62 D0 00 MOV   REG[208],0
+1515: 52 01    MOV   A,[X+1]
+1517: 53 5F    MOV   [__r1],A
+1519: 52 00    MOV   A,[X+0]
+151B: 53 60    MOV   [__r0],A
+151D: 38 FE    ADD   SP,254
+151F: 20       POP   X
+1520: 7F       RET   
 (0338) 	
 (0339) 	return success;
 (0340) }
@@ -7201,402 +7201,400 @@ _decodeTransmission:
   ID                   --> X+4
   total                --> X+2
   param                --> X+0
-151E: 10       PUSH  X
-151F: 4F       MOV   X,SP
-1520: 38 08    ADD   SP,8
+1521: 10       PUSH  X
+1522: 4F       MOV   X,SP
+1523: 38 08    ADD   SP,8
 (0343) {
 (0344) 	int response = 0;
 (0345) 	
 (0346) 	configToggle(TX_MODE);	// Toggle into TX mode.
 (0347) 			
-1522: 56 03 00 MOV   [X+3],0
-1525: 56 02 00 MOV   [X+2],0
+1525: 56 03 00 MOV   [X+3],0
+1528: 56 02 00 MOV   [X+2],0
 (0348) 	// Transmit a hello.
 (0349) 	TRANSMIT_PutChar(START_TRANSMIT);
-1528: 10       PUSH  X
-1529: 7C 10 7F LCALL 0x107F
-152C: 62 D0 00 MOV   REG[208],0
-152F: 53 60    MOV   [__r0],A
-1531: 5A 5F    MOV   [__r1],X
-1533: 20       POP   X
-1534: 51 5F    MOV   A,[__r1]
-1536: 54 01    MOV   [X+1],A
-1538: 51 60    MOV   A,[__r0]
-153A: 54 00    MOV   [X+0],A
-153C: 3C 60 00 CMP   [__r0],0
-153F: B0 06    JNZ   0x1546
-1541: 3C 5F 00 CMP   [__r1],0
-1544: A3 4F    JZ    0x1894
+152B: 10       PUSH  X
+152C: 7C 10 7F LCALL 0x107F
+152F: 62 D0 00 MOV   REG[208],0
+1532: 53 60    MOV   [__r0],A
+1534: 5A 5F    MOV   [__r1],X
+1536: 20       POP   X
+1537: 51 5F    MOV   A,[__r1]
+1539: 54 01    MOV   [X+1],A
+153B: 51 60    MOV   A,[__r0]
+153D: 54 00    MOV   [X+0],A
+153F: 3C 60 00 CMP   [__r0],0
+1542: B0 06    JNZ   0x1549
+1544: 3C 5F 00 CMP   [__r1],0
+1547: A4 13    JZ    0x195B
 (0350) 	TRANSMIT_PutChar(START_TRANSMIT);
 (0351) 	TRANSMIT_PutChar(MASTER_ID);
-1546: 62 D0 00 MOV   REG[208],0
-1549: 52 01    MOV   A,[X+1]
-154B: 53 5F    MOV   [__r1],A
-154D: 52 00    MOV   A,[X+0]
-154F: 60 D4    MOV   REG[212],A
-1551: 3E 5F    MVI   A,[__r1]
-1553: 53 5F    MOV   [__r1],A
-1555: 55 60 00 MOV   [__r0],0
-1558: 3C 60 00 CMP   [__r0],0
-155B: B0 05    JNZ   0x1561
-155D: 39 6E    CMP   A,110
-155F: A0 0E    JZ    0x156E
-1561: 62 D0 00 MOV   REG[208],0
-1564: 3C 60 00 CMP   [__r0],0
-1567: B0 3A    JNZ   0x15A2
-1569: 3C 5F 4E CMP   [__r1],78
-156C: B0 35    JNZ   0x15A2
+1549: 62 D0 00 MOV   REG[208],0
+154C: 52 01    MOV   A,[X+1]
+154E: 53 5F    MOV   [__r1],A
+1550: 52 00    MOV   A,[X+0]
+1552: 60 D4    MOV   REG[212],A
+1554: 3E 5F    MVI   A,[__r1]
+1556: 53 5F    MOV   [__r1],A
+1558: 55 60 00 MOV   [__r0],0
+155B: 3C 60 00 CMP   [__r0],0
+155E: B0 05    JNZ   0x1564
+1560: 39 6E    CMP   A,110
+1562: A0 0E    JZ    0x1571
+1564: 62 D0 00 MOV   REG[208],0
+1567: 3C 60 00 CMP   [__r0],0
+156A: B0 3A    JNZ   0x15A5
+156C: 3C 5F 4E CMP   [__r1],78
+156F: B0 35    JNZ   0x15A5
 (0352) 	TRANSMIT_PutChar(module_id);
 (0353) 	TRANSMIT_PutChar(CLEAR_CONFIG);
-156E: 10       PUSH  X
-156F: 7C 10 50 LCALL 0x1050
-1572: 20       POP   X
+1571: 10       PUSH  X
+1572: 7C 10 50 LCALL 0x1050
+1575: 20       POP   X
 (0354) 	TRANSMIT_PutChar(END_TRANSMIT);
-1573: 50 00    MOV   A,0
-1575: 08       PUSH  A
-1576: 50 0A    MOV   A,10
+1576: 50 00    MOV   A,0
 1578: 08       PUSH  A
-1579: 62 D0 00 MOV   REG[208],0
-157C: 51 63    MOV   A,[NUM_MODULES]
-157E: 08       PUSH  A
-157F: 51 64    MOV   A,[NUM_MODULES+1]
+1579: 50 0A    MOV   A,10
+157B: 08       PUSH  A
+157C: 62 D0 00 MOV   REG[208],0
+157F: 51 63    MOV   A,[NUM_MODULES]
 1581: 08       PUSH  A
-1582: 52 00    MOV   A,[X+0]
+1582: 51 64    MOV   A,[NUM_MODULES+1]
 1584: 08       PUSH  A
-1585: 52 01    MOV   A,[X+1]
+1585: 52 00    MOV   A,[X+0]
 1587: 08       PUSH  A
-1588: 7C 1E AE LCALL _itoa
-158B: 38 FA    ADD   SP,250
+1588: 52 01    MOV   A,[X+1]
+158A: 08       PUSH  A
+158B: 7C 1F 76 LCALL _itoa
+158E: 38 FA    ADD   SP,250
 (0355) 	TRANSMIT_PutChar(END_TRANSMIT);
-158D: 10       PUSH  X
-158E: 52 00    MOV   A,[X+0]
-1590: 08       PUSH  A
-1591: 52 01    MOV   A,[X+1]
-1593: 5C       MOV   X,A
-1594: 18       POP   A
-1595: 7C 0F CF LCALL 0x0FCF
-1598: 20       POP   X
+1590: 10       PUSH  X
+1591: 52 00    MOV   A,[X+0]
+1593: 08       PUSH  A
+1594: 52 01    MOV   A,[X+1]
+1596: 5C       MOV   X,A
+1597: 18       POP   A
+1598: 7C 0F CF LCALL 0x0FCF
+159B: 20       POP   X
 (0356) 	
-1599: 10       PUSH  X
-159A: 50 0A    MOV   A,10
-159C: 7C 0F 92 LCALL 0x0F92
-159F: 20       POP   X
+159C: 10       PUSH  X
+159D: 50 0A    MOV   A,10
+159F: 7C 0F 92 LCALL 0x0F92
+15A2: 20       POP   X
 (0357) 	// Wait for the transmission to finish.
-15A0: 82 F3    JMP   0x1894
+15A3: 83 B7    JMP   0x195B
 (0358) 	while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
-15A2: 62 D0 00 MOV   REG[208],0
-15A5: 52 01    MOV   A,[X+1]
-15A7: 53 5F    MOV   [__r1],A
-15A9: 52 00    MOV   A,[X+0]
-15AB: 60 D4    MOV   REG[212],A
-15AD: 3E 5F    MVI   A,[__r1]
-15AF: 53 5F    MOV   [__r1],A
-15B1: 55 60 00 MOV   [__r0],0
-15B4: 3C 60 00 CMP   [__r0],0
-15B7: B0 05    JNZ   0x15BD
-15B9: 39 77    CMP   A,119
-15BB: A0 0E    JZ    0x15CA
-15BD: 62 D0 00 MOV   REG[208],0
-15C0: 3C 60 00 CMP   [__r0],0
-15C3: B1 6B    JNZ   0x172F
-15C5: 3C 5F 57 CMP   [__r1],87
-15C8: B1 66    JNZ   0x172F
+15A5: 62 D0 00 MOV   REG[208],0
+15A8: 52 01    MOV   A,[X+1]
+15AA: 53 5F    MOV   [__r1],A
+15AC: 52 00    MOV   A,[X+0]
+15AE: 60 D4    MOV   REG[212],A
+15B0: 3E 5F    MVI   A,[__r1]
+15B2: 53 5F    MOV   [__r1],A
+15B4: 55 60 00 MOV   [__r0],0
+15B7: 3C 60 00 CMP   [__r0],0
+15BA: B0 05    JNZ   0x15C0
+15BC: 39 77    CMP   A,119
+15BE: A0 0E    JZ    0x15CD
+15C0: 62 D0 00 MOV   REG[208],0
+15C3: 3C 60 00 CMP   [__r0],0
+15C6: B1 6B    JNZ   0x1732
+15C8: 3C 5F 57 CMP   [__r1],87
+15CB: B1 66    JNZ   0x1732
 (0359) 	
 (0360) 	xmitWait();
-15CA: 10       PUSH  X
-15CB: 7C 10 7F LCALL 0x107F
-15CE: 62 D0 00 MOV   REG[208],0
-15D1: 53 60    MOV   [__r0],A
-15D3: 5A 5F    MOV   [__r1],X
-15D5: 20       POP   X
-15D6: 51 5F    MOV   A,[__r1]
-15D8: 54 01    MOV   [X+1],A
-15DA: 51 60    MOV   A,[__r0]
-15DC: 54 00    MOV   [X+0],A
-15DE: 3C 60 00 CMP   [__r0],0
-15E1: B0 06    JNZ   0x15E8
-15E3: 3C 5F 00 CMP   [__r1],0
-15E6: A2 AD    JZ    0x1894
+15CD: 10       PUSH  X
+15CE: 7C 10 7F LCALL 0x107F
+15D1: 62 D0 00 MOV   REG[208],0
+15D4: 53 60    MOV   [__r0],A
+15D6: 5A 5F    MOV   [__r1],X
+15D8: 20       POP   X
+15D9: 51 5F    MOV   A,[__r1]
+15DB: 54 01    MOV   [X+1],A
+15DD: 51 60    MOV   A,[__r0]
+15DF: 54 00    MOV   [X+0],A
+15E1: 3C 60 00 CMP   [__r0],0
+15E4: B0 06    JNZ   0x15EB
+15E6: 3C 5F 00 CMP   [__r1],0
+15E9: A3 71    JZ    0x195B
 (0361) 	
 (0362) 	configToggle(RX_MODE);	// Listen for the response.
-15E8: 52 00    MOV   A,[X+0]
-15EA: 08       PUSH  A
-15EB: 52 01    MOV   A,[X+1]
+15EB: 52 00    MOV   A,[X+0]
 15ED: 08       PUSH  A
-15EE: 7C 1D 6D LCALL _atoi
-15F1: 38 FE    ADD   SP,254
-15F3: 62 D0 00 MOV   REG[208],0
-15F6: 51 5F    MOV   A,[__r1]
-15F8: 54 04    MOV   [X+4],A
+15EE: 52 01    MOV   A,[X+1]
+15F0: 08       PUSH  A
+15F1: 7C 1E 35 LCALL _atoi
+15F4: 38 FE    ADD   SP,254
+15F6: 62 D0 00 MOV   REG[208],0
+15F9: 51 5F    MOV   A,[__r1]
+15FB: 54 04    MOV   [X+4],A
 (0363) 	
-15FA: 10       PUSH  X
-15FB: 7C 10 7F LCALL 0x107F
-15FE: 62 D0 00 MOV   REG[208],0
-1601: 53 60    MOV   [__r0],A
-1603: 5A 5F    MOV   [__r1],X
-1605: 20       POP   X
-1606: 51 5F    MOV   A,[__r1]
-1608: 54 01    MOV   [X+1],A
-160A: 51 60    MOV   A,[__r0]
-160C: 54 00    MOV   [X+0],A
-160E: 3C 60 00 CMP   [__r0],0
-1611: B0 06    JNZ   0x1618
-1613: 3C 5F 00 CMP   [__r1],0
-1616: A2 7D    JZ    0x1894
+15FD: 10       PUSH  X
+15FE: 7C 10 7F LCALL 0x107F
+1601: 62 D0 00 MOV   REG[208],0
+1604: 53 60    MOV   [__r0],A
+1606: 5A 5F    MOV   [__r1],X
+1608: 20       POP   X
+1609: 51 5F    MOV   A,[__r1]
+160B: 54 01    MOV   [X+1],A
+160D: 51 60    MOV   A,[__r0]
+160F: 54 00    MOV   [X+0],A
+1611: 3C 60 00 CMP   [__r0],0
+1614: B0 06    JNZ   0x161B
+1616: 3C 5F 00 CMP   [__r1],0
+1619: A3 41    JZ    0x195B
 (0364) 	if(module_id != BROADCAST)
 (0365) 	{
-1618: 62 D0 00 MOV   REG[208],0
-161B: 52 01    MOV   A,[X+1]
-161D: 53 5F    MOV   [__r1],A
-161F: 52 00    MOV   A,[X+0]
-1621: 60 D4    MOV   REG[212],A
-1623: 3E 5F    MVI   A,[__r1]
-1625: 53 5F    MOV   [__r1],A
-1627: 55 60 00 MOV   [__r0],0
-162A: 3C 60 00 CMP   [__r0],0
-162D: B0 05    JNZ   0x1633
-162F: 39 61    CMP   A,97
-1631: A0 0E    JZ    0x1640
-1633: 62 D0 00 MOV   REG[208],0
-1636: 3C 60 00 CMP   [__r0],0
-1639: B0 89    JNZ   0x16C3
-163B: 3C 5F 41 CMP   [__r1],65
-163E: B0 84    JNZ   0x16C3
+161B: 62 D0 00 MOV   REG[208],0
+161E: 52 01    MOV   A,[X+1]
+1620: 53 5F    MOV   [__r1],A
+1622: 52 00    MOV   A,[X+0]
+1624: 60 D4    MOV   REG[212],A
+1626: 3E 5F    MVI   A,[__r1]
+1628: 53 5F    MOV   [__r1],A
+162A: 55 60 00 MOV   [__r0],0
+162D: 3C 60 00 CMP   [__r0],0
+1630: B0 05    JNZ   0x1636
+1632: 39 61    CMP   A,97
+1634: A0 0E    JZ    0x1643
+1636: 62 D0 00 MOV   REG[208],0
+1639: 3C 60 00 CMP   [__r0],0
+163C: B0 89    JNZ   0x16C6
+163E: 3C 5F 41 CMP   [__r1],65
+1641: B0 84    JNZ   0x16C6
 (0366) 		RX_TIMEOUT_Stop();
 (0367) 		TIMEOUT = 0;
-1640: 10       PUSH  X
-1641: 7C 10 7F LCALL 0x107F
-1644: 62 D0 00 MOV   REG[208],0
-1647: 53 60    MOV   [__r0],A
-1649: 5A 5F    MOV   [__r1],X
-164B: 20       POP   X
-164C: 51 5F    MOV   A,[__r1]
-164E: 54 01    MOV   [X+1],A
-1650: 51 60    MOV   A,[__r0]
-1652: 54 00    MOV   [X+0],A
-1654: 3C 60 00 CMP   [__r0],0
-1657: B0 06    JNZ   0x165E
-1659: 3C 5F 00 CMP   [__r1],0
-165C: A2 37    JZ    0x1894
+1643: 10       PUSH  X
+1644: 7C 10 7F LCALL 0x107F
+1647: 62 D0 00 MOV   REG[208],0
+164A: 53 60    MOV   [__r0],A
+164C: 5A 5F    MOV   [__r1],X
+164E: 20       POP   X
+164F: 51 5F    MOV   A,[__r1]
+1651: 54 01    MOV   [X+1],A
+1653: 51 60    MOV   A,[__r0]
+1655: 54 00    MOV   [X+0],A
+1657: 3C 60 00 CMP   [__r0],0
+165A: B0 06    JNZ   0x1661
+165C: 3C 5F 00 CMP   [__r1],0
+165F: A2 FB    JZ    0x195B
 (0368) 		RX_TIMEOUT_Start();
 (0369) 		
-165E: 10       PUSH  X
-165F: 7C 10 50 LCALL 0x1050
-1662: 20       POP   X
+1661: 10       PUSH  X
+1662: 7C 10 50 LCALL 0x1050
+1665: 20       POP   X
 (0370) 		while((TIMEOUT < RX_TIMEOUT_DURATION) && (!response))
-1663: 52 00    MOV   A,[X+0]
-1665: 08       PUSH  A
-1666: 52 01    MOV   A,[X+1]
+1666: 52 00    MOV   A,[X+0]
 1668: 08       PUSH  A
-1669: 7C 1D 6D LCALL _atoi
-166C: 38 FE    ADD   SP,254
-166E: 62 D0 00 MOV   REG[208],0
-1671: 51 5F    MOV   A,[__r1]
-1673: 54 03    MOV   [X+3],A
-1675: 51 60    MOV   A,[__r0]
-1677: 54 02    MOV   [X+2],A
+1669: 52 01    MOV   A,[X+1]
+166B: 08       PUSH  A
+166C: 7C 1E 35 LCALL _atoi
+166F: 38 FE    ADD   SP,254
+1671: 62 D0 00 MOV   REG[208],0
+1674: 51 5F    MOV   A,[__r1]
+1676: 54 03    MOV   [X+3],A
+1678: 51 60    MOV   A,[__r0]
+167A: 54 02    MOV   [X+2],A
 (0371) 		{
-1679: 50 01    MOV   A,1
-167B: 08       PUSH  A
-167C: 50 00    MOV   A,0
+167C: 50 01    MOV   A,1
 167E: 08       PUSH  A
-167F: 52 02    MOV   A,[X+2]
+167F: 50 00    MOV   A,0
 1681: 08       PUSH  A
-1682: 52 03    MOV   A,[X+3]
+1682: 52 02    MOV   A,[X+2]
 1684: 08       PUSH  A
-1685: 7C 1C DB LCALL __divmod_16X16_16
-1688: 38 FE    ADD   SP,254
-168A: 18       POP   A
-168B: 53 5F    MOV   [__r1],A
+1685: 52 03    MOV   A,[X+3]
+1687: 08       PUSH  A
+1688: 7C 1D A3 LCALL __divmod_16X16_16
+168B: 38 FE    ADD   SP,254
 168D: 18       POP   A
-168E: 51 5F    MOV   A,[__r1]
-1690: 54 05    MOV   [X+5],A
+168E: 53 5F    MOV   [__r1],A
+1690: 18       POP   A
+1691: 51 5F    MOV   A,[__r1]
+1693: 54 05    MOV   [X+5],A
 (0372) 			if(RECEIVE_cReadChar() == START_TRANSMIT)
-1692: 50 01    MOV   A,1
-1694: 08       PUSH  A
-1695: 50 00    MOV   A,0
+1695: 50 01    MOV   A,1
 1697: 08       PUSH  A
-1698: 52 02    MOV   A,[X+2]
+1698: 50 00    MOV   A,0
 169A: 08       PUSH  A
-169B: 52 03    MOV   A,[X+3]
+169B: 52 02    MOV   A,[X+2]
 169D: 08       PUSH  A
-169E: 7C 1C DB LCALL __divmod_16X16_16
-16A1: 18       POP   A
-16A2: 53 5F    MOV   [__r1],A
+169E: 52 03    MOV   A,[X+3]
+16A0: 08       PUSH  A
+16A1: 7C 1D A3 LCALL __divmod_16X16_16
 16A4: 18       POP   A
-16A5: 38 FE    ADD   SP,254
-16A7: 51 5F    MOV   A,[__r1]
-16A9: 54 06    MOV   [X+6],A
+16A5: 53 5F    MOV   [__r1],A
+16A7: 18       POP   A
+16A8: 38 FE    ADD   SP,254
+16AA: 51 5F    MOV   A,[__r1]
+16AC: 54 06    MOV   [X+6],A
 (0373) 			{	
-16AB: 52 06    MOV   A,[X+6]
-16AD: 08       PUSH  A
-16AE: 52 05    MOV   A,[X+5]
+16AE: 52 06    MOV   A,[X+6]
 16B0: 08       PUSH  A
-16B1: 50 1E    MOV   A,30
+16B1: 52 05    MOV   A,[X+5]
 16B3: 08       PUSH  A
-16B4: 50 03    MOV   A,3
+16B4: 50 1E    MOV   A,30
 16B6: 08       PUSH  A
-16B7: 50 05    MOV   A,5
+16B7: 50 03    MOV   A,3
 16B9: 08       PUSH  A
-16BA: 52 04    MOV   A,[X+4]
+16BA: 50 05    MOV   A,5
 16BC: 08       PUSH  A
-16BD: 92 8F    CALL  _longServoInstruction
-16BF: 38 FA    ADD   SP,250
+16BD: 52 04    MOV   A,[X+4]
+16BF: 08       PUSH  A
+16C0: 93 53    CALL  _longServoInstruction
+16C2: 38 FA    ADD   SP,250
 (0374) 				if(validTransmission())
 (0375) 				{
-16C1: 81 D2    JMP   0x1894
+16C4: 82 96    JMP   0x195B
 (0376) 					if(COMMAND_TYPE == CONFIG_CLEARED)	// This is the response we are looking for.
-16C3: 62 D0 00 MOV   REG[208],0
-16C6: 52 01    MOV   A,[X+1]
-16C8: 53 5F    MOV   [__r1],A
-16CA: 52 00    MOV   A,[X+0]
-16CC: 60 D4    MOV   REG[212],A
-16CE: 3E 5F    MVI   A,[__r1]
-16D0: 53 5F    MOV   [__r1],A
-16D2: 55 60 00 MOV   [__r0],0
-16D5: 3C 60 00 CMP   [__r0],0
-16D8: B0 05    JNZ   0x16DE
-16DA: 39 70    CMP   A,112
-16DC: A0 0E    JZ    0x16EB
-16DE: 62 D0 00 MOV   REG[208],0
-16E1: 3C 60 00 CMP   [__r0],0
-16E4: B1 AF    JNZ   0x1894
-16E6: 3C 5F 50 CMP   [__r1],80
-16E9: B1 AA    JNZ   0x1894
+16C6: 62 D0 00 MOV   REG[208],0
+16C9: 52 01    MOV   A,[X+1]
+16CB: 53 5F    MOV   [__r1],A
+16CD: 52 00    MOV   A,[X+0]
+16CF: 60 D4    MOV   REG[212],A
+16D1: 3E 5F    MVI   A,[__r1]
+16D3: 53 5F    MOV   [__r1],A
+16D5: 55 60 00 MOV   [__r0],0
+16D8: 3C 60 00 CMP   [__r0],0
+16DB: B0 05    JNZ   0x16E1
+16DD: 39 70    CMP   A,112
+16DF: A0 0E    JZ    0x16EE
+16E1: 62 D0 00 MOV   REG[208],0
+16E4: 3C 60 00 CMP   [__r0],0
+16E7: B2 73    JNZ   0x195B
+16E9: 3C 5F 50 CMP   [__r1],80
+16EC: B2 6E    JNZ   0x195B
 (0377) 					{
 (0378) 						// If this is for me, check who it was from.
-16EB: 10       PUSH  X
-16EC: 7C 10 7F LCALL 0x107F
-16EF: 62 D0 00 MOV   REG[208],0
-16F2: 53 60    MOV   [__r0],A
-16F4: 5A 5F    MOV   [__r1],X
-16F6: 20       POP   X
-16F7: 51 5F    MOV   A,[__r1]
-16F9: 54 01    MOV   [X+1],A
-16FB: 51 60    MOV   A,[__r0]
-16FD: 54 00    MOV   [X+0],A
-16FF: 3C 60 00 CMP   [__r0],0
-1702: B0 06    JNZ   0x1709
-1704: 3C 5F 00 CMP   [__r1],0
-1707: A1 8C    JZ    0x1894
+16EE: 10       PUSH  X
+16EF: 7C 10 7F LCALL 0x107F
+16F2: 62 D0 00 MOV   REG[208],0
+16F5: 53 60    MOV   [__r0],A
+16F7: 5A 5F    MOV   [__r1],X
+16F9: 20       POP   X
+16FA: 51 5F    MOV   A,[__r1]
+16FC: 54 01    MOV   [X+1],A
+16FE: 51 60    MOV   A,[__r0]
+1700: 54 00    MOV   [X+0],A
+1702: 3C 60 00 CMP   [__r0],0
+1705: B0 06    JNZ   0x170C
+1707: 3C 5F 00 CMP   [__r1],0
+170A: A2 50    JZ    0x195B
 (0379) 						if(COMMAND_DESTINATION == MASTER_ID)
 (0380) 						{
-1709: 10       PUSH  X
-170A: 7C 10 50 LCALL 0x1050
-170D: 20       POP   X
+170C: 10       PUSH  X
+170D: 7C 10 50 LCALL 0x1050
+1710: 20       POP   X
 (0381) 							if(COMMAND_SOURCE == module_id)
-170E: 52 00    MOV   A,[X+0]
-1710: 08       PUSH  A
-1711: 52 01    MOV   A,[X+1]
+1711: 52 00    MOV   A,[X+0]
 1713: 08       PUSH  A
-1714: 7C 1D 6D LCALL _atoi
-1717: 62 D0 00 MOV   REG[208],0
-171A: 51 5F    MOV   A,[__r1]
-171C: 08       PUSH  A
-171D: 50 18    MOV   A,24
+1714: 52 01    MOV   A,[X+1]
+1716: 08       PUSH  A
+1717: 7C 1E 35 LCALL _atoi
+171A: 62 D0 00 MOV   REG[208],0
+171D: 51 5F    MOV   A,[__r1]
 171F: 08       PUSH  A
-1720: 50 03    MOV   A,3
+1720: 50 18    MOV   A,24
 1722: 08       PUSH  A
-1723: 50 04    MOV   A,4
+1723: 50 03    MOV   A,3
 1725: 08       PUSH  A
-1726: 52 04    MOV   A,[X+4]
+1726: 50 04    MOV   A,4
 1728: 08       PUSH  A
-1729: 91 8F    CALL  _servoInstruction
-172B: 38 F9    ADD   SP,249
+1729: 52 04    MOV   A,[X+4]
+172B: 08       PUSH  A
+172C: 92 53    CALL  _servoInstruction
+172E: 38 F9    ADD   SP,249
 (0382) 							{
 (0383) 								response = 1;
 (0384) 							}
 (0385) 						}
 (0386) 					}
-172D: 81 66    JMP   0x1894
+1730: 82 2A    JMP   0x195B
 (0387) 				}
-172F: 62 D0 00 MOV   REG[208],0
-1732: 52 01    MOV   A,[X+1]
-1734: 53 5F    MOV   [__r1],A
-1736: 52 00    MOV   A,[X+0]
-1738: 60 D4    MOV   REG[212],A
-173A: 3E 5F    MVI   A,[__r1]
-173C: 53 5F    MOV   [__r1],A
-173E: 55 60 00 MOV   [__r0],0
-1741: 3C 60 00 CMP   [__r0],0
-1744: B0 05    JNZ   0x174A
-1746: 39 72    CMP   A,114
-1748: A0 0E    JZ    0x1757
-174A: 62 D0 00 MOV   REG[208],0
-174D: 3C 60 00 CMP   [__r0],0
-1750: B1 43    JNZ   0x1894
-1752: 3C 5F 52 CMP   [__r1],82
-1755: B1 3E    JNZ   0x1894
+1732: 62 D0 00 MOV   REG[208],0
+1735: 52 01    MOV   A,[X+1]
+1737: 53 5F    MOV   [__r1],A
+1739: 52 00    MOV   A,[X+0]
+173B: 60 D4    MOV   REG[212],A
+173D: 3E 5F    MVI   A,[__r1]
+173F: 53 5F    MOV   [__r1],A
+1741: 55 60 00 MOV   [__r0],0
+1744: 3C 60 00 CMP   [__r0],0
+1747: B0 05    JNZ   0x174D
+1749: 39 72    CMP   A,114
+174B: A0 0E    JZ    0x175A
+174D: 62 D0 00 MOV   REG[208],0
+1750: 3C 60 00 CMP   [__r0],0
+1753: B2 07    JNZ   0x195B
+1755: 3C 5F 52 CMP   [__r1],82
+1758: B2 02    JNZ   0x195B
 (0388) 			}
 (0389) 		}
-1757: 10       PUSH  X
-1758: 7C 10 7F LCALL 0x107F
-175B: 62 D0 00 MOV   REG[208],0
-175E: 53 60    MOV   [__r0],A
-1760: 5A 5F    MOV   [__r1],X
-1762: 20       POP   X
-1763: 51 5F    MOV   A,[__r1]
-1765: 54 01    MOV   [X+1],A
-1767: 51 60    MOV   A,[__r0]
-1769: 54 00    MOV   [X+0],A
-176B: 3C 60 00 CMP   [__r0],0
-176E: B0 06    JNZ   0x1775
-1770: 3C 5F 00 CMP   [__r1],0
-1773: A1 20    JZ    0x1894
+175A: 10       PUSH  X
+175B: 7C 10 7F LCALL 0x107F
+175E: 62 D0 00 MOV   REG[208],0
+1761: 53 60    MOV   [__r0],A
+1763: 5A 5F    MOV   [__r1],X
+1765: 20       POP   X
+1766: 51 5F    MOV   A,[__r1]
+1768: 54 01    MOV   [X+1],A
+176A: 51 60    MOV   A,[__r0]
+176C: 54 00    MOV   [X+0],A
+176E: 3C 60 00 CMP   [__r0],0
+1771: B0 06    JNZ   0x1778
+1773: 3C 5F 00 CMP   [__r1],0
+1776: A1 E4    JZ    0x195B
 (0390) 		
 (0391) 		RX_TIMEOUT_Stop();
-1775: 52 00    MOV   A,[X+0]
-1777: 08       PUSH  A
-1778: 52 01    MOV   A,[X+1]
+1778: 52 00    MOV   A,[X+0]
 177A: 08       PUSH  A
-177B: 7C 1D 6D LCALL _atoi
-177E: 38 FE    ADD   SP,254
-1780: 62 D0 00 MOV   REG[208],0
-1783: 51 5F    MOV   A,[__r1]
-1785: 54 04    MOV   [X+4],A
+177B: 52 01    MOV   A,[X+1]
+177D: 08       PUSH  A
+177E: 7C 1E 35 LCALL _atoi
+1781: 38 FE    ADD   SP,254
+1783: 62 D0 00 MOV   REG[208],0
+1786: 51 5F    MOV   A,[__r1]
+1788: 54 04    MOV   [X+4],A
 (0392) 		TIMEOUT = 0;
-1787: 10       PUSH  X
-1788: 7C 10 7F LCALL 0x107F
-178B: 62 D0 00 MOV   REG[208],0
-178E: 53 60    MOV   [__r0],A
-1790: 5A 5F    MOV   [__r1],X
-1792: 20       POP   X
-1793: 51 5F    MOV   A,[__r1]
-1795: 54 01    MOV   [X+1],A
-1797: 51 60    MOV   A,[__r0]
-1799: 54 00    MOV   [X+0],A
-179B: 3C 60 00 CMP   [__r0],0
-179E: B0 06    JNZ   0x17A5
-17A0: 3C 5F 00 CMP   [__r1],0
-17A3: A0 F0    JZ    0x1894
+178A: 10       PUSH  X
+178B: 7C 10 7F LCALL 0x107F
+178E: 62 D0 00 MOV   REG[208],0
+1791: 53 60    MOV   [__r0],A
+1793: 5A 5F    MOV   [__r1],X
+1795: 20       POP   X
+1796: 51 5F    MOV   A,[__r1]
+1798: 54 01    MOV   [X+1],A
+179A: 51 60    MOV   A,[__r0]
+179C: 54 00    MOV   [X+0],A
+179E: 3C 60 00 CMP   [__r0],0
+17A1: B0 06    JNZ   0x17A8
+17A3: 3C 5F 00 CMP   [__r1],0
+17A6: A1 B4    JZ    0x195B
 (0393) 		RX_TIMEOUT_Start();
 (0394) 	}
-17A5: 62 D0 00 MOV   REG[208],0
-17A8: 52 01    MOV   A,[X+1]
-17AA: 53 5F    MOV   [__r1],A
-17AC: 52 00    MOV   A,[X+0]
-17AE: 60 D4    MOV   REG[212],A
-17B0: 3E 5F    MVI   A,[__r1]
-17B2: 53 5F    MOV   [__r1],A
-17B4: 55 60 00 MOV   [__r0],0
-17B7: 3C 60 00 CMP   [__r0],0
-17BA: B0 05    JNZ   0x17C0
-17BC: 39 61    CMP   A,97
-17BE: A0 0E    JZ    0x17CD
-17C0: 62 D0 00 MOV   REG[208],0
-17C3: 3C 60 00 CMP   [__r0],0
-17C6: B0 CD    JNZ   0x1894
-17C8: 3C 5F 41 CMP   [__r1],65
-17CB: B0 C8    JNZ   0x1894
+17A8: 62 D0 00 MOV   REG[208],0
+17AB: 52 01    MOV   A,[X+1]
+17AD: 53 5F    MOV   [__r1],A
+17AF: 52 00    MOV   A,[X+0]
+17B1: 60 D4    MOV   REG[212],A
+17B3: 3E 5F    MVI   A,[__r1]
+17B5: 53 5F    MOV   [__r1],A
+17B7: 55 60 00 MOV   [__r0],0
+17BA: 3C 60 00 CMP   [__r0],0
+17BD: B0 05    JNZ   0x17C3
+17BF: 39 61    CMP   A,97
+17C1: A0 0E    JZ    0x17D0
+17C3: 62 D0 00 MOV   REG[208],0
+17C6: 3C 60 00 CMP   [__r0],0
+17C9: B0 CC    JNZ   0x1896
+17CB: 3C 5F 41 CMP   [__r1],65
+17CE: B0 C7    JNZ   0x1896
 (0395) 	
 (0396) 	return response;
-17CD: 10       PUSH  X
-17CE: 7C 10 50 LCALL 0x1050
-17D1: 20       POP   X
+17D0: 10       PUSH  X
+17D1: 7C 10 50 LCALL 0x1050
+17D4: 20       POP   X
 (0397) }
-17D2: 56 07 02 MOV   [X+7],2
-(0398) 
-17D5: 52 07    MOV   A,[X+7]
+17D5: 50 02    MOV   A,2
 17D7: 08       PUSH  A
 17D8: 50 24    MOV   A,36
 17DA: 08       PUSH  A
@@ -7606,85 +7604,85 @@ _decodeTransmission:
 17E0: 08       PUSH  A
 17E1: 52 04    MOV   A,[X+4]
 17E3: 08       PUSH  A
-17E4: 90 D4    CALL  _servoInstruction
-(0399) // This function transmits a hello message.
+17E4: 91 9B    CALL  _servoInstruction
+(0398) 
 17E6: 50 00    MOV   A,0
 17E8: 08       PUSH  A
 17E9: 50 01    MOV   A,1
 17EB: 08       PUSH  A
-17EC: 92 02    CALL  _configToggle
+17EC: 92 C9    CALL  _configToggle
 17EE: 38 F9    ADD   SP,249
 17F0: 80 94    JMP   0x1885
+(0399) // This function transmits a hello message.
 (0400) void sayHello(void)
 (0401) {
 (0402) 	configToggle(TX_MODE);				// Toggle into TX mode.
 (0403) 			
-(0404) 	// Transmit a hello.
 17F2: 10       PUSH  X
 17F3: 7C 0B 34 LCALL 0x0B34
 17F6: 62 D0 00 MOV   REG[208],0
 17F9: 20       POP   X
 17FA: 39 FF    CMP   A,255
 17FC: B0 88    JNZ   0x1885
+(0404) 	// Transmit a hello.
 (0405) 	TRANSMIT_PutChar(START_TRANSMIT);
-(0406) 	TRANSMIT_PutChar(START_TRANSMIT);
 17FE: 10       PUSH  X
 17FF: 7C 0B 2C LCALL 0x0B2C
 1802: 62 D0 00 MOV   REG[208],0
 1805: 20       POP   X
 1806: 39 FF    CMP   A,255
 1808: B0 7C    JNZ   0x1885
+(0406) 	TRANSMIT_PutChar(START_TRANSMIT);
 (0407) 	TRANSMIT_PutChar(MASTER_ID);
-(0408) 	TRANSMIT_PutChar(BLANK_MODULE_ID);
 180A: 10       PUSH  X
 180B: 7C 0B 2C LCALL 0x0B2C
 180E: 62 D0 00 MOV   REG[208],0
 1811: 20       POP   X
 1812: 3B 04    CMP   A,[X+4]
 1814: B0 70    JNZ   0x1885
+(0408) 	TRANSMIT_PutChar(BLANK_MODULE_ID);
 (0409) 	TRANSMIT_PutChar(HELLO_BYTE);
-(0410) 	TRANSMIT_PutChar(END_TRANSMIT);
 1816: 10       PUSH  X
 1817: 7C 0B 2C LCALL 0x0B2C
 181A: 62 D0 00 MOV   REG[208],0
 181D: 20       POP   X
 181E: 39 04    CMP   A,4
 1820: B0 64    JNZ   0x1885
+(0410) 	TRANSMIT_PutChar(END_TRANSMIT);
 (0411) 	TRANSMIT_PutChar(END_TRANSMIT);
-(0412) 	
 1822: 10       PUSH  X
 1823: 7C 0B 2C LCALL 0x0B2C
 1826: 62 D0 00 MOV   REG[208],0
 1829: 20       POP   X
 182A: 39 00    CMP   A,0
 182C: B0 58    JNZ   0x1885
+(0412) 	
 (0413) 	// Wait for the transmission to finish.
-(0414) 	while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
 182E: 10       PUSH  X
 182F: 7C 0B 2C LCALL 0x0B2C
 1832: 62 D0 00 MOV   REG[208],0
 1835: 20       POP   X
 1836: 54 05    MOV   [X+5],A
-(0415) 	
+(0414) 	while(!( TRANSMIT_bReadTxStatus() & TRANSMIT_TX_COMPLETE));
 1838: 10       PUSH  X
 1839: 7C 0B 2C LCALL 0x0B2C
 183C: 62 D0 00 MOV   REG[208],0
 183F: 20       POP   X
 1840: 54 06    MOV   [X+6],A
+(0415) 	
 (0416) 	xmitWait();
-(0417) 	
 1842: 50 00    MOV   A,0
 1844: 08       PUSH  A
 1845: 50 02    MOV   A,2
 1847: 08       PUSH  A
-1848: 91 A6    CALL  _configToggle
+1848: 92 6D    CALL  _configToggle
+(0417) 	
 (0418) 	configToggle(RX_MODE);				// Listen for the response.
-(0419) }
 184A: 52 05    MOV   A,[X+5]
 184C: 54 03    MOV   [X+3],A
 184E: 52 06    MOV   A,[X+6]
 1850: 54 02    MOV   [X+2],A
-(0420) 
+(0419) }
 1852: 50 00    MOV   A,0
 1854: 08       PUSH  A
 1855: 50 0A    MOV   A,10
@@ -7697,9 +7695,9 @@ _decodeTransmission:
 1860: 08       PUSH  A
 1861: 52 01    MOV   A,[X+1]
 1863: 08       PUSH  A
-1864: 7C 1E AE LCALL _itoa
+1864: 7C 1F 76 LCALL _itoa
 1867: 38 F8    ADD   SP,248
-(0421) // This function returns whether or not a valid transmission has been received.
+(0420) 
 1869: 10       PUSH  X
 186A: 52 00    MOV   A,[X+0]
 186C: 08       PUSH  A
@@ -7708,13 +7706,13 @@ _decodeTransmission:
 1870: 18       POP   A
 1871: 7C 0F CF LCALL 0x0FCF
 1874: 20       POP   X
-(0422) int validTransmission(void)
+(0421) // This function returns whether or not a valid transmission has been received.
 1875: 10       PUSH  X
 1876: 50 0A    MOV   A,10
 1878: 7C 0F 92 LCALL 0x0F92
 187B: 20       POP   X
+(0422) int validTransmission(void)
 (0423) {
-(0424) 	int valid_transmit = 0;
 187C: 62 D0 00 MOV   REG[208],0
 187F: 55 66 05 MOV   [TIMEOUT+1],5
 1882: 55 65 00 MOV   [TIMEOUT],0
@@ -7725,50 +7723,185 @@ _decodeTransmission:
 188E: 31 80    XOR   A,128
 1890: 19 80    SBB   A,128
 1892: CF 5F    JC    0x17F2
+(0424) 	int valid_transmit = 0;
 (0425) 	
 (0426) 	if(RECEIVE_cGetChar() == START_TRANSMIT)
 (0427) 	{
 (0428) 		COMMAND_SOURCE = RECEIVE_cGetChar();
 (0429) 		COMMAND_DESTINATION = RECEIVE_cGetChar();
 (0430) 		COMMAND_TYPE = RECEIVE_cGetChar();
+1894: 80 C6    JMP   0x195B
 (0431) 		PARAM1 = RECEIVE_cGetChar();
+1896: 62 D0 00 MOV   REG[208],0
+1899: 52 01    MOV   A,[X+1]
+189B: 53 5F    MOV   [__r1],A
+189D: 52 00    MOV   A,[X+0]
+189F: 60 D4    MOV   REG[212],A
+18A1: 3E 5F    MVI   A,[__r1]
+18A3: 53 5F    MOV   [__r1],A
+18A5: 55 60 00 MOV   [__r0],0
+18A8: 3C 60 00 CMP   [__r0],0
+18AB: B0 05    JNZ   0x18B1
+18AD: 39 70    CMP   A,112
+18AF: A0 0E    JZ    0x18BE
+18B1: 62 D0 00 MOV   REG[208],0
+18B4: 3C 60 00 CMP   [__r0],0
+18B7: B0 A3    JNZ   0x195B
+18B9: 3C 5F 50 CMP   [__r1],80
+18BC: B0 9E    JNZ   0x195B
 (0432) 		
 (0433) 		valid_transmit = 1;
+18BE: 10       PUSH  X
+18BF: 7C 10 50 LCALL 0x1050
+18C2: 20       POP   X
 (0434) 	}
+18C3: 50 01    MOV   A,1
+18C5: 08       PUSH  A
+18C6: 50 18    MOV   A,24
+18C8: 08       PUSH  A
+18C9: 50 02    MOV   A,2
+18CB: 08       PUSH  A
+18CC: 50 04    MOV   A,4
+18CE: 08       PUSH  A
+18CF: 52 04    MOV   A,[X+4]
+18D1: 08       PUSH  A
+18D2: 90 AD    CALL  _servoInstruction
 (0435) 	
+18D4: 50 00    MOV   A,0
+18D6: 08       PUSH  A
+18D7: 50 01    MOV   A,1
+18D9: 08       PUSH  A
+18DA: 91 DB    CALL  _configToggle
+18DC: 38 F9    ADD   SP,249
+18DE: 80 6D    JMP   0x194C
 (0436) 	return valid_transmit;
 (0437) }
-1894: 62 D0 00 MOV   REG[208],0
-1897: 3C 61 00 CMP   [STATE],0
-189A: B0 06    JNZ   0x18A1
-189C: 3C 62 02 CMP   [STATE+1],2
-189F: A0 0D    JZ    0x18AD
 (0438) 
 (0439) // This function decodes the transmission and takes the correct action.
-18A1: 50 00    MOV   A,0
-18A3: 08       PUSH  A
-18A4: 50 02    MOV   A,2
-18A6: 08       PUSH  A
-18A7: 91 47    CALL  _configToggle
-18A9: 38 FE    ADD   SP,254
 (0440) void decodeTransmission(void)
-18AB: 80 0A    JMP   0x18B6
+18E0: 10       PUSH  X
+18E1: 7C 0B 34 LCALL 0x0B34
+18E4: 62 D0 00 MOV   REG[208],0
+18E7: 20       POP   X
+18E8: 39 FF    CMP   A,255
+18EA: B0 61    JNZ   0x194C
 (0441) {
 (0442) 	char* param;
+18EC: 10       PUSH  X
+18ED: 7C 0B 2C LCALL 0x0B2C
+18F0: 62 D0 00 MOV   REG[208],0
+18F3: 20       POP   X
+18F4: 39 FF    CMP   A,255
+18F6: B0 55    JNZ   0x194C
 (0443) 	char ID;
-18AD: 62 D0 00 MOV   REG[208],0
-18B0: 55 66 00 MOV   [TIMEOUT+1],0
-18B3: 55 65 00 MOV   [TIMEOUT],0
 (0444) 	char tempByte;
-18B6: 38 F8    ADD   SP,248
-18B8: 20       POP   X
-18B9: 7F       RET   
+18F8: 10       PUSH  X
+18F9: 7C 0B 2C LCALL 0x0B2C
+18FC: 62 D0 00 MOV   REG[208],0
+18FF: 20       POP   X
+1900: 3B 04    CMP   A,[X+4]
+1902: B0 49    JNZ   0x194C
 (0445) 	char angle[2];
 (0446) 	int total = 0;
+1904: 10       PUSH  X
+1905: 7C 0B 2C LCALL 0x0B2C
+1908: 62 D0 00 MOV   REG[208],0
+190B: 20       POP   X
+190C: 39 03    CMP   A,3
+190E: B0 3D    JNZ   0x194C
 (0447) 	
 (0448) 	if(param = COMP_SERIAL_szGetParam())
+1910: 10       PUSH  X
+1911: 7C 0B 2C LCALL 0x0B2C
+1914: 62 D0 00 MOV   REG[208],0
+1917: 20       POP   X
+1918: 39 00    CMP   A,0
+191A: B0 31    JNZ   0x194C
 (0449) 	{
 (0450) 		if((param[0] == 'n') || (param[0] == 'N'))
+191C: 10       PUSH  X
+191D: 7C 0B 2C LCALL 0x0B2C
+1920: 62 D0 00 MOV   REG[208],0
+1923: 20       POP   X
+1924: 54 07    MOV   [X+7],A
+(0451) 		{
+(0452) 			COMP_SERIAL_CmdReset();
+1926: 50 00    MOV   A,0
+1928: 08       PUSH  A
+1929: 50 02    MOV   A,2
+192B: 08       PUSH  A
+192C: 91 89    CALL  _configToggle
+192E: 38 FE    ADD   SP,254
+(0453) 			itoa(param,NUM_MODULES,10);
+(0454) 			COMP_SERIAL_PutString(param);
+(0455) 			COMP_SERIAL_PutChar('\n');
+1930: 62 D0 00 MOV   REG[208],0
+1933: 52 07    MOV   A,[X+7]
+1935: 01 30    ADD   A,48
+1937: 10       PUSH  X
+1938: 7C 0F 92 LCALL 0x0F92
+193B: 20       POP   X
+(0456) 		}
+193C: 10       PUSH  X
+193D: 50 0A    MOV   A,10
+193F: 7C 0F 92 LCALL 0x0F92
+1942: 20       POP   X
+(0457) 		else if((param[0] == 'w') || (param[0] == 'W'))
+(0458) 		{
+1943: 62 D0 00 MOV   REG[208],0
+1946: 55 66 05 MOV   [TIMEOUT+1],5
+1949: 55 65 00 MOV   [TIMEOUT],0
+194C: 62 D0 00 MOV   REG[208],0
+194F: 51 66    MOV   A,[TIMEOUT+1]
+1951: 11 05    SUB   A,5
+1953: 51 65    MOV   A,[TIMEOUT]
+1955: 31 80    XOR   A,128
+1957: 19 80    SBB   A,128
+1959: CF 86    JC    0x18E0
+(0459) 			if(param = COMP_SERIAL_szGetParam())
+(0460) 			{
+(0461) 				ID = atoi(param);
+(0462) 				if(param = COMP_SERIAL_szGetParam())
+(0463) 				{
+(0464) 					if((param[0] == 'a') || (param[0] == 'A'))
+(0465) 					{
+(0466) 						if(param = COMP_SERIAL_szGetParam())
+(0467) 						{
+(0468) 							COMP_SERIAL_CmdReset();
+(0469) 							total = atoi(param);
+(0470) 							angle[0] = total%256;
+(0471) 							angle[1] = total/256;
+195B: 62 D0 00 MOV   REG[208],0
+195E: 3C 61 00 CMP   [STATE],0
+1961: B0 06    JNZ   0x1968
+1963: 3C 62 02 CMP   [STATE+1],2
+1966: A0 0D    JZ    0x1974
+(0472) 							longServoInstruction(ID,5,WRITE_SERVO,30,angle[0],angle[1]);
+(0473) 						}
+1968: 50 00    MOV   A,0
+196A: 08       PUSH  A
+196B: 50 02    MOV   A,2
+196D: 08       PUSH  A
+196E: 91 47    CALL  _configToggle
+1970: 38 FE    ADD   SP,254
+(0474) 					}
+1972: 80 0A    JMP   0x197D
+(0475) 					else if((param[0] == 'p') || (param[0] == 'P'))
+(0476) 					{
+(0477) 						if(param = COMP_SERIAL_szGetParam())
+1974: 62 D0 00 MOV   REG[208],0
+1977: 55 66 00 MOV   [TIMEOUT+1],0
+197A: 55 65 00 MOV   [TIMEOUT],0
+(0478) 						{
+197D: 38 F8    ADD   SP,248
+197F: 20       POP   X
+1980: 7F       RET   
+(0479) 							COMP_SERIAL_CmdReset();
+(0480) 							servoInstruction(ID,4,WRITE_SERVO,24,atoi(param));
+(0481) 						}
+(0482) 					}
+(0483) 				}
+(0484) 			}
 _servoInstruction:
   total                --> X+1
   checksum             --> X+0
@@ -7777,114 +7910,114 @@ _servoInstruction:
   instruction          --> X-6
   length               --> X-5
   id                   --> X-4
-18BA: 10       PUSH  X
-18BB: 4F       MOV   X,SP
-18BC: 38 03    ADD   SP,3
-(0451) 		{
-(0452) 			COMP_SERIAL_CmdReset();
-(0453) 			itoa(param,NUM_MODULES,10);
-(0454) 			COMP_SERIAL_PutString(param);
-18BE: 62 D0 00 MOV   REG[208],0
-18C1: 52 FB    MOV   A,[X-5]
-18C3: 53 5F    MOV   [__r1],A
-18C5: 55 60 00 MOV   [__r0],0
-18C8: 52 FC    MOV   A,[X-4]
-18CA: 02 5F    ADD   A,[__r1]
-18CC: 53 5F    MOV   [__r1],A
-18CE: 50 00    MOV   A,0
-18D0: 0A 60    ADC   A,[__r0]
-18D2: 53 60    MOV   [__r0],A
-18D4: 52 FA    MOV   A,[X-6]
-18D6: 04 5F    ADD   [__r1],A
-18D8: 0E 60 00 ADC   [__r0],0
-18DB: 52 F9    MOV   A,[X-7]
-18DD: 04 5F    ADD   [__r1],A
-18DF: 0E 60 00 ADC   [__r0],0
-18E2: 52 F8    MOV   A,[X-8]
-18E4: 53 5D    MOV   [__r3],A
-18E6: 55 5E 00 MOV   [__r2],0
-18E9: 51 5F    MOV   A,[__r1]
-18EB: 02 5D    ADD   A,[__r3]
-18ED: 54 02    MOV   [X+2],A
-18EF: 51 60    MOV   A,[__r0]
-18F1: 0A 5E    ADC   A,[__r2]
-18F3: 54 01    MOV   [X+1],A
-(0455) 			COMP_SERIAL_PutChar('\n');
-(0456) 		}
-(0457) 		else if((param[0] == 'w') || (param[0] == 'W'))
-18F5: 50 01    MOV   A,1
-18F7: 08       PUSH  A
-18F8: 50 00    MOV   A,0
-18FA: 08       PUSH  A
-18FB: 52 01    MOV   A,[X+1]
-18FD: 08       PUSH  A
-18FE: 52 02    MOV   A,[X+2]
-1900: 08       PUSH  A
-1901: 7C 1C DB LCALL __divmod_16X16_16
-1904: 38 FE    ADD   SP,254
-1906: 18       POP   A
-1907: 53 5F    MOV   [__r1],A
-1909: 18       POP   A
-190A: 50 FF    MOV   A,255
-190C: 12 5F    SUB   A,[__r1]
-190E: 54 00    MOV   [X+0],A
-(0458) 		{
-(0459) 			if(param = COMP_SERIAL_szGetParam())
-(0460) 			{
-1910: 10       PUSH  X
-1911: 50 FF    MOV   A,255
-1913: 7C 08 DF LCALL 0x08DF
-1916: 20       POP   X
-(0461) 				ID = atoi(param);
-1917: 10       PUSH  X
-1918: 50 FF    MOV   A,255
-191A: 7C 08 DF LCALL 0x08DF
-191D: 20       POP   X
-(0462) 				if(param = COMP_SERIAL_szGetParam())
-191E: 10       PUSH  X
-191F: 52 FC    MOV   A,[X-4]
-1921: 7C 08 DF LCALL 0x08DF
-1924: 20       POP   X
-(0463) 				{
-1925: 10       PUSH  X
-1926: 52 FB    MOV   A,[X-5]
-1928: 7C 08 DF LCALL 0x08DF
-192B: 20       POP   X
-(0464) 					if((param[0] == 'a') || (param[0] == 'A'))
-192C: 10       PUSH  X
-192D: 52 FA    MOV   A,[X-6]
-192F: 7C 08 DF LCALL 0x08DF
-1932: 20       POP   X
-(0465) 					{
-1933: 10       PUSH  X
-1934: 52 F9    MOV   A,[X-7]
-1936: 7C 08 DF LCALL 0x08DF
-1939: 20       POP   X
-(0466) 						if(param = COMP_SERIAL_szGetParam())
-193A: 10       PUSH  X
-193B: 52 F8    MOV   A,[X-8]
-193D: 7C 08 DF LCALL 0x08DF
-1940: 20       POP   X
-(0467) 						{
-1941: 10       PUSH  X
-1942: 52 00    MOV   A,[X+0]
-1944: 7C 08 DF LCALL 0x08DF
-1947: 20       POP   X
-(0468) 							COMP_SERIAL_CmdReset();
-(0469) 							total = atoi(param);
-(0470) 							angle[0] = total%256;
-(0471) 							angle[1] = total/256;
-(0472) 							longServoInstruction(ID,5,WRITE_SERVO,30,angle[0],angle[1]);
-(0473) 						}
-1948: 92 FD    CALL  _xmitWait
-194A: 38 FD    ADD   SP,253
-194C: 20       POP   X
-194D: 7F       RET   
-(0474) 					}
-(0475) 					else if((param[0] == 'p') || (param[0] == 'P'))
-(0476) 					{
-(0477) 						if(param = COMP_SERIAL_szGetParam())
-(0478) 						{
+1981: 10       PUSH  X
+1982: 4F       MOV   X,SP
+1983: 38 03    ADD   SP,3
+(0485) 		}
+(0486) 		else if((param[0] == 'r') || (param[0] == 'R'))
+(0487) 		{			
+(0488) 			if(param = COMP_SERIAL_szGetParam())
+1985: 62 D0 00 MOV   REG[208],0
+1988: 52 FB    MOV   A,[X-5]
+198A: 53 5F    MOV   [__r1],A
+198C: 55 60 00 MOV   [__r0],0
+198F: 52 FC    MOV   A,[X-4]
+1991: 02 5F    ADD   A,[__r1]
+1993: 53 5F    MOV   [__r1],A
+1995: 50 00    MOV   A,0
+1997: 0A 60    ADC   A,[__r0]
+1999: 53 60    MOV   [__r0],A
+199B: 52 FA    MOV   A,[X-6]
+199D: 04 5F    ADD   [__r1],A
+199F: 0E 60 00 ADC   [__r0],0
+19A2: 52 F9    MOV   A,[X-7]
+19A4: 04 5F    ADD   [__r1],A
+19A6: 0E 60 00 ADC   [__r0],0
+19A9: 52 F8    MOV   A,[X-8]
+19AB: 53 5D    MOV   [__r3],A
+19AD: 55 5E 00 MOV   [__r2],0
+19B0: 51 5F    MOV   A,[__r1]
+19B2: 02 5D    ADD   A,[__r3]
+19B4: 54 02    MOV   [X+2],A
+19B6: 51 60    MOV   A,[__r0]
+19B8: 0A 5E    ADC   A,[__r2]
+19BA: 54 01    MOV   [X+1],A
+(0489) 			{
+(0490) 				ID = atoi(param);
+(0491) 				if(param = COMP_SERIAL_szGetParam())
+19BC: 50 01    MOV   A,1
+19BE: 08       PUSH  A
+19BF: 50 00    MOV   A,0
+19C1: 08       PUSH  A
+19C2: 52 01    MOV   A,[X+1]
+19C4: 08       PUSH  A
+19C5: 52 02    MOV   A,[X+2]
+19C7: 08       PUSH  A
+19C8: 7C 1D A3 LCALL __divmod_16X16_16
+19CB: 38 FE    ADD   SP,254
+19CD: 18       POP   A
+19CE: 53 5F    MOV   [__r1],A
+19D0: 18       POP   A
+19D1: 50 FF    MOV   A,255
+19D3: 12 5F    SUB   A,[__r1]
+19D5: 54 00    MOV   [X+0],A
+(0492) 				{
+(0493) 					if((param[0] == 'a') || (param[0] == 'A'))
+(0494) 					{
+19D7: 10       PUSH  X
+19D8: 50 FF    MOV   A,255
+19DA: 7C 08 DF LCALL 0x08DF
+19DD: 20       POP   X
+(0495) 						COMP_SERIAL_CmdReset();
+19DE: 10       PUSH  X
+19DF: 50 FF    MOV   A,255
+19E1: 7C 08 DF LCALL 0x08DF
+19E4: 20       POP   X
+(0496) 						servoInstruction(ID,4,READ_SERVO,36,2);
+19E5: 10       PUSH  X
+19E6: 52 FC    MOV   A,[X-4]
+19E8: 7C 08 DF LCALL 0x08DF
+19EB: 20       POP   X
+(0497) 						configToggle(RX_MODE);
+19EC: 10       PUSH  X
+19ED: 52 FB    MOV   A,[X-5]
+19EF: 7C 08 DF LCALL 0x08DF
+19F2: 20       POP   X
+(0498) 							
+19F3: 10       PUSH  X
+19F4: 52 FA    MOV   A,[X-6]
+19F6: 7C 08 DF LCALL 0x08DF
+19F9: 20       POP   X
+(0499) 						// Loop until we read a response or time out.
+19FA: 10       PUSH  X
+19FB: 52 F9    MOV   A,[X-7]
+19FD: 7C 08 DF LCALL 0x08DF
+1A00: 20       POP   X
+(0500) 						while(TIMEOUT < RX_TIMEOUT_DURATION)
+1A01: 10       PUSH  X
+1A02: 52 F8    MOV   A,[X-8]
+1A04: 7C 08 DF LCALL 0x08DF
+1A07: 20       POP   X
+(0501) 						{
+1A08: 10       PUSH  X
+1A09: 52 00    MOV   A,[X+0]
+1A0B: 7C 08 DF LCALL 0x08DF
+1A0E: 20       POP   X
+(0502) 							if(RECEIVE_cReadChar() == SERVO_START)
+(0503) 							{
+(0504) 								if(RECEIVE_cGetChar() == SERVO_START)
+(0505) 								{
+(0506) 									if(RECEIVE_cGetChar() == ID)
+(0507) 									{
+1A0F: 92 FE    CALL  _xmitWait
+1A11: 38 FD    ADD   SP,253
+1A13: 20       POP   X
+1A14: 7F       RET   
+(0508) 										if(RECEIVE_cGetChar() == 4)
+(0509) 										{
+(0510) 											if(RECEIVE_cGetChar() == 0)
+(0511) 											{
+(0512) 												angle[0] = RECEIVE_cGetChar();
 _longServoInstruction:
   total                --> X+1
   checksum             --> X+0
@@ -7894,635 +8027,635 @@ _longServoInstruction:
   instruction          --> X-6
   length               --> X-5
   id                   --> X-4
-194E: 10       PUSH  X
-194F: 4F       MOV   X,SP
-1950: 38 03    ADD   SP,3
-(0479) 							COMP_SERIAL_CmdReset();
-(0480) 							servoInstruction(ID,4,WRITE_SERVO,24,atoi(param));
-(0481) 						}
-(0482) 					}
-1952: 62 D0 00 MOV   REG[208],0
-1955: 52 FB    MOV   A,[X-5]
-1957: 53 5F    MOV   [__r1],A
-1959: 55 60 00 MOV   [__r0],0
-195C: 52 FC    MOV   A,[X-4]
-195E: 02 5F    ADD   A,[__r1]
-1960: 53 5F    MOV   [__r1],A
-1962: 50 00    MOV   A,0
-1964: 0A 60    ADC   A,[__r0]
-1966: 53 60    MOV   [__r0],A
-1968: 52 FA    MOV   A,[X-6]
-196A: 04 5F    ADD   [__r1],A
-196C: 0E 60 00 ADC   [__r0],0
-196F: 52 F9    MOV   A,[X-7]
-1971: 04 5F    ADD   [__r1],A
-1973: 0E 60 00 ADC   [__r0],0
-1976: 52 F8    MOV   A,[X-8]
-1978: 04 5F    ADD   [__r1],A
-197A: 0E 60 00 ADC   [__r0],0
-197D: 52 F7    MOV   A,[X-9]
-197F: 53 5D    MOV   [__r3],A
-1981: 55 5E 00 MOV   [__r2],0
-1984: 51 5F    MOV   A,[__r1]
-1986: 02 5D    ADD   A,[__r3]
-1988: 54 02    MOV   [X+2],A
-198A: 51 60    MOV   A,[__r0]
-198C: 0A 5E    ADC   A,[__r2]
-198E: 54 01    MOV   [X+1],A
-(0483) 				}
-(0484) 			}
-(0485) 		}
-1990: 50 01    MOV   A,1
-1992: 08       PUSH  A
-1993: 50 00    MOV   A,0
-1995: 08       PUSH  A
-1996: 52 01    MOV   A,[X+1]
-1998: 08       PUSH  A
-1999: 52 02    MOV   A,[X+2]
-199B: 08       PUSH  A
-199C: 7C 1C DB LCALL __divmod_16X16_16
-199F: 38 FE    ADD   SP,254
-19A1: 18       POP   A
-19A2: 53 5F    MOV   [__r1],A
-19A4: 18       POP   A
-19A5: 50 FF    MOV   A,255
-19A7: 12 5F    SUB   A,[__r1]
-19A9: 54 00    MOV   [X+0],A
-(0486) 		else if((param[0] == 'r') || (param[0] == 'R'))
-(0487) 		{			
-(0488) 			if(param = COMP_SERIAL_szGetParam())
-19AB: 10       PUSH  X
-19AC: 50 FF    MOV   A,255
-19AE: 7C 08 DF LCALL 0x08DF
-19B1: 20       POP   X
-(0489) 			{
-19B2: 10       PUSH  X
-19B3: 50 FF    MOV   A,255
-19B5: 7C 08 DF LCALL 0x08DF
-19B8: 20       POP   X
-(0490) 				ID = atoi(param);
-19B9: 10       PUSH  X
-19BA: 52 FC    MOV   A,[X-4]
-19BC: 7C 08 DF LCALL 0x08DF
-19BF: 20       POP   X
-(0491) 				if(param = COMP_SERIAL_szGetParam())
-19C0: 10       PUSH  X
-19C1: 52 FB    MOV   A,[X-5]
-19C3: 7C 08 DF LCALL 0x08DF
-19C6: 20       POP   X
-(0492) 				{
-19C7: 10       PUSH  X
-19C8: 52 FA    MOV   A,[X-6]
-19CA: 7C 08 DF LCALL 0x08DF
-19CD: 20       POP   X
-(0493) 					if((param[0] == 'a') || (param[0] == 'A'))
-19CE: 10       PUSH  X
-19CF: 52 F9    MOV   A,[X-7]
-19D1: 7C 08 DF LCALL 0x08DF
-19D4: 20       POP   X
-(0494) 					{
-19D5: 10       PUSH  X
-19D6: 52 F8    MOV   A,[X-8]
-19D8: 7C 08 DF LCALL 0x08DF
-19DB: 20       POP   X
-(0495) 						COMP_SERIAL_CmdReset();
-19DC: 10       PUSH  X
-19DD: 52 F7    MOV   A,[X-9]
-19DF: 7C 08 DF LCALL 0x08DF
-19E2: 20       POP   X
-(0496) 						tempByte = 2;
-19E3: 10       PUSH  X
-19E4: 52 00    MOV   A,[X+0]
-19E6: 7C 08 DF LCALL 0x08DF
-19E9: 20       POP   X
-(0497) 						servoInstruction(ID,4,READ_SERVO,36,tempByte);
-(0498) 						configToggle(RX_MODE);
-(0499) 							
-(0500) 						// Loop until we read a response or time out.
-(0501) 						while(TIMEOUT < RX_TIMEOUT_DURATION)
-(0502) 						{
-19EA: 92 5B    CALL  _xmitWait
-19EC: 38 FD    ADD   SP,253
-19EE: 20       POP   X
-19EF: 7F       RET   
-(0503) 							if(RECEIVE_cReadChar() == SERVO_START)
-(0504) 							{
-(0505) 								if(RECEIVE_cGetChar() == SERVO_START)
-(0506) 								{
-(0507) 									if(RECEIVE_cGetChar() == ID)
-(0508) 									{
+1A15: 10       PUSH  X
+1A16: 4F       MOV   X,SP
+1A17: 38 03    ADD   SP,3
+(0513) 												angle[1] = RECEIVE_cGetChar();
+(0514) 												
+(0515) 												configToggle(PC_MODE);
+(0516) 												
+1A19: 62 D0 00 MOV   REG[208],0
+1A1C: 52 FB    MOV   A,[X-5]
+1A1E: 53 5F    MOV   [__r1],A
+1A20: 55 60 00 MOV   [__r0],0
+1A23: 52 FC    MOV   A,[X-4]
+1A25: 02 5F    ADD   A,[__r1]
+1A27: 53 5F    MOV   [__r1],A
+1A29: 50 00    MOV   A,0
+1A2B: 0A 60    ADC   A,[__r0]
+1A2D: 53 60    MOV   [__r0],A
+1A2F: 52 FA    MOV   A,[X-6]
+1A31: 04 5F    ADD   [__r1],A
+1A33: 0E 60 00 ADC   [__r0],0
+1A36: 52 F9    MOV   A,[X-7]
+1A38: 04 5F    ADD   [__r1],A
+1A3A: 0E 60 00 ADC   [__r0],0
+1A3D: 52 F8    MOV   A,[X-8]
+1A3F: 04 5F    ADD   [__r1],A
+1A41: 0E 60 00 ADC   [__r0],0
+1A44: 52 F7    MOV   A,[X-9]
+1A46: 53 5D    MOV   [__r3],A
+1A48: 55 5E 00 MOV   [__r2],0
+1A4B: 51 5F    MOV   A,[__r1]
+1A4D: 02 5D    ADD   A,[__r3]
+1A4F: 54 02    MOV   [X+2],A
+1A51: 51 60    MOV   A,[__r0]
+1A53: 0A 5E    ADC   A,[__r2]
+1A55: 54 01    MOV   [X+1],A
+(0517) 												total = ((angle[1])*256) + angle[0];
+(0518) 												itoa(param,total,10);
+(0519) 												COMP_SERIAL_PutString(param);
+1A57: 50 01    MOV   A,1
+1A59: 08       PUSH  A
+1A5A: 50 00    MOV   A,0
+1A5C: 08       PUSH  A
+1A5D: 52 01    MOV   A,[X+1]
+1A5F: 08       PUSH  A
+1A60: 52 02    MOV   A,[X+2]
+1A62: 08       PUSH  A
+1A63: 7C 1D A3 LCALL __divmod_16X16_16
+1A66: 38 FE    ADD   SP,254
+1A68: 18       POP   A
+1A69: 53 5F    MOV   [__r1],A
+1A6B: 18       POP   A
+1A6C: 50 FF    MOV   A,255
+1A6E: 12 5F    SUB   A,[__r1]
+1A70: 54 00    MOV   [X+0],A
+(0520) 												COMP_SERIAL_PutChar('\n');
+(0521) 
+(0522) 												TIMEOUT = RX_TIMEOUT_DURATION;
+1A72: 10       PUSH  X
+1A73: 50 FF    MOV   A,255
+1A75: 7C 08 DF LCALL 0x08DF
+1A78: 20       POP   X
+(0523) 											}
+1A79: 10       PUSH  X
+1A7A: 50 FF    MOV   A,255
+1A7C: 7C 08 DF LCALL 0x08DF
+1A7F: 20       POP   X
+(0524) 										}
+1A80: 10       PUSH  X
+1A81: 52 FC    MOV   A,[X-4]
+1A83: 7C 08 DF LCALL 0x08DF
+1A86: 20       POP   X
+(0525) 									}
+1A87: 10       PUSH  X
+1A88: 52 FB    MOV   A,[X-5]
+1A8A: 7C 08 DF LCALL 0x08DF
+1A8D: 20       POP   X
+(0526) 								}
+1A8E: 10       PUSH  X
+1A8F: 52 FA    MOV   A,[X-6]
+1A91: 7C 08 DF LCALL 0x08DF
+1A94: 20       POP   X
+(0527) 							}
+1A95: 10       PUSH  X
+1A96: 52 F9    MOV   A,[X-7]
+1A98: 7C 08 DF LCALL 0x08DF
+1A9B: 20       POP   X
+(0528) 						}
+1A9C: 10       PUSH  X
+1A9D: 52 F8    MOV   A,[X-8]
+1A9F: 7C 08 DF LCALL 0x08DF
+1AA2: 20       POP   X
+(0529) 					}
+1AA3: 10       PUSH  X
+1AA4: 52 F7    MOV   A,[X-9]
+1AA6: 7C 08 DF LCALL 0x08DF
+1AA9: 20       POP   X
+(0530) 					else if ((param[0] == 'p') || (param[0] == 'P'))
+1AAA: 10       PUSH  X
+1AAB: 52 00    MOV   A,[X+0]
+1AAD: 7C 08 DF LCALL 0x08DF
+1AB0: 20       POP   X
+(0531) 					{
+(0532) 						COMP_SERIAL_CmdReset();
+(0533) 						servoInstruction(ID,4,READ_SERVO,24,1);
+(0534) 						configToggle(RX_MODE);
+(0535) 							
+(0536) 						// Loop until we read a response or time out.
+1AB1: 92 5C    CALL  _xmitWait
+1AB3: 38 FD    ADD   SP,253
+1AB5: 20       POP   X
+1AB6: 7F       RET   
+(0537) 						while(TIMEOUT < RX_TIMEOUT_DURATION)
+(0538) 						{
+(0539) 							if(RECEIVE_cReadChar() == SERVO_START)
+(0540) 							{
+(0541) 								if(RECEIVE_cGetChar() == SERVO_START)
+(0542) 								{
 _configToggle:
   mode                 --> X-5
-19F0: 10       PUSH  X
-19F1: 4F       MOV   X,SP
-(0509) 										if(RECEIVE_cGetChar() == 4)
-(0510) 										{
-19F2: 43 00 80 OR    REG[0],128
-(0511) 											if(RECEIVE_cGetChar() == 0)
-19F5: 41 02 7F AND   REG[2],127
-(0512) 											{
-(0513) 												angle[0] = RECEIVE_cGetChar();
-(0514) 												angle[1] = RECEIVE_cGetChar();
-(0515) 												
-19F8: 62 D0 00 MOV   REG[208],0
-19FB: 3C 61 00 CMP   [STATE],0
-19FE: B0 06    JNZ   0x1A05
-1A00: 3C 62 00 CMP   [STATE+1],0
-1A03: A0 10    JZ    0x1A14
-(0516) 												configToggle(PC_MODE);
-(0517) 												
-1A05: 62 D0 00 MOV   REG[208],0
-1A08: 51 61    MOV   A,[STATE]
-1A0A: 08       PUSH  A
-1A0B: 51 62    MOV   A,[STATE+1]
-1A0D: 08       PUSH  A
-1A0E: 90 D9    CALL  _unloadConfig
-1A10: 38 FE    ADD   SP,254
-(0518) 												total = ((angle[1])*256) + angle[0];
-1A12: 80 03    JMP   0x1A16
-(0519) 												itoa(param,total,10);
-(0520) 												COMP_SERIAL_PutString(param);
-(0521) 												COMP_SERIAL_PutChar('\n');
-1A14: 90 C9    CALL  _unloadAllConfigs
-(0522) 
-(0523) 												TIMEOUT = RX_TIMEOUT_DURATION;
-(0524) 											}
-1A16: 3D FB 00 CMP   [X-5],0
-1A19: B0 32    JNZ   0x1A4C
-1A1B: 3D FC 02 CMP   [X-4],2
-1A1E: B0 2D    JNZ   0x1A4C
-(0525) 										}
-(0526) 									}
-1A20: 7C 06 51 LCALL 0x0651
-(0527) 								}
-(0528) 							}
-(0529) 						}
-1A23: 10       PUSH  X
-1A24: 50 01    MOV   A,1
-1A26: 7C 0F 4D LCALL 0x0F4D
-1A29: 20       POP   X
-(0530) 					}
-1A2A: 10       PUSH  X
-1A2B: 50 00    MOV   A,0
-1A2D: 7C 0F 1E LCALL 0x0F1E
-1A30: 20       POP   X
-(0531) 				}
-(0532) 			}
-1A31: 10       PUSH  X
-1A32: 50 00    MOV   A,0
-1A34: 7C 08 A6 LCALL 0x08A6
-1A37: 20       POP   X
-(0533) 		}
-(0534) 	}
-1A38: 62 D0 00 MOV   REG[208],0
-1A3B: 55 66 00 MOV   [TIMEOUT+1],0
-1A3E: 55 65 00 MOV   [TIMEOUT],0
-(0535) 	
-1A41: 62 D0 00 MOV   REG[208],0
-1A44: 55 62 02 MOV   [STATE+1],2
-1A47: 55 61 00 MOV   [STATE],0
-(0536) 	if(STATE != PC_MODE)
-1A4A: 80 7A    JMP   0x1AC5
-(0537) 	{
-1A4C: 3D FB 00 CMP   [X-5],0
-1A4F: B0 2C    JNZ   0x1A7C
-1A51: 3D FC 01 CMP   [X-4],1
-1A54: B0 27    JNZ   0x1A7C
-(0538) 		configToggle(PC_MODE);
-(0539) 	}
-1A56: 7C 06 E8 LCALL 0x06E8
-(0540) 	else
-(0541) 	{
-(0542) 		TIMEOUT = 0;
-(0543) 	}
-(0544) }
-1A59: 10       PUSH  X
-1A5A: 50 00    MOV   A,0
-1A5C: 7C 0B 1D LCALL 0x0B1D
-1A5F: 20       POP   X
-(0545) 
-(0546) // This function receives a destination, command length, instruction type, address, and value.
-(0547) // With these parameters, the function sends a packet to the communication bus.
-1A60: 62 D0 00 MOV   REG[208],0
-1A63: 55 66 00 MOV   [TIMEOUT+1],0
-1A66: 55 65 00 MOV   [TIMEOUT],0
-(0548) void servoInstruction(char id, char length, char instruction, char address, char value)
-1A69: 10       PUSH  X
-1A6A: 7C 0A 3D LCALL 0x0A3D
-(0549) {
-1A6D: 7C 0A 45 LCALL 0x0A45
-1A70: 20       POP   X
-(0550) 	char checksum;
-(0551) 	int total;
-1A71: 62 D0 00 MOV   REG[208],0
-1A74: 55 62 01 MOV   [STATE+1],1
-1A77: 55 61 00 MOV   [STATE],0
-(0552) 	
-1A7A: 80 4A    JMP   0x1AC5
-(0553) 	total = id + length + instruction + address + value;
-1A7C: 3D FB 00 CMP   [X-5],0
-1A7F: B0 45    JNZ   0x1AC5
-1A81: 3D FC 00 CMP   [X-4],0
-1A84: B0 40    JNZ   0x1AC5
-(0554) 	
-(0555) 	// Calculate the checksum value for our servo communication.
-1A86: 7C 05 E8 LCALL 0x05E8
-(0556) 	checksum = 255-(total%256);
-(0557) 	
-1A89: 10       PUSH  X
-1A8A: 50 00    MOV   A,0
-1A8C: 7C 09 7F LCALL 0x097F
-1A8F: 20       POP   X
-(0558) 	// Talk to the servo.
-(0559) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte one
-1A90: 62 D0 00 MOV   REG[208],0
-1A93: 55 66 00 MOV   [TIMEOUT+1],0
-1A96: 55 65 00 MOV   [TIMEOUT],0
-(0560) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte two
-1A99: 10       PUSH  X
-1A9A: 7C 08 2B LCALL 0x082B
-(0561) 	TX_REPEATER_PutChar(id);			// Servo ID
-1A9D: 7C 08 33 LCALL 0x0833
-1AA0: 20       POP   X
-(0562) 	TX_REPEATER_PutChar(length);		// The instruction length.
-(0563) 	TX_REPEATER_PutChar(instruction);	// The instruction to carry out.
-1AA1: 62 D0 00 MOV   REG[208],0
-1AA4: 3C 65 00 CMP   [TIMEOUT],0
-1AA7: B0 06    JNZ   0x1AAE
-1AA9: 3C 66 00 CMP   [TIMEOUT+1],0
-1AAC: AF F4    JZ    0x1AA1
-(0564) 	TX_REPEATER_PutChar(address);		// The address to read/write from/to.
-(0565) 	TX_REPEATER_PutChar(value);			// The value to write or number of bytes to read.
-(0566) 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
-(0567) 	
-(0568) 	// Wait for the transmission to finish.
-(0569) 	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
-1AAE: 10       PUSH  X
-1AAF: 7C 08 37 LCALL 0x0837
-1AB2: 20       POP   X
-(0570) 	
-1AB3: 62 D0 00 MOV   REG[208],0
-1AB6: 55 66 00 MOV   [TIMEOUT+1],0
-1AB9: 55 65 00 MOV   [TIMEOUT],0
-(0571) 	// Make completely sure we're done.
-(0572) 	xmitWait();
-1ABC: 62 D0 00 MOV   REG[208],0
-1ABF: 55 62 00 MOV   [STATE+1],0
-1AC2: 55 61 00 MOV   [STATE],0
-(0573) }
-(0574) 
-(0575) // This function receives a destination, command length, instruction type, address, and two values.
-(0576) void longServoInstruction(char id, char length, char instruction, char address, char value1, char value2)
-(0577) {
-(0578) 	char checksum;
-1AC5: 62 D0 00 MOV   REG[208],0
-1AC8: 3C 61 00 CMP   [STATE],0
-1ACB: B0 0B    JNZ   0x1AD7
-1ACD: 3C 62 00 CMP   [STATE+1],0
-1AD0: B0 06    JNZ   0x1AD7
-(0579) 	int total;
-(0580) 	
-1AD2: 43 04 01 OR    REG[4],1
-(0581) 	total = id + length + instruction + address + value1 + value2;
-1AD5: 80 04    JMP   0x1ADA
-(0582) 	
-(0583) 	// Calculate the checksum value for our servo communication.
-(0584) 	checksum = 255-(total%256);
-1AD7: 41 04 FE AND   REG[4],254
-(0585) 	
-(0586) 	// Talk to the servo.
-(0587) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte one
-(0588) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte two
-(0589) 	TX_REPEATER_PutChar(id);			// Servo ID
-1ADA: 43 02 80 OR    REG[2],128
-1ADD: 20       POP   X
-1ADE: 7F       RET   
-(0590) 	TX_REPEATER_PutChar(length);		// The instruction length.
-(0591) 	TX_REPEATER_PutChar(instruction);	// The instruction to carry out.
-(0592) 	TX_REPEATER_PutChar(address);		// The address to read/write from/to.
-(0593) 	TX_REPEATER_PutChar(value1);		// The first value to write.
-(0594) 	TX_REPEATER_PutChar(value2);		// The first value to write.
-(0595) 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
-(0596) 	
+1AB7: 10       PUSH  X
+1AB8: 4F       MOV   X,SP
+(0543) 									if(RECEIVE_cGetChar() == ID)
+(0544) 									{
+1AB9: 43 00 80 OR    REG[0],128
+(0545) 										if(RECEIVE_cGetChar() == 3)
+1ABC: 41 02 7F AND   REG[2],127
+(0546) 										{
+(0547) 											if(RECEIVE_cGetChar() == 0)
+(0548) 											{
+(0549) 												tempByte = RECEIVE_cGetChar();
+1ABF: 62 D0 00 MOV   REG[208],0
+1AC2: 3C 61 00 CMP   [STATE],0
+1AC5: B0 06    JNZ   0x1ACC
+1AC7: 3C 62 00 CMP   [STATE+1],0
+1ACA: A0 10    JZ    0x1ADB
+(0550) 												
+(0551) 												configToggle(PC_MODE);
+1ACC: 62 D0 00 MOV   REG[208],0
+1ACF: 51 61    MOV   A,[STATE]
+1AD1: 08       PUSH  A
+1AD2: 51 62    MOV   A,[STATE+1]
+1AD4: 08       PUSH  A
+1AD5: 90 D9    CALL  _unloadConfig
+1AD7: 38 FE    ADD   SP,254
+(0552) 												
+1AD9: 80 03    JMP   0x1ADD
+(0553) 												// Convert tempByte to an ascii value and send.
+(0554) 												COMP_SERIAL_PutChar(tempByte + 48);
+(0555) 												COMP_SERIAL_PutChar('\n');
+1ADB: 90 C9    CALL  _unloadAllConfigs
+(0556) 
+(0557) 												TIMEOUT = RX_TIMEOUT_DURATION;
+(0558) 											}
+1ADD: 3D FB 00 CMP   [X-5],0
+1AE0: B0 32    JNZ   0x1B13
+1AE2: 3D FC 02 CMP   [X-4],2
+1AE5: B0 2D    JNZ   0x1B13
+(0559) 										}
+(0560) 									}
+1AE7: 7C 06 51 LCALL 0x0651
+(0561) 								}
+(0562) 							}
+(0563) 						}
+1AEA: 10       PUSH  X
+1AEB: 50 01    MOV   A,1
+1AED: 7C 0F 4D LCALL 0x0F4D
+1AF0: 20       POP   X
+(0564) 					}
+1AF1: 10       PUSH  X
+1AF2: 50 00    MOV   A,0
+1AF4: 7C 0F 1E LCALL 0x0F1E
+1AF7: 20       POP   X
+(0565) 				}
+(0566) 			}
+1AF8: 10       PUSH  X
+1AF9: 50 00    MOV   A,0
+1AFB: 7C 08 A6 LCALL 0x08A6
+1AFE: 20       POP   X
+(0567) 		}
+(0568) 	}
+1AFF: 62 D0 00 MOV   REG[208],0
+1B02: 55 66 00 MOV   [TIMEOUT+1],0
+1B05: 55 65 00 MOV   [TIMEOUT],0
+(0569) 	
+1B08: 62 D0 00 MOV   REG[208],0
+1B0B: 55 62 02 MOV   [STATE+1],2
+1B0E: 55 61 00 MOV   [STATE],0
+(0570) 	if(STATE != PC_MODE)
+1B11: 80 7A    JMP   0x1B8C
+(0571) 	{
+1B13: 3D FB 00 CMP   [X-5],0
+1B16: B0 2C    JNZ   0x1B43
+1B18: 3D FC 01 CMP   [X-4],1
+1B1B: B0 27    JNZ   0x1B43
+(0572) 		configToggle(PC_MODE);
+(0573) 	}
+1B1D: 7C 06 E8 LCALL 0x06E8
+(0574) 	else
+(0575) 	{
+(0576) 		TIMEOUT = 0;
+(0577) 	}
+(0578) }
+1B20: 10       PUSH  X
+1B21: 50 00    MOV   A,0
+1B23: 7C 0B 1D LCALL 0x0B1D
+1B26: 20       POP   X
+(0579) 
+(0580) // This function receives a destination, command length, instruction type, address, and value.
+(0581) // With these parameters, the function sends a packet to the communication bus.
+1B27: 62 D0 00 MOV   REG[208],0
+1B2A: 55 66 00 MOV   [TIMEOUT+1],0
+1B2D: 55 65 00 MOV   [TIMEOUT],0
+(0582) void servoInstruction(char id, char length, char instruction, char address, char value)
+1B30: 10       PUSH  X
+1B31: 7C 0A 3D LCALL 0x0A3D
+(0583) {
+1B34: 7C 0A 45 LCALL 0x0A45
+1B37: 20       POP   X
+(0584) 	char checksum;
+(0585) 	int total;
+1B38: 62 D0 00 MOV   REG[208],0
+1B3B: 55 62 01 MOV   [STATE+1],1
+1B3E: 55 61 00 MOV   [STATE],0
+(0586) 	
+1B41: 80 4A    JMP   0x1B8C
+(0587) 	total = id + length + instruction + address + value;
+1B43: 3D FB 00 CMP   [X-5],0
+1B46: B0 45    JNZ   0x1B8C
+1B48: 3D FC 00 CMP   [X-4],0
+1B4B: B0 40    JNZ   0x1B8C
+(0588) 	
+(0589) 	// Calculate the checksum value for our servo communication.
+1B4D: 7C 05 E8 LCALL 0x05E8
+(0590) 	checksum = 255-(total%256);
+(0591) 	
+1B50: 10       PUSH  X
+1B51: 50 00    MOV   A,0
+1B53: 7C 09 7F LCALL 0x097F
+1B56: 20       POP   X
+(0592) 	// Talk to the servo.
+(0593) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte one
+1B57: 62 D0 00 MOV   REG[208],0
+1B5A: 55 66 00 MOV   [TIMEOUT+1],0
+1B5D: 55 65 00 MOV   [TIMEOUT],0
+(0594) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte two
+1B60: 10       PUSH  X
+1B61: 7C 08 2B LCALL 0x082B
+(0595) 	TX_REPEATER_PutChar(id);			// Servo ID
+1B64: 7C 08 33 LCALL 0x0833
+1B67: 20       POP   X
+(0596) 	TX_REPEATER_PutChar(length);		// The instruction length.
+(0597) 	TX_REPEATER_PutChar(instruction);	// The instruction to carry out.
+1B68: 62 D0 00 MOV   REG[208],0
+1B6B: 3C 65 00 CMP   [TIMEOUT],0
+1B6E: B0 06    JNZ   0x1B75
+1B70: 3C 66 00 CMP   [TIMEOUT+1],0
+1B73: AF F4    JZ    0x1B68
+(0598) 	TX_REPEATER_PutChar(address);		// The address to read/write from/to.
+(0599) 	TX_REPEATER_PutChar(value);			// The value to write or number of bytes to read.
+(0600) 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
+(0601) 	
+(0602) 	// Wait for the transmission to finish.
+(0603) 	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
+1B75: 10       PUSH  X
+1B76: 7C 08 37 LCALL 0x0837
+1B79: 20       POP   X
+(0604) 	
+1B7A: 62 D0 00 MOV   REG[208],0
+1B7D: 55 66 00 MOV   [TIMEOUT+1],0
+1B80: 55 65 00 MOV   [TIMEOUT],0
+(0605) 	// Make completely sure we're done.
+(0606) 	xmitWait();
+1B83: 62 D0 00 MOV   REG[208],0
+1B86: 55 62 00 MOV   [STATE+1],0
+1B89: 55 61 00 MOV   [STATE],0
+(0607) }
+(0608) 
+(0609) // This function receives a destination, command length, instruction type, address, and two values.
+(0610) void longServoInstruction(char id, char length, char instruction, char address, char value1, char value2)
+(0611) {
+(0612) 	char checksum;
+1B8C: 62 D0 00 MOV   REG[208],0
+1B8F: 3C 61 00 CMP   [STATE],0
+1B92: B0 0B    JNZ   0x1B9E
+1B94: 3C 62 00 CMP   [STATE+1],0
+1B97: B0 06    JNZ   0x1B9E
+(0613) 	int total;
+(0614) 	
+1B99: 43 04 01 OR    REG[4],1
+(0615) 	total = id + length + instruction + address + value1 + value2;
+1B9C: 80 04    JMP   0x1BA1
+(0616) 	
+(0617) 	// Calculate the checksum value for our servo communication.
+(0618) 	checksum = 255-(total%256);
+1B9E: 41 04 FE AND   REG[4],254
+(0619) 	
+(0620) 	// Talk to the servo.
+(0621) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte one
+(0622) 	TX_REPEATER_PutChar(SERVO_START);	// Start byte two
+(0623) 	TX_REPEATER_PutChar(id);			// Servo ID
+1BA1: 43 02 80 OR    REG[2],128
+1BA4: 20       POP   X
+1BA5: 7F       RET   
+(0624) 	TX_REPEATER_PutChar(length);		// The instruction length.
+(0625) 	TX_REPEATER_PutChar(instruction);	// The instruction to carry out.
+(0626) 	TX_REPEATER_PutChar(address);		// The address to read/write from/to.
+(0627) 	TX_REPEATER_PutChar(value1);		// The first value to write.
+(0628) 	TX_REPEATER_PutChar(value2);		// The first value to write.
+(0629) 	TX_REPEATER_PutChar(checksum);		// This is the checksum.
+(0630) 	
 _unloadAllConfigs:
-1ADF: 7C 06 9B LCALL 0x069B
-(0597) 	// Wait for the transmission to finish.
-1AE2: 7C 07 54 LCALL 0x0754
-(0598) 	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
-1AE5: 7C 06 2C LCALL 0x062C
-1AE8: 7F       RET   
-(0599) 	
-(0600) 	// Make completely sure we're done.
-(0601) 	xmitWait();
-(0602) }
-(0603) 
-(0604) // This function allows the program to pass an RX or TX mode flag for switching between modes on the
+1BA6: 7C 06 9B LCALL 0x069B
+(0631) 	// Wait for the transmission to finish.
+1BA9: 7C 07 54 LCALL 0x0754
+(0632) 	//while(!(TX_REPEATER_bReadTxStatus() & TX_REPEATER_TX_COMPLETE));
+1BAC: 7C 06 2C LCALL 0x062C
+1BAF: 7F       RET   
+(0633) 	
+(0634) 	// Make completely sure we're done.
+(0635) 	xmitWait();
+(0636) }
+(0637) 
+(0638) // This function allows the program to pass an RX or TX mode flag for switching between modes on the
 _unloadConfig:
   config_num           --> X-5
-1AE9: 10       PUSH  X
-1AEA: 4F       MOV   X,SP
-(0605) // half duplex UART serial communication line.
-1AEB: 3D FB 00 CMP   [X-5],0
-1AEE: B0 0B    JNZ   0x1AFA
-1AF0: 3D FC 02 CMP   [X-4],2
-1AF3: B0 06    JNZ   0x1AFA
-(0606) void configToggle(int mode)
-(0607) {
-1AF5: 7C 06 9B LCALL 0x069B
-(0608) 	// Disconnect from the global bus and leave the pin high.
-1AF8: 80 1D    JMP   0x1B16
-(0609) 	PRT0DR |= 0b10000000;
-1AFA: 3D FB 00 CMP   [X-5],0
-1AFD: B0 0B    JNZ   0x1B09
-1AFF: 3D FC 01 CMP   [X-4],1
-1B02: B0 06    JNZ   0x1B09
-(0610) 	PRT0GS &= 0b01111111;
-(0611) 
-1B04: 7C 07 54 LCALL 0x0754
-(0612) 	// Unload the configuration of the current state.
-1B07: 80 0E    JMP   0x1B16
-(0613) 	// If there is no state, blindly wipe all configurations.
-1B09: 3D FB 00 CMP   [X-5],0
-1B0C: B0 09    JNZ   0x1B16
-1B0E: 3D FC 00 CMP   [X-4],0
-1B11: B0 04    JNZ   0x1B16
-(0614) 	if(STATE)
-(0615) 	{
-1B13: 7C 06 2C LCALL 0x062C
-(0616) 		unloadConfig(STATE);
-1B16: 20       POP   X
-1B17: 7F       RET   
-(0617) 	}
-(0618) 	else
-(0619) 	{
-(0620) 		unloadAllConfigs();
+1BB0: 10       PUSH  X
+1BB1: 4F       MOV   X,SP
+(0639) // half duplex UART serial communication line.
+1BB2: 3D FB 00 CMP   [X-5],0
+1BB5: B0 0B    JNZ   0x1BC1
+1BB7: 3D FC 02 CMP   [X-4],2
+1BBA: B0 06    JNZ   0x1BC1
+(0640) void configToggle(int mode)
+(0641) {
+1BBC: 7C 06 9B LCALL 0x069B
+(0642) 	// Disconnect from the global bus and leave the pin high.
+1BBF: 80 1D    JMP   0x1BDD
+(0643) 	PRT0DR |= 0b10000000;
+1BC1: 3D FB 00 CMP   [X-5],0
+1BC4: B0 0B    JNZ   0x1BD0
+1BC6: 3D FC 01 CMP   [X-4],1
+1BC9: B0 06    JNZ   0x1BD0
+(0644) 	PRT0GS &= 0b01111111;
+(0645) 
+1BCB: 7C 07 54 LCALL 0x0754
+(0646) 	// Unload the configuration of the current state.
+1BCE: 80 0E    JMP   0x1BDD
+(0647) 	// If there is no state, blindly wipe all configurations.
+1BD0: 3D FB 00 CMP   [X-5],0
+1BD3: B0 09    JNZ   0x1BDD
+1BD5: 3D FC 00 CMP   [X-4],0
+1BD8: B0 04    JNZ   0x1BDD
+(0648) 	if(STATE)
+(0649) 	{
+1BDA: 7C 06 2C LCALL 0x062C
+(0650) 		unloadConfig(STATE);
+1BDD: 20       POP   X
+1BDE: 7F       RET   
+(0651) 	}
+(0652) 	else
+(0653) 	{
+(0654) 		unloadAllConfigs();
 _initializeSlaves:
   num_timeouts         --> X+0
-1B18: 10       PUSH  X
-1B19: 4F       MOV   X,SP
-1B1A: 38 02    ADD   SP,2
-(0621) 	}
-1B1C: 56 01 00 MOV   [X+1],0
-1B1F: 56 00 00 MOV   [X+0],0
-(0622) 	
-(0623) 	if(mode == PC_MODE)
-1B22: 99 52    CALL  _sayHello
-1B24: 81 08    JMP   0x1C2D
-(0624) 	{
-(0625) 		LoadConfig_pc_listener();
-(0626) 		
-(0627) 		//COMP_SERIAL_CmdReset(); 						// Initializes the RX buffer
-(0628) 		COMP_SERIAL_IntCntl(COMP_SERIAL_ENABLE_RX_INT); // Enable RX interrupts  
-(0629) 		COMP_SERIAL_Start(UART_PARITY_NONE);			// Starts the UART.
-1B26: 10       PUSH  X
-1B27: 7C 0B 34 LCALL 0x0B34
-1B2A: 62 D0 00 MOV   REG[208],0
-1B2D: 20       POP   X
-1B2E: 39 FC    CMP   A,252
-1B30: B0 D7    JNZ   0x1C08
-(0630) 		
-(0631) 		TX_REPEATER_Start(TX_REPEATER_PARITY_NONE);		// Start the TX repeater.
-1B32: 99 97    CALL  _validTransmission
-1B34: 62 D0 00 MOV   REG[208],0
-1B37: 3C 60 00 CMP   [__r0],0
-1B3A: B0 06    JNZ   0x1B41
-1B3C: 3C 5F 00 CMP   [__r1],0
-1B3F: A0 ED    JZ    0x1C2D
-(0632) 		
-(0633) 		TIMEOUT = 0;
-1B41: 62 D0 00 MOV   REG[208],0
-1B44: 3C 6B C8 CMP   [COMMAND_TYPE],200
-1B47: B0 E5    JNZ   0x1C2D
-(0634) 		STATE = PC_MODE;
-(0635) 	}
-(0636) 	else if(mode == RX_MODE)
-1B49: 62 D0 00 MOV   REG[208],0
-1B4C: 3C 6C 00 CMP   [COMMAND_DESTINATION],0
-1B4F: B0 DD    JNZ   0x1C2D
-(0637) 	{
-(0638) 		LoadConfig_receiver_config();
-1B51: 62 D0 00 MOV   REG[208],0
-1B54: 76 64    INC   [NUM_MODULES+1]
-1B56: 0E 63 00 ADC   [NUM_MODULES],0
-(0639) 		
-1B59: 56 01 00 MOV   [X+1],0
-1B5C: 56 00 00 MOV   [X+0],0
-(0640) 		// Clear the buffer.
-(0641) 		//RECEIVE_CmdReset();
-1B5F: 51 63    MOV   A,[NUM_MODULES]
-1B61: 08       PUSH  A
-1B62: 51 64    MOV   A,[NUM_MODULES+1]
-1B64: 08       PUSH  A
-1B65: 7C 12 45 LCALL _assignID
-1B68: 38 FE    ADD   SP,254
-1B6A: 62 D0 00 MOV   REG[208],0
-1B6D: 3C 60 00 CMP   [__r0],0
-1B70: B0 BC    JNZ   0x1C2D
-1B72: 3C 5F 00 CMP   [__r1],0
-1B75: B0 B7    JNZ   0x1C2D
-(0642) 		// Start the receiver.
-(0643) 		RECEIVE_Start(RECEIVE_PARITY_NONE);
-(0644) 		
-(0645) 		// Start response timeout timer and enable its interrupt routine.
-(0646) 		TIMEOUT = 0;
-1B77: 62 D0 00 MOV   REG[208],0
-1B7A: 51 63    MOV   A,[NUM_MODULES]
-1B7C: 08       PUSH  A
-1B7D: 51 64    MOV   A,[NUM_MODULES+1]
-1B7F: 08       PUSH  A
-1B80: 7C 11 4A LCALL _pingModule
-1B83: 38 FE    ADD   SP,254
-1B85: 62 D0 00 MOV   REG[208],0
-1B88: 3C 60 00 CMP   [__r0],0
-1B8B: B0 A1    JNZ   0x1C2D
-1B8D: 3C 5F 00 CMP   [__r1],0
-1B90: B0 9C    JNZ   0x1C2D
-(0647) 		RX_TIMEOUT_EnableInt();
-(0648) 		RX_TIMEOUT_Start();
-1B92: 62 D0 00 MOV   REG[208],0
-1B95: 51 63    MOV   A,[NUM_MODULES]
-1B97: 08       PUSH  A
-1B98: 51 64    MOV   A,[NUM_MODULES+1]
-1B9A: 08       PUSH  A
-1B9B: 7C 11 4A LCALL _pingModule
-1B9E: 38 FE    ADD   SP,254
-1BA0: 62 D0 00 MOV   REG[208],0
-1BA3: 3C 60 00 CMP   [__r0],0
-1BA6: B0 86    JNZ   0x1C2D
-1BA8: 3C 5F 00 CMP   [__r1],0
-1BAB: B0 81    JNZ   0x1C2D
-(0649) 		
-(0650) 		STATE = RX_MODE;
-1BAD: 62 D0 00 MOV   REG[208],0
-1BB0: 51 63    MOV   A,[NUM_MODULES]
-1BB2: 08       PUSH  A
-1BB3: 51 64    MOV   A,[NUM_MODULES+1]
-1BB5: 08       PUSH  A
-1BB6: 7C 11 4A LCALL _pingModule
-1BB9: 38 FE    ADD   SP,254
-1BBB: 62 D0 00 MOV   REG[208],0
-1BBE: 3C 60 00 CMP   [__r0],0
-1BC1: B0 6B    JNZ   0x1C2D
-1BC3: 3C 5F 00 CMP   [__r1],0
-1BC6: B0 66    JNZ   0x1C2D
-(0651) 	}
-(0652) 	else if(mode == TX_MODE)
-1BC8: 62 D0 00 MOV   REG[208],0
-1BCB: 51 63    MOV   A,[NUM_MODULES]
-1BCD: 08       PUSH  A
-1BCE: 51 64    MOV   A,[NUM_MODULES+1]
-1BD0: 08       PUSH  A
-1BD1: 7C 11 4A LCALL _pingModule
-1BD4: 38 FE    ADD   SP,254
-1BD6: 62 D0 00 MOV   REG[208],0
-1BD9: 3C 60 00 CMP   [__r0],0
-1BDC: B0 50    JNZ   0x1C2D
-1BDE: 3C 5F 00 CMP   [__r1],0
-1BE1: B0 4B    JNZ   0x1C2D
-(0653) 	{
-(0654) 		LoadConfig_transmitter_config();
-1BE3: 62 D0 00 MOV   REG[208],0
-1BE6: 51 63    MOV   A,[NUM_MODULES]
-1BE8: 08       PUSH  A
-1BE9: 51 64    MOV   A,[NUM_MODULES+1]
-1BEB: 08       PUSH  A
-1BEC: 7C 11 4A LCALL _pingModule
-1BEF: 38 FE    ADD   SP,254
+1BDF: 10       PUSH  X
+1BE0: 4F       MOV   X,SP
+1BE1: 38 02    ADD   SP,2
+(0655) 	}
+1BE3: 56 01 00 MOV   [X+1],0
+1BE6: 56 00 00 MOV   [X+0],0
+(0656) 	
+(0657) 	if(mode == PC_MODE)
+1BE9: 98 8D    CALL  _sayHello
+1BEB: 81 09    JMP   0x1CF5
+(0658) 	{
+(0659) 		LoadConfig_pc_listener();
+(0660) 		
+(0661) 		//COMP_SERIAL_CmdReset(); 						// Initializes the RX buffer
+(0662) 		COMP_SERIAL_IntCntl(COMP_SERIAL_ENABLE_RX_INT); // Enable RX interrupts  
+(0663) 		COMP_SERIAL_Start(UART_PARITY_NONE);			// Starts the UART.
+1BED: 10       PUSH  X
+1BEE: 7C 0B 34 LCALL 0x0B34
 1BF1: 62 D0 00 MOV   REG[208],0
-1BF4: 3C 60 00 CMP   [__r0],0
-1BF7: B0 35    JNZ   0x1C2D
-1BF9: 3C 5F 00 CMP   [__r1],0
-1BFC: B0 30    JNZ   0x1C2D
-(0655) 		// Start the transmitter.
-(0656) 		TRANSMIT_Start(TRANSMIT_PARITY_NONE);
-1BFE: 62 D0 00 MOV   REG[208],0
-1C01: 7A 64    DEC   [NUM_MODULES+1]
-1C03: 1E 63 00 SBB   [NUM_MODULES],0
-(0657) 		
-(0658) 		TIMEOUT = 0;
-(0659) 		TX_TIMEOUT_EnableInt();	// Make sure interrupts are enabled.
-(0660) 		TX_TIMEOUT_Start();		// Start the timer.
-(0661) 		
-(0662) 		while(!TIMEOUT)
-(0663) 		{
-(0664) 			// Do nothing while we wait for one timeout period.
-(0665) 			// This is to allow everyone to get in the right configuration.
-(0666) 		}
-1C06: 80 26    JMP   0x1C2D
-(0667) 		
+1BF4: 20       POP   X
+1BF5: 39 FC    CMP   A,252
+1BF7: B0 D7    JNZ   0x1CCF
+(0664) 		
+(0665) 		TX_REPEATER_Start(TX_REPEATER_PARITY_NONE);		// Start the TX repeater.
+1BF9: 98 D3    CALL  _validTransmission
+1BFB: 62 D0 00 MOV   REG[208],0
+1BFE: 3C 60 00 CMP   [__r0],0
+1C01: B0 06    JNZ   0x1C08
+1C03: 3C 5F 00 CMP   [__r1],0
+1C06: A0 EE    JZ    0x1CF5
+(0666) 		
+(0667) 		TIMEOUT = 0;
 1C08: 62 D0 00 MOV   REG[208],0
-1C0B: 51 66    MOV   A,[TIMEOUT+1]
-1C0D: 11 05    SUB   A,5
-1C0F: 51 65    MOV   A,[TIMEOUT]
-1C11: 31 80    XOR   A,128
-1C13: 19 80    SBB   A,128
-1C15: C0 17    JC    0x1C2D
-(0668) 		TX_TIMEOUT_Stop();		// Stop the timer.
-(0669) 		TIMEOUT = 0;			// Reset the timeout flag.
-1C17: 77 01    INC   [X+1]
-1C19: 0F 00 00 ADC   [X+0],0
-(0670) 		
-(0671) 		STATE = TX_MODE;
-(0672) 	}
-1C1C: 62 D0 00 MOV   REG[208],0
-1C1F: 51 64    MOV   A,[NUM_MODULES+1]
-1C21: 11 FA    SUB   A,250
-1C23: 51 63    MOV   A,[NUM_MODULES]
-1C25: 31 80    XOR   A,128
-1C27: 19 80    SBB   A,128
-1C29: D0 03    JNC   0x1C2D
-(0673) 	
-(0674) 	// Make sure to keep the LED on (active low).
-1C2B: 98 49    CALL  _sayHello
-1C2D: 52 01    MOV   A,[X+1]
-1C2F: 11 0A    SUB   A,10
-1C31: 52 00    MOV   A,[X+0]
-1C33: 31 80    XOR   A,128
-1C35: 19 80    SBB   A,128
-1C37: CE EE    JC    0x1B26
-(0675) 	//PRT2DR &= 0b11111110;
-(0676) 	
-(0677) 	if(STATE == TX_MODE)
-(0678) 	{
-(0679) 		PRT1DR |= 0b00000001;
-(0680) 	}
-1C39: 50 00    MOV   A,0
-1C3B: 08       PUSH  A
-1C3C: 50 02    MOV   A,2
-1C3E: 08       PUSH  A
-1C3F: 9D AF    CALL  _configToggle
-1C41: 38 FE    ADD   SP,254
-1C43: 38 FE    ADD   SP,254
-1C45: 20       POP   X
-1C46: 7F       RET   
-(0681) 	else
-(0682) 	{
-(0683) 		PRT1DR &= 0b11111110;
-(0684) 		
+1C0B: 3C 6B C8 CMP   [COMMAND_TYPE],200
+1C0E: B0 E6    JNZ   0x1CF5
+(0668) 		STATE = PC_MODE;
+(0669) 	}
+(0670) 	else if(mode == RX_MODE)
+1C10: 62 D0 00 MOV   REG[208],0
+1C13: 3C 6C 00 CMP   [COMMAND_DESTINATION],0
+1C16: B0 DE    JNZ   0x1CF5
+(0671) 	{
+(0672) 		LoadConfig_receiver_config();
+1C18: 62 D0 00 MOV   REG[208],0
+1C1B: 76 64    INC   [NUM_MODULES+1]
+1C1D: 0E 63 00 ADC   [NUM_MODULES],0
+(0673) 		
+1C20: 56 01 00 MOV   [X+1],0
+1C23: 56 00 00 MOV   [X+0],0
+(0674) 		// Clear the buffer.
+(0675) 		//RECEIVE_CmdReset();
+1C26: 51 63    MOV   A,[NUM_MODULES]
+1C28: 08       PUSH  A
+1C29: 51 64    MOV   A,[NUM_MODULES+1]
+1C2B: 08       PUSH  A
+1C2C: 7C 12 45 LCALL _assignID
+1C2F: 38 FE    ADD   SP,254
+1C31: 62 D0 00 MOV   REG[208],0
+1C34: 3C 60 00 CMP   [__r0],0
+1C37: B0 BD    JNZ   0x1CF5
+1C39: 3C 5F 00 CMP   [__r1],0
+1C3C: B0 B8    JNZ   0x1CF5
+(0676) 		// Start the receiver.
+(0677) 		RECEIVE_Start(RECEIVE_PARITY_NONE);
+(0678) 		
+(0679) 		// Start response timeout timer and enable its interrupt routine.
+(0680) 		TIMEOUT = 0;
+1C3E: 62 D0 00 MOV   REG[208],0
+1C41: 51 63    MOV   A,[NUM_MODULES]
+1C43: 08       PUSH  A
+1C44: 51 64    MOV   A,[NUM_MODULES+1]
+1C46: 08       PUSH  A
+1C47: 7C 11 4A LCALL _pingModule
+1C4A: 38 FE    ADD   SP,254
+1C4C: 62 D0 00 MOV   REG[208],0
+1C4F: 3C 60 00 CMP   [__r0],0
+1C52: B0 A2    JNZ   0x1CF5
+1C54: 3C 5F 00 CMP   [__r1],0
+1C57: B0 9D    JNZ   0x1CF5
+(0681) 		RX_TIMEOUT_EnableInt();
+(0682) 		RX_TIMEOUT_Start();
+1C59: 62 D0 00 MOV   REG[208],0
+1C5C: 51 63    MOV   A,[NUM_MODULES]
+1C5E: 08       PUSH  A
+1C5F: 51 64    MOV   A,[NUM_MODULES+1]
+1C61: 08       PUSH  A
+1C62: 7C 11 4A LCALL _pingModule
+1C65: 38 FE    ADD   SP,254
+1C67: 62 D0 00 MOV   REG[208],0
+1C6A: 3C 60 00 CMP   [__r0],0
+1C6D: B0 87    JNZ   0x1CF5
+1C6F: 3C 5F 00 CMP   [__r1],0
+1C72: B0 82    JNZ   0x1CF5
+(0683) 		
+(0684) 		STATE = RX_MODE;
+1C74: 62 D0 00 MOV   REG[208],0
+1C77: 51 63    MOV   A,[NUM_MODULES]
+1C79: 08       PUSH  A
+1C7A: 51 64    MOV   A,[NUM_MODULES+1]
+1C7C: 08       PUSH  A
+1C7D: 7C 11 4A LCALL _pingModule
+1C80: 38 FE    ADD   SP,254
+1C82: 62 D0 00 MOV   REG[208],0
+1C85: 3C 60 00 CMP   [__r0],0
+1C88: B0 6C    JNZ   0x1CF5
+1C8A: 3C 5F 00 CMP   [__r1],0
+1C8D: B0 67    JNZ   0x1CF5
+(0685) 	}
+(0686) 	else if(mode == TX_MODE)
+1C8F: 62 D0 00 MOV   REG[208],0
+1C92: 51 63    MOV   A,[NUM_MODULES]
+1C94: 08       PUSH  A
+1C95: 51 64    MOV   A,[NUM_MODULES+1]
+1C97: 08       PUSH  A
+1C98: 7C 11 4A LCALL _pingModule
+1C9B: 38 FE    ADD   SP,254
+1C9D: 62 D0 00 MOV   REG[208],0
+1CA0: 3C 60 00 CMP   [__r0],0
+1CA3: B0 51    JNZ   0x1CF5
+1CA5: 3C 5F 00 CMP   [__r1],0
+1CA8: B0 4C    JNZ   0x1CF5
+(0687) 	{
+(0688) 		LoadConfig_transmitter_config();
+1CAA: 62 D0 00 MOV   REG[208],0
+1CAD: 51 63    MOV   A,[NUM_MODULES]
+1CAF: 08       PUSH  A
+1CB0: 51 64    MOV   A,[NUM_MODULES+1]
+1CB2: 08       PUSH  A
+1CB3: 7C 11 4A LCALL _pingModule
+1CB6: 38 FE    ADD   SP,254
+1CB8: 62 D0 00 MOV   REG[208],0
+1CBB: 3C 60 00 CMP   [__r0],0
+1CBE: B0 36    JNZ   0x1CF5
+1CC0: 3C 5F 00 CMP   [__r1],0
+1CC3: B0 31    JNZ   0x1CF5
+(0689) 		// Start the transmitter.
+(0690) 		TRANSMIT_Start(TRANSMIT_PARITY_NONE);
+1CC5: 62 D0 00 MOV   REG[208],0
+1CC8: 7A 64    DEC   [NUM_MODULES+1]
+1CCA: 1E 63 00 SBB   [NUM_MODULES],0
+(0691) 		
+(0692) 		TIMEOUT = 0;
+(0693) 		TX_TIMEOUT_EnableInt();	// Make sure interrupts are enabled.
+(0694) 		TX_TIMEOUT_Start();		// Start the timer.
+(0695) 		
+(0696) 		while(!TIMEOUT)
+(0697) 		{
+(0698) 			// Do nothing while we wait for one timeout period.
+(0699) 			// This is to allow everyone to get in the right configuration.
+(0700) 		}
+1CCD: 80 27    JMP   0x1CF5
+(0701) 		
+1CCF: 62 D0 00 MOV   REG[208],0
+1CD2: 51 66    MOV   A,[TIMEOUT+1]
+1CD4: 11 05    SUB   A,5
+1CD6: 51 65    MOV   A,[TIMEOUT]
+1CD8: 31 80    XOR   A,128
+1CDA: 19 80    SBB   A,128
+1CDC: C0 18    JC    0x1CF5
+(0702) 		TX_TIMEOUT_Stop();		// Stop the timer.
+(0703) 		TIMEOUT = 0;			// Reset the timeout flag.
+1CDE: 77 01    INC   [X+1]
+1CE0: 0F 00 00 ADC   [X+0],0
+(0704) 		
+(0705) 		STATE = TX_MODE;
+(0706) 	}
+1CE3: 62 D0 00 MOV   REG[208],0
+1CE6: 51 64    MOV   A,[NUM_MODULES+1]
+1CE8: 11 FA    SUB   A,250
+1CEA: 51 63    MOV   A,[NUM_MODULES]
+1CEC: 31 80    XOR   A,128
+1CEE: 19 80    SBB   A,128
+1CF0: D0 04    JNC   0x1CF5
+(0707) 	
+(0708) 	// Make sure to keep the LED on (active low).
+1CF2: 7C 14 78 LCALL _sayHello
+1CF5: 52 01    MOV   A,[X+1]
+1CF7: 11 0A    SUB   A,10
+1CF9: 52 00    MOV   A,[X+0]
+1CFB: 31 80    XOR   A,128
+1CFD: 19 80    SBB   A,128
+1CFF: CE ED    JC    0x1BED
+(0709) 	//PRT2DR &= 0b11111110;
+(0710) 	
+(0711) 	if(STATE == TX_MODE)
+(0712) 	{
+(0713) 		PRT1DR |= 0b00000001;
+(0714) 	}
+1D01: 50 00    MOV   A,0
+1D03: 08       PUSH  A
+1D04: 50 02    MOV   A,2
+1D06: 08       PUSH  A
+1D07: 9D AE    CALL  _configToggle
+1D09: 38 FE    ADD   SP,254
+1D0B: 38 FE    ADD   SP,254
+1D0D: 20       POP   X
+1D0E: 7F       RET   
+(0715) 	else
+(0716) 	{
+(0717) 		PRT1DR &= 0b11111110;
+(0718) 		
 _xmitWait:
   i                    --> X+0
-1C47: 10       PUSH  X
-1C48: 4F       MOV   X,SP
-1C49: 38 02    ADD   SP,2
-(0685) 	}
-(0686) 	
-(0687) 	// Reconnect to the global bus.
-1C4B: 56 01 00 MOV   [X+1],0
-1C4E: 56 00 00 MOV   [X+0],0
-1C51: 77 01    INC   [X+1]
-1C53: 0F 00 00 ADC   [X+0],0
-1C56: 52 01    MOV   A,[X+1]
-1C58: 11 19    SUB   A,25
-1C5A: 52 00    MOV   A,[X+0]
-1C5C: 31 80    XOR   A,128
-1C5E: 19 80    SBB   A,128
-1C60: CF F0    JC    0x1C51
-1C62: 38 FE    ADD   SP,254
-1C64: 20       POP   X
-1C65: 7F       RET   
-(0688) 	PRT0GS |= 0b10000000;
-(0689) }
-(0690) 
-(0691) // This function blindly unloads all user configurations. This will be called once,
-(0692) // when the system initially has no known state.
-(0693) void unloadAllConfigs(void)
-(0694) {
+1D0F: 10       PUSH  X
+1D10: 4F       MOV   X,SP
+1D11: 38 02    ADD   SP,2
+(0719) 	}
+(0720) 	
+(0721) 	// Reconnect to the global bus.
+1D13: 56 01 00 MOV   [X+1],0
+1D16: 56 00 00 MOV   [X+0],0
+1D19: 77 01    INC   [X+1]
+1D1B: 0F 00 00 ADC   [X+0],0
+1D1E: 52 01    MOV   A,[X+1]
+1D20: 11 19    SUB   A,25
+1D22: 52 00    MOV   A,[X+0]
+1D24: 31 80    XOR   A,128
+1D26: 19 80    SBB   A,128
+1D28: CF F0    JC    0x1D19
+1D2A: 38 FE    ADD   SP,254
+1D2C: 20       POP   X
+1D2D: 7F       RET   
+(0722) 	PRT0GS |= 0b10000000;
+(0723) }
+(0724) 
+(0725) // This function blindly unloads all user configurations. This will be called once,
+(0726) // when the system initially has no known state.
+(0727) void unloadAllConfigs(void)
+(0728) {
 _TX_TIMEOUT_ISR:
-1C66: 71 C0    OR    F,192
-1C68: 08       PUSH  A
-1C69: 5D D0    MOV   A,REG[208]
-1C6B: 08       PUSH  A
-(0695) 	UnloadConfig_pc_listener();
-1C6C: 62 D0 00 MOV   REG[208],0
-1C6F: 76 66    INC   [TIMEOUT+1]
-1C71: 0E 65 00 ADC   [TIMEOUT],0
-(0696) 	UnloadConfig_receiver_config();
-(0697) 	UnloadConfig_transmitter_config();
-1C74: 62 DA FD MOV   REG[218],253
-1C77: 18       POP   A
-1C78: 60 D0    MOV   REG[208],A
-1C7A: 18       POP   A
-1C7B: 7E       RETI  
-(0698) }
-(0699) 
-(0700) // This function unloads the configuration corresponding to the config number passed to it.
-(0701) // We do this instead of unloadAllConfigs to cut down on set up time.
+1D2E: 71 C0    OR    F,192
+1D30: 08       PUSH  A
+1D31: 5D D0    MOV   A,REG[208]
+1D33: 08       PUSH  A
+(0729) 	UnloadConfig_pc_listener();
+1D34: 62 D0 00 MOV   REG[208],0
+1D37: 76 66    INC   [TIMEOUT+1]
+1D39: 0E 65 00 ADC   [TIMEOUT],0
+(0730) 	UnloadConfig_receiver_config();
+(0731) 	UnloadConfig_transmitter_config();
+1D3C: 62 DA FD MOV   REG[218],253
+1D3F: 18       POP   A
+1D40: 60 D0    MOV   REG[208],A
+1D42: 18       POP   A
+1D43: 7E       RETI  
+(0732) }
+(0733) 
+(0734) // This function unloads the configuration corresponding to the config number passed to it.
+(0735) // We do this instead of unloadAllConfigs to cut down on set up time.
 _RX_TIMEOUT_ISR:
-1C7C: 71 C0    OR    F,192
-1C7E: 08       PUSH  A
-1C7F: 5D D0    MOV   A,REG[208]
-1C81: 08       PUSH  A
-(0702) void unloadConfig(int config_num)
-1C82: 62 D0 00 MOV   REG[208],0
-1C85: 76 66    INC   [TIMEOUT+1]
-1C87: 0E 65 00 ADC   [TIMEOUT],0
-(0703) {
-(0704) 	if(config_num == PC_MODE)
-1C8A: 62 DA FD MOV   REG[218],253
-1C8D: 18       POP   A
-1C8E: 60 D0    MOV   REG[208],A
-1C90: 18       POP   A
-1C91: 7E       RETI  
+1D44: 71 C0    OR    F,192
+1D46: 08       PUSH  A
+1D47: 5D D0    MOV   A,REG[208]
+1D49: 08       PUSH  A
+(0736) void unloadConfig(int config_num)
+1D4A: 62 D0 00 MOV   REG[208],0
+1D4D: 76 66    INC   [TIMEOUT+1]
+1D4F: 0E 65 00 ADC   [TIMEOUT],0
+(0737) {
+(0738) 	if(config_num == PC_MODE)
+1D52: 62 DA FD MOV   REG[218],253
+1D55: 18       POP   A
+1D56: 60 D0    MOV   REG[208],A
+1D58: 18       POP   A
+1D59: 7E       RETI  
 
 FILE: lib\psocdynamicint.asm
                                    (0001) ; Generated by PSoC Designer 5.0.985.0
@@ -8548,54 +8681,54 @@ FILE: lib\psocdynamicint.asm
                                    (0021) 
                                    (0022) 
                                    (0023) Dispatch_INTERRUPT_10:
-1C92: 08       PUSH  A             (0024) 	push	a
-1C93: 50 00    MOV   A,0           (0025) 	mov		a,0
-1C95: 47 02 02 TST   [2],2         (0026) 	tst		[ACTIVE_CONFIG_STATUS+pc_listener_ADDR_OFF], pc_listener_BIT
-1C98: B0 13    JNZ   0x1CAC        (0027) 	jnz		Dispatch_INTERRUPT_10_END
-1C9A: 50 04    MOV   A,4           (0028) 	mov		a,4
-1C9C: 47 02 04 TST   [2],4         (0029) 	tst		[ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], receiver_config_BIT
-1C9F: B0 0C    JNZ   0x1CAC        (0030) 	jnz		Dispatch_INTERRUPT_10_END
-1CA1: 50 08    MOV   A,8           (0031) 	mov		a,8
-1CA3: 47 02 01 TST   [2],1         (0032) 	tst		[ACTIVE_CONFIG_STATUS+transmitter_config_ADDR_OFF], transmitter_config_BIT
-1CA6: B0 05    JNZ   0x1CAC        (0033) 	jnz		Dispatch_INTERRUPT_10_END
-1CA8: 18       POP   A             (0034) 	pop		a
-1CA9: 7E       RETI                (0035) 	reti
+1D5A: 08       PUSH  A             (0024) 	push	a
+1D5B: 50 00    MOV   A,0           (0025) 	mov		a,0
+1D5D: 47 02 02 TST   [2],2         (0026) 	tst		[ACTIVE_CONFIG_STATUS+pc_listener_ADDR_OFF], pc_listener_BIT
+1D60: B0 13    JNZ   0x1D74        (0027) 	jnz		Dispatch_INTERRUPT_10_END
+1D62: 50 04    MOV   A,4           (0028) 	mov		a,4
+1D64: 47 02 04 TST   [2],4         (0029) 	tst		[ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], receiver_config_BIT
+1D67: B0 0C    JNZ   0x1D74        (0030) 	jnz		Dispatch_INTERRUPT_10_END
+1D69: 50 08    MOV   A,8           (0031) 	mov		a,8
+1D6B: 47 02 01 TST   [2],1         (0032) 	tst		[ACTIVE_CONFIG_STATUS+transmitter_config_ADDR_OFF], transmitter_config_BIT
+1D6E: B0 05    JNZ   0x1D74        (0033) 	jnz		Dispatch_INTERRUPT_10_END
+1D70: 18       POP   A             (0034) 	pop		a
+1D71: 7E       RETI                (0035) 	reti
                                    (0036) ; Stop Code Compressor from breaking table alignment
                                    (0037) ; The next instruction does not get executed.
-1CAA: 71 00    OR    F,0           (0038) 	Suspend_CodeCompressor
+1D72: 71 00    OR    F,0           (0038) 	Suspend_CodeCompressor
                                    (0039) Dispatch_INTERRUPT_10_END:
-1CAC: E0 01    JACC  0x1CAE        (0040) 	jacc	Dispatch_INTERRUPT_10_TBL
+1D74: E0 01    JACC  0x1D76        (0040) 	jacc	Dispatch_INTERRUPT_10_TBL
                                    (0041) Dispatch_INTERRUPT_10_TBL:
-1CAE: 18       POP   A             (0042) 	pop		a
-1CAF: 7D 08 8B LJMP  0x088B        (0043) 	ljmp	_TX_REPEATER_ISR
-1CB2: 18       POP   A             (0044) 	pop		a
-1CB3: 7D 0A 9D LJMP  0x0A9D        (0045) 	ljmp	_RECEIVE_ISR
-1CB6: 18       POP   A             (0046) 	pop		a
-1CB7: 7D 09 64 LJMP  0x0964        (0047) 	ljmp	_TRANSMIT_ISR
+1D76: 18       POP   A             (0042) 	pop		a
+1D77: 7D 08 8B LJMP  0x088B        (0043) 	ljmp	_TX_REPEATER_ISR
+1D7A: 18       POP   A             (0044) 	pop		a
+1D7B: 7D 0A 9D LJMP  0x0A9D        (0045) 	ljmp	_RECEIVE_ISR
+1D7E: 18       POP   A             (0046) 	pop		a
+1D7F: 7D 09 64 LJMP  0x0964        (0047) 	ljmp	_TRANSMIT_ISR
                                    (0048) ; Resume Code Compressor.
                                    (0049) ; The next instruction does not get executed.
-1CBA: 38 00    ADD   SP,0          (0050) 	Resume_CodeCompressor
+1D82: 38 00    ADD   SP,0          (0050) 	Resume_CodeCompressor
                                    (0051) 
                                    (0052) Dispatch_INTERRUPT_9:
-1CBC: 08       PUSH  A             (0053) 	push	a
-1CBD: 50 00    MOV   A,0           (0054) 	mov		a,0
-1CBF: 47 02 04 TST   [2],4         (0055) 	tst		[ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], receiver_config_BIT
-1CC2: B0 0C    JNZ   0x1CCF        (0056) 	jnz		Dispatch_INTERRUPT_9_END
-1CC4: 50 04    MOV   A,4           (0057) 	mov		a,4
-1CC6: 47 02 01 TST   [2],1         (0058) 	tst		[ACTIVE_CONFIG_STATUS+transmitter_config_ADDR_OFF], transmitter_config_BIT
-1CC9: B0 05    JNZ   0x1CCF        (0059) 	jnz		Dispatch_INTERRUPT_9_END
-1CCB: 18       POP   A             (0060) 	pop		a
-1CCC: 7E       RETI                (0061) 	reti
+1D84: 08       PUSH  A             (0053) 	push	a
+1D85: 50 00    MOV   A,0           (0054) 	mov		a,0
+1D87: 47 02 04 TST   [2],4         (0055) 	tst		[ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], receiver_config_BIT
+1D8A: B0 0C    JNZ   0x1D97        (0056) 	jnz		Dispatch_INTERRUPT_9_END
+1D8C: 50 04    MOV   A,4           (0057) 	mov		a,4
+1D8E: 47 02 01 TST   [2],1         (0058) 	tst		[ACTIVE_CONFIG_STATUS+transmitter_config_ADDR_OFF], transmitter_config_BIT
+1D91: B0 05    JNZ   0x1D97        (0059) 	jnz		Dispatch_INTERRUPT_9_END
+1D93: 18       POP   A             (0060) 	pop		a
+1D94: 7E       RETI                (0061) 	reti
                                    (0062) ; Stop Code Compressor from breaking table alignment
                                    (0063) ; The next instruction does not get executed.
-1CCD: 71 00    OR    F,0           (0064) 	Suspend_CodeCompressor
+1D95: 71 00    OR    F,0           (0064) 	Suspend_CodeCompressor
                                    (0065) Dispatch_INTERRUPT_9_END:
-1CCF: E0 01    JACC  0x1CD1        (0066) 	jacc	Dispatch_INTERRUPT_9_TBL
+1D97: E0 01    JACC  0x1D99        (0066) 	jacc	Dispatch_INTERRUPT_9_TBL
                                    (0067) Dispatch_INTERRUPT_9_TBL:
-1CD1: 18       POP   A             (0068) 	pop		a
-1CD2: 7D 1C 7C LJMP  _RX_TIMEOUT_ISR(0069) 	ljmp	_RX_TIMEOUT_ISR
-1CD5: 18       POP   A             (0070) 	pop		a
-1CD6: 7D 1C 66 LJMP  _TX_TIMEOUT_ISR(0071) 	ljmp	_TX_TIMEOUT_ISR
+1D99: 18       POP   A             (0068) 	pop		a
+1D9A: 7D 1D 44 LJMP  _RX_TIMEOUT_ISR(0069) 	ljmp	_RX_TIMEOUT_ISR
+1D9D: 18       POP   A             (0070) 	pop		a
+1D9E: 7D 1D 2E LJMP  _TX_TIMEOUT_ISR(0071) 	ljmp	_TX_TIMEOUT_ISR
                                    (0072) ; Resume Code Compressor.
                                    (0073) ; The next instruction does not get executed.
                                    (0074) 	Resume_CodeCompressor

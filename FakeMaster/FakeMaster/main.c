@@ -394,8 +394,7 @@ void decodeTransmission(void)
 					if((param[0] == 'a') || (param[0] == 'A'))
 					{
 						COMP_SERIAL_CmdReset();
-						tempByte = 2;
-						servoInstruction(ID,4,READ_SERVO,36,tempByte);
+						servoInstruction(ID,4,READ_SERVO,36,2);
 						configToggle(RX_MODE);
 							
 						// Loop until we read a response or time out.
@@ -419,6 +418,41 @@ void decodeTransmission(void)
 												total = ((angle[1])*256) + angle[0];
 												itoa(param,total,10);
 												COMP_SERIAL_PutString(param);
+												COMP_SERIAL_PutChar('\n');
+
+												TIMEOUT = RX_TIMEOUT_DURATION;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					else if ((param[0] == 'p') || (param[0] == 'P'))
+					{
+						COMP_SERIAL_CmdReset();
+						servoInstruction(ID,4,READ_SERVO,24,1);
+						configToggle(RX_MODE);
+							
+						// Loop until we read a response or time out.
+						while(TIMEOUT < RX_TIMEOUT_DURATION)
+						{
+							if(RECEIVE_cReadChar() == SERVO_START)
+							{
+								if(RECEIVE_cGetChar() == SERVO_START)
+								{
+									if(RECEIVE_cGetChar() == ID)
+									{
+										if(RECEIVE_cGetChar() == 3)
+										{
+											if(RECEIVE_cGetChar() == 0)
+											{
+												tempByte = RECEIVE_cGetChar();
+												
+												configToggle(PC_MODE);
+												
+												// Convert tempByte to an ascii value and send.
+												COMP_SERIAL_PutChar(tempByte + 48);
 												COMP_SERIAL_PutChar('\n');
 
 												TIMEOUT = RX_TIMEOUT_DURATION;
