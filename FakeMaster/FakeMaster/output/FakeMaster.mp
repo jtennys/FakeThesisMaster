@@ -1,5 +1,5 @@
-  ROM 25% full. 8177 bytes used (does not include absolute areas).
-  RAM 6% full. 110 bytes used (does not include stack usage).
+  ROM 26% full. 8663 bytes used (does not include absolute areas).
+  RAM 6% full. 118 bytes used (does not include stack usage).
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -328,7 +328,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   10E9   10A8 =   4264. bytes (rel,con,rom)
+                            text   10E9   128E =   4750. bytes (rel,con,rom)
 
        Addr  Global Symbol
       -----  --------------------------------
@@ -337,29 +337,29 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        114A  _pingModule
        1245  _assignID
        1375  _clearConfig
-       1478  _sayHello
-       14CE  _validTransmission
-       1521  _decodeTransmission
-       1981  _servoInstruction
-       1A15  _longServoInstruction
-       1AB7  _configToggle
-       1BA6  _unloadAllConfigs
-       1BB0  _unloadConfig
-       1BDF  _initializeSlaves
-       1D0F  _xmitWait
-       1D2E  _TX_TIMEOUT_ISR
-       1D44  _RX_TIMEOUT_ISR
-       1D5A  Dispatch_INTERRUPT_10
-       1D84  Dispatch_INTERRUPT_9
-       1DA3  __divmod_16X16_16
-       1DF1  __divmodu_16X16_16
-       1DFC  __i_div16_block_util
-       1E35  _atoi
-       1F76  _itoa
-       214F  _isdigit
-       2170  _isspace
-       219B  __xidata_end
-       2191  __text_end
+       147A  _sayHello
+       14D1  _validTransmission
+       1560  _decodeTransmission
+       1B65  _servoInstruction
+       1BF9  _longServoInstruction
+       1C9B  _configToggle
+       1D8A  _unloadAllConfigs
+       1D94  _unloadConfig
+       1DC3  _initializeSlaves
+       1EF5  _xmitWait
+       1F14  _TX_TIMEOUT_ISR
+       1F2A  _RX_TIMEOUT_ISR
+       1F40  Dispatch_INTERRUPT_10
+       1F6A  Dispatch_INTERRUPT_9
+       1F89  __divmod_16X16_16
+       1FD7  __divmodu_16X16_16
+       1FE2  __i_div16_block_util
+       201B  _atoi
+       215C  _itoa
+       2335  _isdigit
+       2356  _isspace
+       2387  __xidata_end
+       2377  __text_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -415,35 +415,34 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-               virtual_registers   0058   0009 =      9. bytes (rel,con,ram)
+               virtual_registers   0062   0009 =      9. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
-       0058  __rZ
-       0059  __rY
-       005A  __rX
-       005B  __r5
-       005C  __r4
-       005D  __r3
-       005E  __r2
-       005F  __r1
-       0060  __r0
+       0062  __rZ
+       0063  __rY
+       0064  __rX
+       0065  __r5
+       0066  __r4
+       0067  __r3
+       0068  __r2
+       0069  __r1
+       006A  __r0
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            data   0000   000B =     11. bytes (rel,con,ram)
+                            data   0000   0013 =     19. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
        0000  __data_start
-       0061  _STATE
-       0063  _NUM_MODULES
-       0065  _TIMEOUT
-       0069  _PARAM2
-       006A  _PARAM1
-       006B  _COMMAND_TYPE
-       006C  _COMMAND_DESTINATION
-       006D  _COMMAND_SOURCE
+       0058  _PARAM
+       006B  _NUM_MODULES
+       006D  _STATE
+       006F  _TIMEOUT
+       0073  _COMMAND_DESTINATION
+       0074  _COMMAND_SOURCE
+       0075  _COMMAND_TYPE
 
 Files Linked      [ module(s) ]
 
@@ -461,8 +460,8 @@ lit = 0x1a0
 data = 0x0
 SSCParmBlk:0x00F7.0x00FF
 InterruptRAM = 0x0
-virtual_registers = 0x58
-transmitter_config_RAM = 0x6e
+virtual_registers = 0x62
+transmitter_config_RAM = 0x76
 pc_listener_RAM
-receiver_config_RAM = 0x6e
+receiver_config_RAM = 0x76
 

@@ -17,10 +17,10 @@
 #define		TX_MODE						(0)
 
 // These defines are used as comparisons to find what port the newest module is connected to.
-#define		PORT_1						('A')
-#define		PORT_2						('B')
-#define		PORT_3						('C')
-#define		PORT_4						('D')
+#define		PORT_1						('1')
+#define		PORT_2						('2')
+#define		PORT_3						('3')
+#define		PORT_4						('4')
 
 // These defines are used as transmission indicators.
 #define		START_TRANSMIT				(252)	// Indicates the beginning of a transmission.
@@ -90,9 +90,7 @@ int NUM_MODULES;			// Stores the number of modules that have been discovered.
 char COMMAND_SOURCE;		// Stores who the current command is from.
 char COMMAND_DESTINATION;	// Stores who the current command is for.
 char COMMAND_TYPE;			// Stores the type of command that was just read.
-char PARAM1;				// Stores a parameter that accompanies the command (if any).
-char PARAM2;				// Stores a parameter that accompanies the command (if any).
-
+char PARAM[10];				// Stores a parameters that accompanies the command (if any).
 int STATE;					// Stores the current configuration state of the system.
 
 void main()
@@ -323,13 +321,20 @@ void sayHello(void)
 int validTransmission(void)
 {
 	int valid_transmit = 0;
+	int i = 0;
 	
 	if(RECEIVE_cGetChar() == START_TRANSMIT)
 	{
 		COMMAND_SOURCE = RECEIVE_cGetChar();
 		COMMAND_DESTINATION = RECEIVE_cGetChar();
 		COMMAND_TYPE = RECEIVE_cGetChar();
-		PARAM1 = RECEIVE_cGetChar();
+		PARAM[0] = RECEIVE_cGetChar();
+		
+		while(PARAM[i] != END_TRANSMIT)
+		{
+			i++;
+			PARAM[i] = RECEIVE_cGetChar();
+		}
 		
 		valid_transmit = 1;
 	}
@@ -461,6 +466,45 @@ void decodeTransmission(void)
 									}
 								}
 							}
+						}
+					}
+					else if ((param[0] == 'l') || (param[0] == 'L'))
+					{
+						if(pingModule(ID))
+						{
+							configToggle(PC_MODE);
+												
+							total = ((PARAM[0])*256) + PARAM[1];
+							itoa(param,total,10);
+							COMP_SERIAL_PutString(param);
+							COMP_SERIAL_PutChar('\n');
+							
+							total = ((PARAM[2])*256) + PARAM[3];
+							itoa(param,total,10);
+							COMP_SERIAL_PutString(param);
+							COMP_SERIAL_PutChar('\n');
+						}
+					}
+					else if ((param[0] == 'o') || (param[0] == 'O'))
+					{
+						if(pingModule(ID))
+						{
+							configToggle(PC_MODE);
+												
+							total = ((PARAM[4])*256) + PARAM[5];
+							itoa(param,total,10);
+							COMP_SERIAL_PutString(param);
+							COMP_SERIAL_PutChar('\n');
+						}
+					}
+					else if ((param[0] == 'c') || (param[0] == 'C'))
+					{
+						if(pingModule(ID))
+						{
+							configToggle(PC_MODE);
+												
+							COMP_SERIAL_PutChar(PARAM[6]);
+							COMP_SERIAL_PutChar('\n');
 						}
 					}
 				}
