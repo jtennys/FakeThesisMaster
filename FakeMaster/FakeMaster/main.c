@@ -468,30 +468,14 @@ void decodeTransmission(void)
 							}
 						}
 					}
-					else if ((param[0] == 'l') || (param[0] == 'L'))
+					else if ((param[0] == 't') || (param[0] == 'T'))
 					{
+						COMP_SERIAL_CmdReset();
 						if(pingModule(ID))
 						{
 							configToggle(PC_MODE);
 												
-							total = ((PARAM[0])*256) + PARAM[1];
-							itoa(param,total,10);
-							COMP_SERIAL_PutString(param);
-							COMP_SERIAL_PutChar('\n');
-							
-							total = ((PARAM[2])*256) + PARAM[3];
-							itoa(param,total,10);
-							COMP_SERIAL_PutString(param);
-							COMP_SERIAL_PutChar('\n');
-						}
-					}
-					else if ((param[0] == 'o') || (param[0] == 'O'))
-					{
-						if(pingModule(ID))
-						{
-							configToggle(PC_MODE);
-												
-							total = ((PARAM[4])*256) + PARAM[5];
+							total = PARAM[0];
 							itoa(param,total,10);
 							COMP_SERIAL_PutString(param);
 							COMP_SERIAL_PutChar('\n');
@@ -499,11 +483,12 @@ void decodeTransmission(void)
 					}
 					else if ((param[0] == 'c') || (param[0] == 'C'))
 					{
+						COMP_SERIAL_CmdReset();
 						if(pingModule(ID))
-						{
+						{	
 							configToggle(PC_MODE);
 												
-							COMP_SERIAL_PutChar(PARAM[6]);
+							COMP_SERIAL_PutChar(PARAM[1]);
 							COMP_SERIAL_PutChar('\n');
 						}
 					}

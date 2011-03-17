@@ -1839,7 +1839,7 @@
  0001           RECEIVE_RXBUF_ENABLE:                       equ   1
  0000           
  0001           RECEIVE_RX_IGNORE_BELOW:                     equ  1h
- 0010           RECEIVE_RX_BUFFER_SIZE:                      equ  10h
+ 0040           RECEIVE_RX_BUFFER_SIZE:                      equ  40h
  0000           RECEIVE_CMD_TERM:                            equ  0h
  0000           RECEIVE_DELIMITER:                           equ  0h
  0000           
@@ -3470,7 +3470,7 @@
  0093 75            inc  X                                  ; Increment both current pointer and
  0094 7600          inc  [ptrParam]                         ; stored pointer.
  0096 5200          mov  A,[X]                              ; Get character pointed by X
- 0098 3C000F        cmp  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Check if we are at the end of buffer
+ 0098 3C003F        cmp  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Check if we are at the end of buffer
  009B BFF3          jnz  .CheckForDelim
  009D                                                       ; End of string found
  009D           .EndOfString:
@@ -3486,7 +3486,7 @@
  00A4                                                       ; Now loop until end of parameter found.
  00A4 75            inc  X                                  ; Advance pointers.
  00A5 7600          inc  [ptrParam]
- 00A7 3C000F        cmp  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Check if we are at the end of buffer
+ 00A7 3C003F        cmp  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Check if we are at the end of buffer
  00AA AFF3          jz   .TerminateString
  00AC 5200          mov  A,[X]                              ; Get next character
  00AE A012          jz   .End_GetNextParam
@@ -3495,9 +3495,9 @@
  00B4           
  00B4 560000        mov  [X],0x00                           ; Replace delimiter with null for end of substring
  00B7 7600          inc  [ptrParam]
- 00B9 3C000F        cmp  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Check if we are at the end of buffer
+ 00B9 3C003F        cmp  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Check if we are at the end of buffer
  00BC B004          jnz  .End_GetNextParam                  ; If not end of string leave
- 00BE 55000F        mov  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Reset pointer to end of string.
+ 00BE 55003F        mov  [ptrParam],(RECEIVE_RX_BUFFER_SIZE -1)  ; Reset pointer to end of string.
  00C1           
  00C1           
  00C1           .End_GetNextParam:

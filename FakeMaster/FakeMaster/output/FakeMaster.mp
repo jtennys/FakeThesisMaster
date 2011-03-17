@@ -1,5 +1,5 @@
-  ROM 26% full. 8663 bytes used (does not include absolute areas).
-  RAM 6% full. 118 bytes used (does not include stack usage).
+  ROM 26% full. 8484 bytes used (does not include absolute areas).
+  RAM 9% full. 166 bytes used (does not include stack usage).
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -328,7 +328,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   10E9   128E =   4750. bytes (rel,con,rom)
+                            text   10E9   11DB =   4571. bytes (rel,con,rom)
 
        Addr  Global Symbol
       -----  --------------------------------
@@ -338,28 +338,28 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        1245  _assignID
        1375  _clearConfig
        147A  _sayHello
-       14D1  _validTransmission
-       1560  _decodeTransmission
-       1B65  _servoInstruction
-       1BF9  _longServoInstruction
-       1C9B  _configToggle
-       1D8A  _unloadAllConfigs
-       1D94  _unloadConfig
-       1DC3  _initializeSlaves
-       1EF5  _xmitWait
-       1F14  _TX_TIMEOUT_ISR
-       1F2A  _RX_TIMEOUT_ISR
-       1F40  Dispatch_INTERRUPT_10
-       1F6A  Dispatch_INTERRUPT_9
-       1F89  __divmod_16X16_16
-       1FD7  __divmodu_16X16_16
-       1FE2  __i_div16_block_util
-       201B  _atoi
-       215C  _itoa
-       2335  _isdigit
-       2356  _isspace
-       2387  __xidata_end
-       2377  __text_end
+       14D0  _validTransmission
+       155F  _decodeTransmission
+       1AB2  _servoInstruction
+       1B46  _longServoInstruction
+       1BE8  _configToggle
+       1CD7  _unloadAllConfigs
+       1CE1  _unloadConfig
+       1D10  _initializeSlaves
+       1E42  _xmitWait
+       1E61  _TX_TIMEOUT_ISR
+       1E77  _RX_TIMEOUT_ISR
+       1E8D  Dispatch_INTERRUPT_10
+       1EB7  Dispatch_INTERRUPT_9
+       1ED6  __divmod_16X16_16
+       1F24  __divmodu_16X16_16
+       1F2F  __i_div16_block_util
+       1F68  _atoi
+       20A9  _itoa
+       2282  _isdigit
+       22A3  _isspace
+       22D4  __xidata_end
+       22C4  __text_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -406,7 +406,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                     RECEIVE_RAM   0000   0011 =     17. bytes (rel,con,ram)
+                     RECEIVE_RAM   0000   0041 =     65. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
@@ -415,19 +415,19 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-               virtual_registers   0062   0009 =      9. bytes (rel,con,ram)
+               virtual_registers   0092   0009 =      9. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
-       0062  __rZ
-       0063  __rY
-       0064  __rX
-       0065  __r5
-       0066  __r4
-       0067  __r3
-       0068  __r2
-       0069  __r1
-       006A  __r0
+       0092  __rZ
+       0093  __rY
+       0094  __rX
+       0095  __r5
+       0096  __r4
+       0097  __r3
+       0098  __r2
+       0099  __r1
+       009A  __r0
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -436,13 +436,13 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        Addr  Global Symbol
       -----  --------------------------------
        0000  __data_start
-       0058  _PARAM
-       006B  _NUM_MODULES
-       006D  _STATE
-       006F  _TIMEOUT
-       0073  _COMMAND_DESTINATION
-       0074  _COMMAND_SOURCE
-       0075  _COMMAND_TYPE
+       0088  _PARAM
+       009B  _NUM_MODULES
+       009D  _STATE
+       009F  _TIMEOUT
+       00A3  _COMMAND_DESTINATION
+       00A4  _COMMAND_SOURCE
+       00A5  _COMMAND_TYPE
 
 Files Linked      [ module(s) ]
 
@@ -460,8 +460,8 @@ lit = 0x1a0
 data = 0x0
 SSCParmBlk:0x00F7.0x00FF
 InterruptRAM = 0x0
-virtual_registers = 0x62
-transmitter_config_RAM = 0x76
+virtual_registers = 0x92
+transmitter_config_RAM = 0xa6
 pc_listener_RAM
-receiver_config_RAM = 0x76
+receiver_config_RAM = 0xa6
 

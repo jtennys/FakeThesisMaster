@@ -1826,7 +1826,7 @@
  0001           RECEIVE_RXBUF_ENABLE:                       equ   1
  0000           
  0001           RECEIVE_RX_IGNORE_BELOW:                     equ  1h
- 0010           RECEIVE_RX_BUFFER_SIZE:                      equ  10h
+ 0040           RECEIVE_RX_BUFFER_SIZE:                      equ  40h
  0000           RECEIVE_CMD_TERM:                            equ  0h
  0000           RECEIVE_DELIMITER:                           equ  0h
  0000           
@@ -2046,7 +2046,7 @@
                 ENDIF
                 
  0049           .UARTRX_CHK_OVFL:                                          ; Check for MAX String here
- 0049 3C010F       cmp  [RECEIVE_bRxCnt],(RECEIVE_RX_BUFFER_SIZE - 1)
+ 0049 3C013F       cmp  [RECEIVE_bRxCnt],(RECEIVE_RX_BUFFER_SIZE - 1)
  004C C014         jc   .UARTRX_ISR_GETDATA
  004E 2E0010       or   [RECEIVE_fStatus],RECEIVE_RX_BUF_OVERRUN           ; Set error flags (parity,framing,overrun) bits
  0051           

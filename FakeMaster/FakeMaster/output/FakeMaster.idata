@@ -1,7 +1,7 @@
-flash 2377 SRAM   58:
+flash 22C4 SRAM   88:
  00 10 bytes
-flash 237B SRAM   6B:
+flash 22C8 SRAM   9B:
  00 6 bytes
-flash 237F SRAM   73:
+flash 22CC SRAM   A3:
  <size at next line>   0  0  0
   [size:] 3 bytes
