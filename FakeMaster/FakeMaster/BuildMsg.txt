@@ -43,4 +43,4 @@ LMM info: area 'transmitter_config_RAM' uses 0 bytes in SRAM page 0
   RAM 9% full. 163 bytes used (does not include stack usage).
 idata dump at output/FakeMaster.idata
  
-FakeMaster - 0 error(s) 0 warning(s) 11:01:39
+FakeMaster - 0 error(s) 0 warning(s) 11:27:15

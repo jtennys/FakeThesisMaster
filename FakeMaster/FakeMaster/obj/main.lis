@@ -66,7 +66,7 @@
  0004           ; // the first module is found. After all of this, this module goes into a PC listening mode.
  0004           ; #define               BUS_CLEAR_TIME                          (100)   // Min time after a byte to assume bus is clear at boot.
  0004           ; #define               BOOT_TIMEOUT                            (300)   // If nothing is heard by this time, we start the init anyway.
- 0004           ; #define               MAX_TIMEOUTS                            (20)    // Number of timeouts allowed before hello mode exit.
+ 0004           ; #define               MAX_TIMEOUTS                            (10)    // Number of timeouts allowed before hello mode exit.
  0004           ; 
  0004           ; // This is the maximum number of allowable modules per branch out from the master
  0004           ; #define               MAX_MODULES                                     (250)
@@ -3351,7 +3351,7 @@
  0DB0           L213:
  0DB0                   .dbline 745
  0DB0 5201              mov A,[X+1]
- 0DB2 1114              sub A,20
+ 0DB2 110A              sub A,10
  0DB4 5200              mov A,[X+0]
  0DB6 3180              xor A,-128
  0DB8 1980              sbb A,(0 ^ 0x80)

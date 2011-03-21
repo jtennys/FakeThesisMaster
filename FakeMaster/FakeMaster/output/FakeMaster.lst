@@ -5369,7 +5369,7 @@ _pingModule:
 0EEA: B0 06    JNZ   0x0EF1
 0EEC: 3C 96 00 CMP   [__r1],0
 0EEF: A0 2D    JZ    0x0F1D
-(0157) #define		MAX_TIMEOUTS				(20)	// Number of timeouts allowed before hello mode exit.
+(0157) #define		MAX_TIMEOUTS				(10)	// Number of timeouts allowed before hello mode exit.
 (0158) 
 0EF1: 62 D0 00 MOV   REG[208],0
 0EF4: 3C A2 CB CMP   [COMMAND_TYPE],203
@@ -7647,7 +7647,7 @@ _initializeSlaves:
 (0793) // This function unloads the configuration corresponding to the config number passed to it.
 1BD2: 7C 11 47 LCALL _sayHello
 1BD5: 52 01    MOV   A,[X+1]
-1BD7: 11 14    SUB   A,20
+1BD7: 11 0A    SUB   A,10
 1BD9: 52 00    MOV   A,[X+0]
 1BDB: 31 80    XOR   A,128
 1BDD: 19 80    SBB   A,128
