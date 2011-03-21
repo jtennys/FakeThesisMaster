@@ -2,7 +2,6 @@
 lib/comp_serial.asm   
 lib/comp_serialint.asm   
 lib/comp_serialplus.asm   
-lib/lcd_1.asm   
 lib/psocconfig.asm   
 lib/psocconfigtbl.asm   
 lib/psocdynamic.asm   

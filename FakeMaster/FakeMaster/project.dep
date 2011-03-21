@@ -4,9 +4,9 @@
    C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8ssc.inc\
    C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\lib\GLOBAL~1.INC\
    C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\memory.inc
-./obj/main.o :  ./lib/COMP_S~1.H ./lib/LCD_1.h ./lib/PSoCAPI.h\
-   ./lib/RECEIVE.h ./lib/RX_TIM~1.H ./lib/TRANSMIT.h ./lib/TX_REP~1.H\
-   ./lib/TX_TIM~1.H ./lib/PSOCDY~1.H\
+./obj/main.o :  ./lib/COMP_S~1.H ./lib/PSoCAPI.h ./lib/RECEIVE.h\
+   ./lib/RX_TIM~1.H ./lib/TRANSMIT.h ./lib/TX_REP~1.H ./lib/TX_TIM~1.H\
+   ./lib/PSOCDY~1.H\
    C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.h\
    C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/_const.h\
    C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/limits.h\
@@ -19,9 +19,6 @@
    C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\memory.inc
 ./lib/obj/comp_serialplus.o : 
-./lib/obj/lcd_1.o :  ./lib/LCD_1.inc\
-   C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.inc\
-   C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\memory.inc
 ./lib/obj/psocconfig.o :  ./lib/GLOBAL~1.INC ./lib/PSOCDY~1.INC\
    C:/PROGRA~1/Cypress/Common/CYPRES~3/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\memory.inc

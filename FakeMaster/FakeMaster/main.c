@@ -44,10 +44,14 @@
 // These defines are used for transmission timing.
 #define 	RX_TIMEOUT_DURATION			(5)		// This is receive wait time in 1 ms units.
 
-// These defines are used for the initial probing stage, where receive waits are longer to make
-// sure of transmission failure or success.
-#define		BOOT_TIMEOUT				(200)	// This is boot wait time in 1 ms units.
-#define		MAX_TIMEOUTS				(5)	// Number of timeouts allowed before hello mode exit.
+// These defines are used for the initial probing stage. This module first waits until it hears
+// a byte on the bus. Once this happens, this module waits until there is a BUS_CLEAR_TIME
+// period of no communication before attempting to probe for modules and assign ID numbers.
+// MAX_TIMEOUTS is the number of failed attempts allowed to find an unconfigured module after
+// the first module is found. After all of this, this module goes into a PC listening mode.
+#define		BUS_CLEAR_TIME				(100)	// Min time after a byte to assume bus is clear at boot.
+#define		BOOT_TIMEOUT				(300)	// If nothing is heard by this time, we start the init anyway.
+#define		MAX_TIMEOUTS				(20)	// Number of timeouts allowed before hello mode exit.
 
 // This is the maximum number of allowable modules per branch out from the master
 #define		MAX_MODULES					(250)
@@ -67,6 +71,8 @@ int assignID(int assigned_ID);
 int validTransmission(void);
 
 void decodeTransmission(void);
+
+void busListen(void);
 
 void sayHello(void);
 
@@ -104,12 +110,8 @@ void main()
 	M8C_EnableGInt;			// Turn on global interrupts for the transmission timeout timer.
 	M8C_EnableIntMask(INT_MSK0,INT_MSK0_GPIO); //activate GPIO ISR
 	
-	unloadAllConfigs();
-
-	configToggle(RX_MODE);
-		
 	// Sit and wait for the worst case setup time to occur.
-	while(TIMEOUT < BOOT_TIMEOUT) { }
+	// while(TIMEOUT < BOOT_TIMEOUT) { }
 		
 	// Initialize all of the slave modules.
 	initializeSlaves();
@@ -219,11 +221,11 @@ int assignID(int assigned_ID)
 		}
 	}
 	
-	LCD_1_Start();
-	LCD_1_Position(0,0);
-	LCD_1_PrHexInt(NUM_MODULES);
-	LCD_1_Position(0,5);
-	LCD_1_PrCString("Modules!");
+//	LCD_1_Start();
+//	LCD_1_Position(0,0);
+//	LCD_1_PrHexInt(NUM_MODULES);
+//	LCD_1_Position(0,5);
+//	LCD_1_PrCString("Modules!");
 	
 	RX_TIMEOUT_Stop();
 	TIMEOUT = 0;
@@ -703,9 +705,38 @@ void unloadConfig(int config_num)
 	}
 }
 
+void busListen(void)
+{
+	configToggle(RX_MODE);
+
+	// Wait for the first byte.
+	while(TIMEOUT < BOOT_TIMEOUT)
+	{
+		if(RECEIVE_cGetChar())
+		{
+			TIMEOUT = BOOT_TIMEOUT;
+		}
+	}
+	
+	// Clear the timeout flag.
+	TIMEOUT = 0;
+	
+	// Wait for BUS_CLEAR_TIME to pass without hearing a byte.
+	while(TIMEOUT < BUS_CLEAR_TIME)
+	{					
+		if(RECEIVE_cReadChar())
+		{
+			TIMEOUT = 0;	
+		}
+	}
+}
+
 void initializeSlaves(void)
 {
 	int num_timeouts = 0;
+	
+	// Block and wait for the bus to be clear.
+	busListen();
 	
 	sayHello();
 	
@@ -750,7 +781,11 @@ void initializeSlaves(void)
 		}
 		else if(TIMEOUT >= RX_TIMEOUT_DURATION)
 		{	
-			num_timeouts++;
+			// Only count timeouts if we've found at least one module.
+			if(NUM_MODULES)
+			{
+				num_timeouts++;
+			}
 			
 			// If we are not maxed out on modules, look for more.
 			if(NUM_MODULES < MAX_MODULES)
@@ -759,8 +794,6 @@ void initializeSlaves(void)
 			}
 		}
 	}
-	
-	configToggle(RX_MODE);
 	
 	// Switch back to PC mode.
 	configToggle(PC_MODE);

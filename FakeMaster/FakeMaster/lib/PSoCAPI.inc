@@ -2,7 +2,6 @@
 ;
 include "COMP_SERIAL.inc"
 include "TX_REPEATER.inc"
-include "LCD_1.inc"
 include "RECEIVE.inc"
 include "RX_TIMEOUT.inc"
 include "TRANSMIT.inc"

@@ -905,7 +905,6 @@
  0040           ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
  0040 FF                db              ffh
  0041           LoadConfigTBL_receiver_config_Bank0:
- 0041           ;  Instance name LCD_1, User Module LCD
  0041           ;  Instance name RECEIVE, User Module RX8
  0041           ;       Instance name RECEIVE, Block Name RX8(DCB02)
  0041 2B00              db              2bh, 00h                ;RECEIVE_CONTROL_REG  (DCB02CR0)
@@ -922,7 +921,6 @@
  0051 2600              db              26h, 00h                ;RX_TIMEOUT_COMPARE_MSB_REG(DBB01DR2)
  0053 FF                db              ffh
  0054           LoadConfigTBL_receiver_config_Bank1:
- 0054           ;  Instance name LCD_1, User Module LCD
  0054           ;  Instance name RECEIVE, User Module RX8
  0054           ;       Instance name RECEIVE, Block Name RX8(DCB02)
  0054 2805              db              28h, 05h                ;RECEIVE_FUNC_REG     (DCB02FN)
@@ -939,7 +937,6 @@
  0064 2640              db              26h, 40h                ;RX_TIMEOUT_OUTPUT_MSB_REG(DBB01OU)
  0066 FF                db              ffh
  0067           UnloadConfigTBL_receiver_config_Bank0:
- 0067           ;  Instance name LCD_1, User Module LCD
  0067           ;  Instance name RECEIVE, User Module RX8
  0067           ;       Instance name RECEIVE, Block Name RX8(DCB02)
  0067 2B00              db              2bh, 00h                ;RECEIVE_CONTROL_0 (DCB02CR0)
@@ -950,7 +947,6 @@
  006B 2700              db              27h, 00h                ;RX_TIMEOUT_CONTROL_0 (DBB01CR0)
  006D FF                db              ffh
  006E           UnloadConfigTBL_receiver_config_Bank1:
- 006E           ;  Instance name LCD_1, User Module LCD
  006E           ;  Instance name RECEIVE, User Module RX8
  006E           ;       Instance name RECEIVE, Block Name RX8(DCB02)
  006E 2800              db              28h, 00h                ;RECEIVE_DIG_BasicFunction (DCB02FN)
@@ -967,7 +963,6 @@
  007E 2600              db              26h, 00h                ;RX_TIMEOUT_DIG_Output (DBB01OU)
  0080 FF                db              ffh
  0081           
- 0081           ;  Instance name LCD_1, User Module LCD
  0081           ;  Instance name RECEIVE, User Module RX8
  0081           ;       Instance name RECEIVE, Block Name RX8(DCB02)
  0081           ;  Instance name RX_TIMEOUT, User Module Timer16

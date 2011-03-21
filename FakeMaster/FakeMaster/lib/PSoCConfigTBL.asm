@@ -86,7 +86,6 @@ UnloadConfigTBL_pc_listener_Bank1:
 ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
 	db		ffh
 LoadConfigTBL_receiver_config_Bank0:
-;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		2bh, 00h		;RECEIVE_CONTROL_REG  (DCB02CR0)
@@ -103,7 +102,6 @@ LoadConfigTBL_receiver_config_Bank0:
 	db		26h, 00h		;RX_TIMEOUT_COMPARE_MSB_REG(DBB01DR2)
 	db		ffh
 LoadConfigTBL_receiver_config_Bank1:
-;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		28h, 05h		;RECEIVE_FUNC_REG     (DCB02FN)
@@ -120,7 +118,6 @@ LoadConfigTBL_receiver_config_Bank1:
 	db		26h, 40h		;RX_TIMEOUT_OUTPUT_MSB_REG(DBB01OU)
 	db		ffh
 UnloadConfigTBL_receiver_config_Bank0:
-;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		2bh, 00h		;RECEIVE_CONTROL_0 (DCB02CR0)
@@ -131,7 +128,6 @@ UnloadConfigTBL_receiver_config_Bank0:
 	db		27h, 00h		;RX_TIMEOUT_CONTROL_0 (DBB01CR0)
 	db		ffh
 UnloadConfigTBL_receiver_config_Bank1:
-;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 	db		28h, 00h		;RECEIVE_DIG_BasicFunction (DCB02FN)
@@ -148,7 +144,6 @@ UnloadConfigTBL_receiver_config_Bank1:
 	db		26h, 00h		;RX_TIMEOUT_DIG_Output (DBB01OU)
 	db		ffh
 
-;  Instance name LCD_1, User Module LCD
 ;  Instance name RECEIVE, User Module RX8
 ;       Instance name RECEIVE, Block Name RX8(DCB02)
 ;  Instance name RX_TIMEOUT, User Module Timer16

@@ -3,7 +3,6 @@
 ******************************************************************************/
 #include "COMP_SERIAL.h"
 #include "TX_REPEATER.h"
-#include "LCD_1.h"
 #include "RECEIVE.h"
 #include "RX_TIMEOUT.h"
 #include "TRANSMIT.h"

@@ -40,13 +40,6 @@ export _UnloadConfig_receiver_config
 export UnloadConfig_Total
 export _UnloadConfig_Total
 export ACTIVE_CONFIG_STATUS
-export Port_2_Data_SHADE
-export _Port_2_Data_SHADE
-export Port_2_DriveMode_0_SHADE
-export _Port_2_DriveMode_0_SHADE
-export Port_2_DriveMode_1_SHADE
-export _Port_2_DriveMode_1_SHADE
-
 
 export NO_SHADOW
 export _NO_SHADOW
@@ -79,10 +72,6 @@ _LoadConfigInit:
     RAM_PROLOGUE RAM_USE_CLASS_4
     RAM_SETPAGE_CUR >ACTIVE_CONFIG_STATUS
 	mov		[ACTIVE_CONFIG_STATUS], 0
-
-	mov		[Port_2_Data_SHADE], 0h
-	mov		[Port_2_DriveMode_0_SHADE], 0h
-	mov		[Port_2_DriveMode_1_SHADE], ffh
 
 	lcall	LoadConfig_transmitter_config
 	lcall	LoadConfigTBL_transmitter_config_Ordered
@@ -418,15 +407,6 @@ _LoadConfig_receiver_config:
 	M8C_SetBank0
 	and		reg[ 7h], ~ 1h
 	or		reg[ 7h],  1h
-; writing Port_2_DriveMode_0 register
-	M8C_SetBank1
-	and		reg[ 8h], ~7fh
-	or		reg[ 8h], 7fh
-; writing Port_2_DriveMode_1 register
-	and		reg[ 9h], ~7fh
-; writing Port_2_DriveMode_2 register
-	M8C_SetBank0
-	and		reg[ bh], ~7fh
 ; writing AnalogColumnClockSelect register
 	M8C_SetBank1
 	and		reg[60h], ~30h
@@ -529,17 +509,7 @@ _UnloadConfig_receiver_config:
 ; writing Row_1_OutputDrive_0 register
 	and		reg[bdh], ~40h
 	or		reg[bdh], 40h
-; writing Port_2_DriveMode_2 register
-	and		reg[ bh], ~7fh
-	or		reg[ bh], 7fh
-; writing Port_2_DriveMode_1 register
-	M8C_SetBank1
-	and		reg[ 9h], ~7fh
-	or		reg[ 9h], 7fh
-; writing Port_2_DriveMode_0 register
-	and		reg[ 8h], ~7fh
 ; writing Port_1_DriveMode_2 register
-	M8C_SetBank0
 	and		reg[ 7h], ~ 1h
 ; writing Port_1_DriveMode_1 register
 	M8C_SetBank1
@@ -684,13 +654,5 @@ NO_SHADOW:
 _NO_SHADOW:
 ; active configuration status byte
 ACTIVE_CONFIG_STATUS:	BLK	1
-
-; write only register shadows
-_Port_2_Data_SHADE:
-Port_2_Data_SHADE:	BLK	1
-_Port_2_DriveMode_0_SHADE:
-Port_2_DriveMode_0_SHADE:	BLK	1
-_Port_2_DriveMode_1_SHADE:
-Port_2_DriveMode_1_SHADE:	BLK	1
 
 AREA text(rom, rel)
