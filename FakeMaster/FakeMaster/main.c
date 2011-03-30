@@ -101,24 +101,17 @@ int STATE;					// Stores the current configuration state of the system.
 
 void main()
 {	
-	int tempValue = 0;
-	int softwareReset = 0;
-	float angle = 0;
+	// Activate GPIO ISR.
+	M8C_EnableIntMask(INT_MSK0,INT_MSK0_GPIO);
 	
-	// M8C_ClearWDTAndSleep;							// Initialize the watchdog and sleep timers.
-	M8C_EnableIntMask(INT_MSK0,INT_MSK0_GPIO);		// Activate GPIO ISR
-	// M8C_EnableIntMask(INT_MSK0, INT_MSK0_SLEEP);	// Activate Sleep Timer
-	
-	M8C_EnableGInt;		// Turn on global interrupts for the transmission timeout timer.
+	// Turn on global interrupts for the transmission timeout timer.
+	M8C_EnableGInt;
 	
 	// Initialize all of the slave modules.
 	initializeSlaves();
 	
 	while(1)
-	{
-		// Clear the Watchdog Timer
-		// M8C_ClearWDT;
-		
+	{	
 		// If there's a command from the computer, read it.
 		if(COMP_SERIAL_bCmdCheck())
 		{
@@ -592,8 +585,8 @@ void longServoInstruction(char id, char length, char instruction, char address, 
 void configToggle(int mode)
 {
 	// Disconnect from the global bus and leave the pin high.
-	PRT0DR |= 0b10000000;
-	PRT0GS &= 0b01111111;
+	PRT0DR |= 0b11111111;
+	PRT0GS &= 0b00000000;
 
 	// Unload the configuration of the current state.
 	// If there is no state, blindly wipe all configurations.
@@ -609,8 +602,7 @@ void configToggle(int mode)
 	if(mode == PC_MODE)
 	{
 		LoadConfig_pc_listener();
-	
-		//COMP_SERIAL_CmdReset(); 						// Initializes the RX buffer
+
 		COMP_SERIAL_IntCntl(COMP_SERIAL_ENABLE_RX_INT); // Enable RX interrupts  
 		COMP_SERIAL_Start(UART_PARITY_NONE);			// Starts the UART.
 		
@@ -655,24 +647,8 @@ void configToggle(int mode)
 		STATE = TX_MODE;
 	}
 	
-	// Make sure to keep the LED on (active low).
-	//PRT2DR &= 0b11111110;
-	
-	if(STATE == TX_MODE)
-	{
-		PRT1DR |= 0b00000001;
-	}
-	else
-	{
-		PRT1DR &= 0b11111110;
-		
-	}
-	
 	// Reconnect to the global bus.
-	PRT0GS |= 0b10000000;
-	
-	// Clear the Watchdog Timer
-	// M8C_ClearWDT;
+	PRT0GS |= 0b11111111;
 }
 
 // This function blindly unloads all user configurations. This will be called once,
@@ -708,10 +684,7 @@ void busListen(void)
 
 	// Wait for the first byte.
 	while(TIMEOUT < BOOT_TIMEOUT)
-	{
-		// Clear the WDT.
-		// M8C_ClearWDT;
-		
+	{	
 		if(RECEIVE_cGetChar())
 		{
 			TIMEOUT = BOOT_TIMEOUT;
@@ -723,10 +696,7 @@ void busListen(void)
 	
 	// Wait for BUS_CLEAR_TIME to pass without hearing a byte.
 	while(TIMEOUT < BUS_CLEAR_TIME)
-	{
-		// Clear the WDT.
-		// M8C_ClearWDT;
-		
+	{	
 		if(RECEIVE_cReadChar())
 		{
 			TIMEOUT = 0;	
@@ -749,10 +719,7 @@ void initializeSlaves(void)
 	// This loop continuously probes and listens at intervals
 	// set by the RX_TIMEOUT_DURATION variable.
 	while(num_timeouts < MAX_TIMEOUTS)
-	{
-		// Clear the WDT.
-		// M8C_ClearWDT;
-		
+	{	
 		if(validTransmission())
 		{
 			if(COMMAND_TYPE == HELLO_BYTE)	// Someone else is out there!

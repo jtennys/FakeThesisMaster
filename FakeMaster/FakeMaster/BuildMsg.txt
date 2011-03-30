@@ -22,6 +22,7 @@ lib/tx_timeout.asm
 lib/tx_timeoutint.asm
 ./boot.asm
 ./main.c
+!W C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\main.c(589):[warning] expression with no effect elided
  
 Linking..
 LMM info: area 'InterruptRAM' uses 5 bytes in SRAM page 0
@@ -39,8 +40,8 @@ LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'receiver_config_RAM' uses 0 bytes in SRAM page 0
 LMM info: area 'transmitter_config_RAM' uses 0 bytes in SRAM page 0
-  ROM 24% full. 7949 bytes used (does not include absolute areas).
+  ROM 24% full. 7897 bytes used (does not include absolute areas).
   RAM 9% full. 163 bytes used (does not include stack usage).
 idata dump at output/FakeMaster.idata
  
-FakeMaster - 0 error(s) 0 warning(s) 11:50:31
+FakeMaster - 0 error(s) 1 warning(s) 12:09:31
