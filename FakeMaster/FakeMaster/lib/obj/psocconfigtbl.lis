@@ -869,7 +869,7 @@
  001F           ;       Instance name TX_REPEATER, Block Name TX8(DCB02)
  001F 281D              db              28h, 1dh                ;TX_REPEATER_FUNC_REG     (DCB02FN)
  0021 2901              db              29h, 01h                ;TX_REPEATER_INPUT_REG    (DCB02IN)
- 0023 2A84              db              2ah, 84h                ;TX_REPEATER_OUTPUT_REG   (DCB02OU)
+ 0023 2A85              db              2ah, 85h                ;TX_REPEATER_OUTPUT_REG   (DCB02OU)
  0025 FF                db              ffh
  0026           UnloadConfigTBL_pc_listener_Bank0:
  0026           ;  Instance name COMP_SERIAL, User Module UART
@@ -924,7 +924,7 @@
  0054           ;  Instance name RECEIVE, User Module RX8
  0054           ;       Instance name RECEIVE, Block Name RX8(DCB02)
  0054 2805              db              28h, 05h                ;RECEIVE_FUNC_REG     (DCB02FN)
- 0056 29C1              db              29h, c1h                ;RECEIVE_INPUT_REG    (DCB02IN)
+ 0056 29D1              db              29h, d1h                ;RECEIVE_INPUT_REG    (DCB02IN)
  0058 2A80              db              2ah, 80h                ;RECEIVE_OUTPUT_REG   (DCB02OU)
  005A           ;  Instance name RX_TIMEOUT, User Module Timer16
  005A           ;       Instance name RX_TIMEOUT, Block Name TIMER16_LSB(DBB00)
@@ -997,14 +997,14 @@
  00A6 B200              db              b2h, 00h                ; Row_0_LogicInputAMux register (RDI0IS)
  00A8 B333              db              b3h, 33h                ; Row_0_LogicSelect_0 register (RDI0LT0)
  00AA B433              db              b4h, 33h                ; Row_0_LogicSelect_1 register (RDI0LT1)
- 00AC B501              db              b5h, 01h                ; Row_0_OutputDrive_0 register (RDI0SRO0)
+ 00AC B510              db              b5h, 10h                ; Row_0_OutputDrive_0 register (RDI0SRO0)
  00AE B600              db              b6h, 00h                ; Row_0_OutputDrive_1 register (RDI0SRO1)
  00B0 B846              db              b8h, 46h                ; Row_1_InputMux register (RDI1RI)
  00B2 B900              db              b9h, 00h                ; Row_1_InputSync register (RDI1SYN)
  00B4 BA10              db              bah, 10h                ; Row_1_LogicInputAMux register (RDI1IS)
  00B6 BB33              db              bbh, 33h                ; Row_1_LogicSelect_0 register (RDI1LT0)
  00B8 BC33              db              bch, 33h                ; Row_1_LogicSelect_1 register (RDI1LT1)
- 00BA BD40              db              bdh, 40h                ; Row_1_OutputDrive_0 register (RDI1SRO0)
+ 00BA BD00              db              bdh, 00h                ; Row_1_OutputDrive_0 register (RDI1SRO0)
  00BC BE00              db              beh, 00h                ; Row_1_OutputDrive_1 register (RDI1SRO1)
  00BE C000              db              c0h, 00h                ; Row_2_InputMux register (RDI2RI)
  00C0 C100              db              c1h, 00h                ; Row_2_InputSync register (RDI2SYN)
@@ -1030,7 +1030,7 @@
  00E3           ;       Instance name TRANSMIT, Block Name TX8(DCB02)
  00E3 280D              db              28h, 0dh                ;TRANSMIT_FUNC_REG     (DCB02FN)
  00E5 2901              db              29h, 01h                ;TRANSMIT_INPUT_REG    (DCB02IN)
- 00E7 2A84              db              2ah, 84h                ;TRANSMIT_OUTPUT_REG   (DCB02OU)
+ 00E7 2A85              db              2ah, 85h                ;TRANSMIT_OUTPUT_REG   (DCB02OU)
  00E9           ;  Instance name TX_TIMEOUT, User Module Timer16
  00E9           ;       Instance name TX_TIMEOUT, Block Name TIMER16_LSB(DBB00)
  00E9 2000              db              20h, 00h                ;TX_TIMEOUT_FUNC_LSB_REG(DBB00FN)
@@ -1063,32 +1063,32 @@
  011A           LoadConfigTBL_transmitter_config_Ordered:
  011A           ;  Ordered Global Register values
  011A 7110          or    F, FLAG_XIO_MASK
- 011C 620001            mov     reg[00h], 01h           ; Port_0_DriveMode_0 register (PRT0DM0)
- 011F 6201FE            mov     reg[01h], feh           ; Port_0_DriveMode_1 register (PRT0DM1)
+ 011C 620002            mov     reg[00h], 02h           ; Port_0_DriveMode_0 register (PRT0DM0)
+ 011F 6201FD            mov     reg[01h], fdh           ; Port_0_DriveMode_1 register (PRT0DM1)
  0122 70EF          and   F, ~FLAG_XIO_MASK
- 0124 6203FE            mov     reg[03h], feh           ; Port_0_DriveMode_2 register (PRT0DM2)
- 0127 620201            mov     reg[02h], 01h           ; Port_0_GlobalSelect register (PRT0GS)
+ 0124 6203FD            mov     reg[03h], fdh           ; Port_0_DriveMode_2 register (PRT0DM2)
+ 0127 620202            mov     reg[02h], 02h           ; Port_0_GlobalSelect register (PRT0GS)
  012A 7110          or    F, FLAG_XIO_MASK
  012C 620200            mov     reg[02h], 00h           ; Port_0_IntCtrl_0 register (PRT0IC0)
  012F 620300            mov     reg[03h], 00h           ; Port_0_IntCtrl_1 register (PRT0IC1)
  0132 70EF          and   F, ~FLAG_XIO_MASK
  0134 620100            mov     reg[01h], 00h           ; Port_0_IntEn register (PRT0IE)
  0137 7110          or    F, FLAG_XIO_MASK
- 0139 620403            mov     reg[04h], 03h           ; Port_1_DriveMode_0 register (PRT1DM0)
- 013C 6205FC            mov     reg[05h], fch           ; Port_1_DriveMode_1 register (PRT1DM1)
+ 0139 620401            mov     reg[04h], 01h           ; Port_1_DriveMode_0 register (PRT1DM0)
+ 013C 6205FE            mov     reg[05h], feh           ; Port_1_DriveMode_1 register (PRT1DM1)
  013F 70EF          and   F, ~FLAG_XIO_MASK
- 0141 6207FC            mov     reg[07h], fch           ; Port_1_DriveMode_2 register (PRT1DM2)
- 0144 620602            mov     reg[06h], 02h           ; Port_1_GlobalSelect register (PRT1GS)
+ 0141 6207FE            mov     reg[07h], feh           ; Port_1_DriveMode_2 register (PRT1DM2)
+ 0144 620600            mov     reg[06h], 00h           ; Port_1_GlobalSelect register (PRT1GS)
  0147 7110          or    F, FLAG_XIO_MASK
  0149 620600            mov     reg[06h], 00h           ; Port_1_IntCtrl_0 register (PRT1IC0)
  014C 620700            mov     reg[07h], 00h           ; Port_1_IntCtrl_1 register (PRT1IC1)
  014F 70EF          and   F, ~FLAG_XIO_MASK
  0151 620500            mov     reg[05h], 00h           ; Port_1_IntEn register (PRT1IE)
  0154 7110          or    F, FLAG_XIO_MASK
- 0156 620800            mov     reg[08h], 00h           ; Port_2_DriveMode_0 register (PRT2DM0)
- 0159 6209FF            mov     reg[09h], ffh           ; Port_2_DriveMode_1 register (PRT2DM1)
+ 0156 620801            mov     reg[08h], 01h           ; Port_2_DriveMode_0 register (PRT2DM0)
+ 0159 6209FE            mov     reg[09h], feh           ; Port_2_DriveMode_1 register (PRT2DM1)
  015C 70EF          and   F, ~FLAG_XIO_MASK
- 015E 620BFF            mov     reg[0bh], ffh           ; Port_2_DriveMode_2 register (PRT2DM2)
+ 015E 620BFE            mov     reg[0bh], feh           ; Port_2_DriveMode_2 register (PRT2DM2)
  0161 620A00            mov     reg[0ah], 00h           ; Port_2_GlobalSelect register (PRT2GS)
  0164 7110          or    F, FLAG_XIO_MASK
  0166 620A00            mov     reg[0ah], 00h           ; Port_2_IntCtrl_0 register (PRT2IC0)
@@ -1172,7 +1172,7 @@
  0216           ;       Instance name TRANSMIT, Block Name TX8(DCB02)
  0216 280D              db              28h, 0dh                ;TRANSMIT_FUNC_REG     (DCB02FN)
  0218 2901              db              29h, 01h                ;TRANSMIT_INPUT_REG    (DCB02IN)
- 021A 2A84              db              2ah, 84h                ;TRANSMIT_OUTPUT_REG   (DCB02OU)
+ 021A 2A85              db              2ah, 85h                ;TRANSMIT_OUTPUT_REG   (DCB02OU)
  021C           ;  Instance name TX_TIMEOUT, User Module Timer16
  021C           ;       Instance name TX_TIMEOUT, Block Name TIMER16_LSB(DBB00)
  021C 2000              db              20h, 00h                ;TX_TIMEOUT_FUNC_LSB_REG(DBB00FN)

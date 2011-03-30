@@ -30,9 +30,9 @@
  0000           PLL_MODE:				equ	0h		;PLL mode value
  0040           PLL_MODE_MASK:			equ	40h		;PLL mode mask
  0000           PLL_MODE_JUST:			equ	0h		;PLL mode value justified
- 0000           SLEEP_TIMER:			equ	0h		;Sleep Timer value
+ 0003           SLEEP_TIMER:			equ	3h		;Sleep Timer value
  0018           SLEEP_TIMER_MASK:		equ	18h		;Sleep Timer mask
- 0000           SLEEP_TIMER_JUST:		equ	0h		;Sleep Timer value justified
+ 0018           SLEEP_TIMER_JUST:		equ	18h		;Sleep Timer value justified
  0001           SWITCH_MODE_PUMP:		equ	1h		;Switch Mode Pump setting
  0080           SWITCH_MODE_PUMP_MASK:	equ	80h		;Switch Mode Pump mask
  0080           SWITCH_MODE_PUMP_JUST:	equ	80h	;Switch Mode Pump justified
@@ -95,24 +95,24 @@
  0000           ; register initial values
  0000           ;
  0001           ANALOG_IO_CONTROL:		equ 1h	;Analog IO Control register (ABF_CR)
- 0001           PORT_0_GLOBAL_SELECT:	equ 1h	;Port 0 global select register (PRT0GS)
- 0001           PORT_0_DRIVE_0:			equ 1h	;Port 0 drive mode 0 register (PRT0DM0)
- 00FE           PORT_0_DRIVE_1:			equ feh	;Port 0 drive mode 1 register (PRT0DM1)
- 00FE           PORT_0_DRIVE_2:			equ feh	;Port 0 drive mode 2 register (PRT0DM2)
+ 0002           PORT_0_GLOBAL_SELECT:	equ 2h	;Port 0 global select register (PRT0GS)
+ 0002           PORT_0_DRIVE_0:			equ 2h	;Port 0 drive mode 0 register (PRT0DM0)
+ 00FD           PORT_0_DRIVE_1:			equ fdh	;Port 0 drive mode 1 register (PRT0DM1)
+ 00FD           PORT_0_DRIVE_2:			equ fdh	;Port 0 drive mode 2 register (PRT0DM2)
  0000           PORT_0_INTENABLE:		equ 0h	;Port 0 interrupt enable register (PRT0IE)
  0000           PORT_0_INTCTRL_0:		equ 0h	;Port 0 interrupt control 0 register (PRT0IC0)
  0000           PORT_0_INTCTRL_1:		equ 0h	;Port 0 interrupt control 1 register (PRT0IC1)
- 0002           PORT_1_GLOBAL_SELECT:	equ 2h	;Port 1 global select register (PRT1GS)
- 0003           PORT_1_DRIVE_0:			equ 3h	;Port 1 drive mode 0 register (PRT1DM0)
- 00FC           PORT_1_DRIVE_1:			equ fch	;Port 1 drive mode 1 register (PRT1DM1)
- 00FC           PORT_1_DRIVE_2:			equ fch	;Port 1 drive mode 2 register (PRT1DM2)
+ 0000           PORT_1_GLOBAL_SELECT:	equ 0h	;Port 1 global select register (PRT1GS)
+ 0001           PORT_1_DRIVE_0:			equ 1h	;Port 1 drive mode 0 register (PRT1DM0)
+ 00FE           PORT_1_DRIVE_1:			equ feh	;Port 1 drive mode 1 register (PRT1DM1)
+ 00FE           PORT_1_DRIVE_2:			equ feh	;Port 1 drive mode 2 register (PRT1DM2)
  0000           PORT_1_INTENABLE:		equ 0h	;Port 1 interrupt enable register (PRT1IE)
  0000           PORT_1_INTCTRL_0:		equ 0h	;Port 1 interrupt control 0 register (PRT1IC0)
  0000           PORT_1_INTCTRL_1:		equ 0h	;Port 1 interrupt control 1 register (PRT1IC1)
  0000           PORT_2_GLOBAL_SELECT:	equ 0h	;Port 2 global select register (PRT2GS)
- 0000           PORT_2_DRIVE_0:			equ 0h	;Port 2 drive mode 0 register (PRT2DM0)
- 00FF           PORT_2_DRIVE_1:			equ ffh	;Port 2 drive mode 1 register (PRT2DM1)
- 00FF           PORT_2_DRIVE_2:			equ ffh	;Port 2 drive mode 2 register (PRT2DM2)
+ 0001           PORT_2_DRIVE_0:			equ 1h	;Port 2 drive mode 0 register (PRT2DM0)
+ 00FE           PORT_2_DRIVE_1:			equ feh	;Port 2 drive mode 1 register (PRT2DM1)
+ 00FE           PORT_2_DRIVE_2:			equ feh	;Port 2 drive mode 2 register (PRT2DM2)
  0000           PORT_2_INTENABLE:		equ 0h	;Port 2 interrupt enable register (PRT2IE)
  0000           PORT_2_INTCTRL_0:		equ 0h	;Port 2 interrupt control 0 register (PRT2IC0)
  0000           PORT_2_INTCTRL_1:		equ 0h	;Port 2 interrupt control 1 register (PRT2IC1)
@@ -1690,7 +1690,7 @@
                 ELSE ; !( SELECT_32K & WAIT_FOR_32K )
                     ; Either no ECO, or waiting for stable clock is to be done in main
  0087 7110          or    F, FLAG_XIO_MASK
- 0089 62E002        mov   reg[OSC_CR0], (SELECT_32K_JUST | PLL_MODE_JUST | SLEEP_TIMER_JUST | OSC_CR0_CPU_12MHz)
+ 0089 62E01A        mov   reg[OSC_CR0], (SELECT_32K_JUST | PLL_MODE_JUST | SLEEP_TIMER_JUST | OSC_CR0_CPU_12MHz)
  008C 70EF          and   F, ~FLAG_XIO_MASK
  008E 62E338        mov   reg[RES_WDT], 38h
  0091           
@@ -2029,7 +2029,7 @@
  012B               ; And put decimator in full mode so it does not consume too much current.
  012B               ;
  012B 7110          or    F, FLAG_XIO_MASK
- 012D 62E003        mov  reg[OSC_CR0],(SELECT_32K_JUST | PLL_MODE_JUST | SLEEP_TIMER_JUST | CPU_CLOCK_JUST)
+ 012D 62E01B        mov  reg[OSC_CR0],(SELECT_32K_JUST | PLL_MODE_JUST | SLEEP_TIMER_JUST | CPU_CLOCK_JUST)
  0130 43E780        or   reg[DEC_CR2],80h                    ; Put decimator in full mode
  0133 70EF          and   F, ~FLAG_XIO_MASK
  0135           
