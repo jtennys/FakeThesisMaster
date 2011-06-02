@@ -1325,14 +1325,14 @@
  0015                                               ; Load bank 0 table:
  0015 5000          mov     A, >LoadConfigTBL_transmitter_config_Bank0
  0017 5700          mov     X, <LoadConfigTBL_transmitter_config_Bank0
- 0019 7C0229        lcall   LoadConfig              ; Load the bank 0 values
+ 0019 7C0220        lcall   LoadConfig              ; Load the bank 0 values
  001C           
  001C 5001          mov     a, 1                    ; Specify bank 1
  001E 67            asr     a                       ; Store in carry flag
  001F                                               ; Load bank 1 table:
  001F 5000          mov     A, >LoadConfigTBL_transmitter_config_Bank1
  0021 5700          mov     X, <LoadConfigTBL_transmitter_config_Bank1
- 0023 7C0229        lcall   LoadConfig              ; Load the bank 1 values
+ 0023 7C0220        lcall   LoadConfig              ; Load the bank 1 values
  0026           
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
  0026 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
@@ -1439,14 +1439,14 @@
  0036                                               ; Bank 0 table address:
  0036 5000          mov     A, >ReloadConfigTBL_transmitter_config_Bank0
  0038 5700          mov     X, <ReloadConfigTBL_transmitter_config_Bank0
- 003A 7C0229        lcall   LoadConfig              ; Reload the bank 0 values
+ 003A 7C0220        lcall   LoadConfig              ; Reload the bank 0 values
  003D           
  003D 5001          mov     a, 1                    ; Specify bank 1
  003F 67            asr     a                       ; Store in carry flag
  0040                                               ; Bank 1 table address:
  0040 5000          mov     A, >ReloadConfigTBL_transmitter_config_Bank1
  0042 5700          mov     X, <ReloadConfigTBL_transmitter_config_Bank1
- 0044 7C0229        lcall   LoadConfig              ; Reload the bank 1 values
+ 0044 7C0220        lcall   LoadConfig              ; Reload the bank 1 values
  0047           
  0047           ; set config active bit
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
@@ -1554,14 +1554,14 @@
  0057                                               ; Bank 0 table address:
  0057 5000          mov     A, >UnloadConfigTBL_transmitter_config_Bank0
  0059 5700          mov     X, <UnloadConfigTBL_transmitter_config_Bank0
- 005B 7C0229        lcall   LoadConfig              ; Unload the bank 0 values
+ 005B 7C0220        lcall   LoadConfig              ; Unload the bank 0 values
  005E           
  005E 5001          mov     a, 1                    ; Specify bank 1
  0060 67            asr     a                       ; Store in carry flag
  0061                                               ; Bank 1 table address:
  0061 5000          mov     A, >UnloadConfigTBL_transmitter_config_Bank1
  0063 5700          mov     X, <UnloadConfigTBL_transmitter_config_Bank1
- 0065 7C0229        lcall   LoadConfig              ; Unload the bank 1 values
+ 0065 7C0220        lcall   LoadConfig              ; Unload the bank 1 values
  0068           
  0068 7110          or    F, FLAG_XIO_MASK
  006A 70EF          and   F, ~FLAG_XIO_MASK
@@ -1687,47 +1687,44 @@
  009F           ; writing AnalogColumnInputSelect register
  009F 4160F3            and             reg[60h], ~ ch
  00A2 43600C            or              reg[60h],  ch
- 00A5           ; writing DecimatorControl_1 register
- 00A5 41E7BF            and             reg[e7h], ~40h
- 00A8 43E740            or              reg[e7h], 40h
- 00AB           ; writing OscillatorControl_1 register
- 00AB 7110          or    F, FLAG_XIO_MASK
- 00AD 41E100            and             reg[e1h], ~ffh
- 00B0 43E1C1            or              reg[e1h], c1h
- 00B3           ; writing Row_0_InputMux register
- 00B3 70EF          and   F, ~FLAG_XIO_MASK
- 00B5 41B00F            and             reg[b0h], ~f0h
- 00B8           ; writing Row_1_InputMux register
- 00B8 41B8CC            and             reg[b8h], ~33h
- 00BB 43B811            or              reg[b8h], 11h
- 00BE           ; writing Row_1_OutputDrive_0 register
- 00BE 41BDDF            and             reg[bdh], ~20h
- 00C1 43BD20            or              reg[bdh], 20h
- 00C4           
- 00C4 10                push    x
- 00C5 70EF          and   F, ~FLAG_XIO_MASK
- 00C7 5000          mov     a, 0                    ; Specify bank 0
- 00C9 67            asr     a                       ; Store in carry flag
- 00CA                                               ; Load bank 0 table:
- 00CA 5000          mov     A, >LoadConfigTBL_pc_listener_Bank0
- 00CC 5700          mov     X, <LoadConfigTBL_pc_listener_Bank0
- 00CE 7C0229        lcall   LoadConfig              ; Load the bank 0 values
- 00D1           
- 00D1 5001          mov     a, 1                    ; Specify bank 1
- 00D3 67            asr     a                       ; Store in carry flag
- 00D4                                               ; Load bank 1 table:
- 00D4 5000          mov     A, >LoadConfigTBL_pc_listener_Bank1
- 00D6 5700          mov     X, <LoadConfigTBL_pc_listener_Bank1
- 00D8 7C0229        lcall   LoadConfig              ; Load the bank 1 values
- 00DB           
+ 00A5           ; writing OscillatorControl_1 register
+ 00A5 7110          or    F, FLAG_XIO_MASK
+ 00A7 41E100            and             reg[e1h], ~ffh
+ 00AA 43E1C1            or              reg[e1h], c1h
+ 00AD           ; writing Row_0_InputMux register
+ 00AD 70EF          and   F, ~FLAG_XIO_MASK
+ 00AF 41B00F            and             reg[b0h], ~f0h
+ 00B2           ; writing Row_1_InputMux register
+ 00B2 41B8CC            and             reg[b8h], ~33h
+ 00B5 43B811            or              reg[b8h], 11h
+ 00B8           ; writing Row_1_OutputDrive_0 register
+ 00B8 41BDDF            and             reg[bdh], ~20h
+ 00BB 43BD20            or              reg[bdh], 20h
+ 00BE           
+ 00BE 10                push    x
+ 00BF 70EF          and   F, ~FLAG_XIO_MASK
+ 00C1 5000          mov     a, 0                    ; Specify bank 0
+ 00C3 67            asr     a                       ; Store in carry flag
+ 00C4                                               ; Load bank 0 table:
+ 00C4 5000          mov     A, >LoadConfigTBL_pc_listener_Bank0
+ 00C6 5700          mov     X, <LoadConfigTBL_pc_listener_Bank0
+ 00C8 7C0220        lcall   LoadConfig              ; Load the bank 0 values
+ 00CB           
+ 00CB 5001          mov     a, 1                    ; Specify bank 1
+ 00CD 67            asr     a                       ; Store in carry flag
+ 00CE                                               ; Load bank 1 table:
+ 00CE 5000          mov     A, >LoadConfigTBL_pc_listener_Bank1
+ 00D0 5700          mov     X, <LoadConfigTBL_pc_listener_Bank1
+ 00D2 7C0220        lcall   LoadConfig              ; Load the bank 1 values
+ 00D5           
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 00DB 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
+ 00D5 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
                    ENDIF
                 ; set config active bit
- 00DE 2E0002            or              [ACTIVE_CONFIG_STATUS+pc_listener_ADDR_OFF], pc_listener_BIT
- 00E1 70EF          and   F, ~FLAG_XIO_MASK
- 00E3 20                pop             x
- 00E4           
+ 00D8 2E0002            or              [ACTIVE_CONFIG_STATUS+pc_listener_ADDR_OFF], pc_listener_BIT
+ 00DB 70EF          and   F, ~FLAG_XIO_MASK
+ 00DD 20                pop             x
+ 00DE           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1770,185 +1767,30 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 00E4 7F            ret
- 00E5           
- 00E5           ;---------------------------------------------------------------------------
- 00E5           ; Unload Configuration pc_listener
- 00E5           ;
- 00E5           ;    Reset configuration registers for pc_listener
- 00E5           ;    to their values as initially configured.
- 00E5           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
- 00E5           ;
- 00E5           ;       INPUTS: None.
- 00E5           ;      RETURNS: Nothing.
- 00E5           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
- 00E5           ;               modified as may the Page Pointer registers!
- 00E5           ;               In the large memory model currently only the page
- 00E5           ;               pointer registers listed below are modified.  This does
- 00E5           ;               not guarantee that in future implementations of this
- 00E5           ;               function other page pointer registers will not be
- 00E5           ;               modified.
- 00E5           ;          
- 00E5           ;               Page Pointer Registers Modified: 
- 00E5           ;               CUR_PP
- 00E5           ;
- 00E5           _UnloadConfig_pc_listener:
- 00E5            UnloadConfig_pc_listener:
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
-                   ; Nothing to do
-                   ENDIF ; RAM_USE_CLASS_1
-                
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_2 )
-                      IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                      or   F, FLAG_PGMODE_01b
-                   ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-                      ENDIF
-                   ENDIF ; RAM_USE_CLASS_2
-                
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_3 )
-                      IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                      and  F, ~FLAG_PGMODE_01b
-                   ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
-                      ENDIF
-                   ENDIF ; RAM_USE_CLASS_3
-                
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_4 )
-                   ; Nothing to do
-                   ENDIF ; RAM_USE_CLASS_4
-                
-                
- 00E5 10                push    x
- 00E6 70EF          and   F, ~FLAG_XIO_MASK
- 00E8 5000          mov     a, 0                    ; Specify bank 0
- 00EA 67            asr     a                       ; Store in carry flag
- 00EB                                               ; Bank 0 table address:
- 00EB 5000          mov     A, >UnloadConfigTBL_pc_listener_Bank0
- 00ED 5700          mov     X, <UnloadConfigTBL_pc_listener_Bank0
- 00EF 7C0229        lcall   LoadConfig              ; Unload the bank 0 values
- 00F2           
- 00F2 5001          mov     a, 1                    ; Specify bank 1
- 00F4 67            asr     a                       ; Store in carry flag
- 00F5                                               ; Bank 1 table address:
- 00F5 5000          mov     A, >UnloadConfigTBL_pc_listener_Bank1
- 00F7 5700          mov     X, <UnloadConfigTBL_pc_listener_Bank1
- 00F9 7C0229        lcall   LoadConfig              ; Unload the bank 1 values
- 00FC           
- 00FC 7110          or    F, FLAG_XIO_MASK
- 00FE           ; writing AnalogColumnInputSelect register
- 00FE 70EF          and   F, ~FLAG_XIO_MASK
- 0100 4160F3            and             reg[60h], ~ ch
- 0103 436008            or              reg[60h],  8h
- 0106           ; writing DecimatorControl_1 register
- 0106 41E7BF            and             reg[e7h], ~40h
- 0109           ; writing OscillatorControl_1 register
- 0109 7110          or    F, FLAG_XIO_MASK
- 010B 41E100            and             reg[e1h], ~ffh
- 010E 43E199            or              reg[e1h], 99h
- 0111           ; writing Row_0_InputMux register
- 0111 70EF          and   F, ~FLAG_XIO_MASK
- 0113 41B00F            and             reg[b0h], ~f0h
- 0116 43B050            or              reg[b0h], 50h
- 0119           ; writing Row_1_InputMux register
- 0119 41B8CC            and             reg[b8h], ~33h
- 011C 43B802            or              reg[b8h],  2h
- 011F           ; writing Row_1_OutputDrive_0 register
- 011F 41BDDF            and             reg[bdh], ~20h
- 0122           ; writing Port_2_DriveMode_2 register
- 0122 410BFE            and             reg[ bh], ~ 1h
- 0125           ; writing Port_2_DriveMode_1 register
- 0125 7110          or    F, FLAG_XIO_MASK
- 0127 4109FE            and             reg[ 9h], ~ 1h
- 012A           ; writing Port_2_DriveMode_0 register
- 012A 4108FE            and             reg[ 8h], ~ 1h
- 012D 430801            or              reg[ 8h],  1h
- 0130           ; writing Port_0_GlobalSelect register
- 0130 70EF          and   F, ~FLAG_XIO_MASK
- 0132 41025F            and             reg[ 2h], ~a0h
- 0135           ; writing Port_0_DriveMode_2 register
- 0135 41035F            and             reg[ 3h], ~a0h
- 0138 4303A0            or              reg[ 3h], a0h
- 013B           ; writing Port_0_DriveMode_1 register
- 013B 7110          or    F, FLAG_XIO_MASK
- 013D 4101DF            and             reg[ 1h], ~20h
- 0140 430120            or              reg[ 1h], 20h
- 0143           ; writing Port_0_DriveMode_0 register
- 0143 4100DF            and             reg[ 0h], ~20h
- 0146 70EF          and   F, ~FLAG_XIO_MASK
- 0148           ; clear config active bit
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 0148 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
-                   ENDIF
- 014B 2600FD            and             [ACTIVE_CONFIG_STATUS+pc_listener_ADDR_OFF], ~pc_listener_BIT
- 014E 70EF          and   F, ~FLAG_XIO_MASK
- 0150 20                pop             x
- 0151           
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
-                   ; Nothing to do
-                   ENDIF ; RAM_USE_CLASS_1
-                
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_2 )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                   IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
-                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
-                   ENDIF
-                   ENDIF ;  PGMODE LOCKED
-                   IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
-                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_10b
-                   ENDIF
-                   ENDIF ; PGMODE FREE
-                   ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-                   ENDIF ; RAM_USE_CLASS_2
-                
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_3 )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                   IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
-                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
-                   ENDIF
-                   ENDIF ;  PGMODE LOCKED
-                   IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
-                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
-                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_10b
-                   ENDIF
-                   ENDIF ; PGMODE FREE
-                   ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
-                   ENDIF ; RAM_USE_CLASS_3
-                
-                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_4 )
-                   ; Nothing to do
-                   ENDIF ; RAM_USE_CLASS_4
-                
- 0151 7F            ret
- 0152           
- 0152           ;---------------------------------------------------------------------------
- 0152           ; Load Configuration receiver_config
- 0152           ;
- 0152           ;    Load configuration registers for receiver_config.
- 0152           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
- 0152           ;
- 0152           ;       INPUTS: None.
- 0152           ;      RETURNS: Nothing.
- 0152           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
- 0152           ;               modified as may the Page Pointer registers!
- 0152           ;               In the large memory model currently only the page
- 0152           ;               pointer registers listed below are modified.  This does
- 0152           ;               not guarantee that in future implementations of this
- 0152           ;               function other page pointer registers will not be
- 0152           ;               modified.
- 0152           ;          
- 0152           ;               Page Pointer Registers Modified: 
- 0152           ;               CUR_PP
- 0152           ;
- 0152           _LoadConfig_receiver_config:
- 0152            LoadConfig_receiver_config:
+ 00DE 7F            ret
+ 00DF           
+ 00DF           ;---------------------------------------------------------------------------
+ 00DF           ; Unload Configuration pc_listener
+ 00DF           ;
+ 00DF           ;    Reset configuration registers for pc_listener
+ 00DF           ;    to their values as initially configured.
+ 00DF           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
+ 00DF           ;
+ 00DF           ;       INPUTS: None.
+ 00DF           ;      RETURNS: Nothing.
+ 00DF           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
+ 00DF           ;               modified as may the Page Pointer registers!
+ 00DF           ;               In the large memory model currently only the page
+ 00DF           ;               pointer registers listed below are modified.  This does
+ 00DF           ;               not guarantee that in future implementations of this
+ 00DF           ;               function other page pointer registers will not be
+ 00DF           ;               modified.
+ 00DF           ;          
+ 00DF           ;               Page Pointer Registers Modified: 
+ 00DF           ;               CUR_PP
+ 00DF           ;
+ 00DF           _UnloadConfig_pc_listener:
+ 00DF            UnloadConfig_pc_listener:
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1973,61 +1815,214 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 0152 7110          or    F, FLAG_XIO_MASK
- 0154           ; writing Port_0_DriveMode_0 register
- 0154 4100FD            and             reg[ 0h], ~ 2h
- 0157           ; writing Port_0_DriveMode_1 register
- 0157 4101FD            and             reg[ 1h], ~ 2h
- 015A 430102            or              reg[ 1h],  2h
- 015D           ; writing Port_1_DriveMode_0 register
- 015D 4104FE            and             reg[ 4h], ~ 1h
- 0160           ; writing Port_1_DriveMode_1 register
- 0160 4105FE            and             reg[ 5h], ~ 1h
- 0163 430501            or              reg[ 5h],  1h
- 0166           ; writing Port_1_DriveMode_2 register
- 0166 70EF          and   F, ~FLAG_XIO_MASK
- 0168 4107FE            and             reg[ 7h], ~ 1h
- 016B 430701            or              reg[ 7h],  1h
- 016E           ; writing AnalogColumnClockSelect register
- 016E 7110          or    F, FLAG_XIO_MASK
- 0170 4160CF            and             reg[60h], ~30h
- 0173 436030            or              reg[60h], 30h
- 0176           ; writing AnalogColumnInputSelect register
- 0176 70EF          and   F, ~FLAG_XIO_MASK
- 0178 4160C3            and             reg[60h], ~3ch
- 017B 436034            or              reg[60h], 34h
- 017E           ; writing Row_0_InputMux register
- 017E 41B0CF            and             reg[b0h], ~30h
- 0181           ; writing Row_0_OutputDrive_0 register
- 0181 41B5EF            and             reg[b5h], ~10h
- 0184           ; writing Row_1_InputMux register
- 0184 41B8CC            and             reg[b8h], ~33h
- 0187 43B811            or              reg[b8h], 11h
- 018A           
- 018A 10                push    x
- 018B 70EF          and   F, ~FLAG_XIO_MASK
- 018D 5000          mov     a, 0                    ; Specify bank 0
- 018F 67            asr     a                       ; Store in carry flag
- 0190                                               ; Load bank 0 table:
- 0190 5000          mov     A, >LoadConfigTBL_receiver_config_Bank0
- 0192 5700          mov     X, <LoadConfigTBL_receiver_config_Bank0
- 0194 7C0229        lcall   LoadConfig              ; Load the bank 0 values
- 0197           
- 0197 5001          mov     a, 1                    ; Specify bank 1
- 0199 67            asr     a                       ; Store in carry flag
- 019A                                               ; Load bank 1 table:
- 019A 5000          mov     A, >LoadConfigTBL_receiver_config_Bank1
- 019C 5700          mov     X, <LoadConfigTBL_receiver_config_Bank1
- 019E 7C0229        lcall   LoadConfig              ; Load the bank 1 values
+                
+ 00DF 10                push    x
+ 00E0 70EF          and   F, ~FLAG_XIO_MASK
+ 00E2 5000          mov     a, 0                    ; Specify bank 0
+ 00E4 67            asr     a                       ; Store in carry flag
+ 00E5                                               ; Bank 0 table address:
+ 00E5 5000          mov     A, >UnloadConfigTBL_pc_listener_Bank0
+ 00E7 5700          mov     X, <UnloadConfigTBL_pc_listener_Bank0
+ 00E9 7C0220        lcall   LoadConfig              ; Unload the bank 0 values
+ 00EC           
+ 00EC 5001          mov     a, 1                    ; Specify bank 1
+ 00EE 67            asr     a                       ; Store in carry flag
+ 00EF                                               ; Bank 1 table address:
+ 00EF 5000          mov     A, >UnloadConfigTBL_pc_listener_Bank1
+ 00F1 5700          mov     X, <UnloadConfigTBL_pc_listener_Bank1
+ 00F3 7C0220        lcall   LoadConfig              ; Unload the bank 1 values
+ 00F6           
+ 00F6 7110          or    F, FLAG_XIO_MASK
+ 00F8           ; writing AnalogColumnInputSelect register
+ 00F8 70EF          and   F, ~FLAG_XIO_MASK
+ 00FA 4160F3            and             reg[60h], ~ ch
+ 00FD 436008            or              reg[60h],  8h
+ 0100           ; writing OscillatorControl_1 register
+ 0100 7110          or    F, FLAG_XIO_MASK
+ 0102 41E100            and             reg[e1h], ~ffh
+ 0105 43E199            or              reg[e1h], 99h
+ 0108           ; writing Row_0_InputMux register
+ 0108 70EF          and   F, ~FLAG_XIO_MASK
+ 010A 41B00F            and             reg[b0h], ~f0h
+ 010D 43B050            or              reg[b0h], 50h
+ 0110           ; writing Row_1_InputMux register
+ 0110 41B8CC            and             reg[b8h], ~33h
+ 0113 43B802            or              reg[b8h],  2h
+ 0116           ; writing Row_1_OutputDrive_0 register
+ 0116 41BDDF            and             reg[bdh], ~20h
+ 0119           ; writing Port_2_DriveMode_2 register
+ 0119 410BFE            and             reg[ bh], ~ 1h
+ 011C           ; writing Port_2_DriveMode_1 register
+ 011C 7110          or    F, FLAG_XIO_MASK
+ 011E 4109FE            and             reg[ 9h], ~ 1h
+ 0121           ; writing Port_2_DriveMode_0 register
+ 0121 4108FE            and             reg[ 8h], ~ 1h
+ 0124 430801            or              reg[ 8h],  1h
+ 0127           ; writing Port_0_GlobalSelect register
+ 0127 70EF          and   F, ~FLAG_XIO_MASK
+ 0129 41025F            and             reg[ 2h], ~a0h
+ 012C           ; writing Port_0_DriveMode_2 register
+ 012C 41035F            and             reg[ 3h], ~a0h
+ 012F 4303A0            or              reg[ 3h], a0h
+ 0132           ; writing Port_0_DriveMode_1 register
+ 0132 7110          or    F, FLAG_XIO_MASK
+ 0134 4101DF            and             reg[ 1h], ~20h
+ 0137 430120            or              reg[ 1h], 20h
+ 013A           ; writing Port_0_DriveMode_0 register
+ 013A 4100DF            and             reg[ 0h], ~20h
+ 013D 70EF          and   F, ~FLAG_XIO_MASK
+ 013F           ; clear config active bit
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+ 013F 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
+                   ENDIF
+ 0142 2600FD            and             [ACTIVE_CONFIG_STATUS+pc_listener_ADDR_OFF], ~pc_listener_BIT
+ 0145 70EF          and   F, ~FLAG_XIO_MASK
+ 0147 20                pop             x
+ 0148           
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
+                   ; Nothing to do
+                   ENDIF ; RAM_USE_CLASS_1
+                
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_2 )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                   IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
+                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
+                   ENDIF
+                   ENDIF ;  PGMODE LOCKED
+                   IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
+                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_10b
+                   ENDIF
+                   ENDIF ; PGMODE FREE
+                   ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
+                   ENDIF ; RAM_USE_CLASS_2
+                
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_3 )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                   IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
+                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
+                   ENDIF
+                   ENDIF ;  PGMODE LOCKED
+                   IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                      and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
+                      or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_10b
+                   ENDIF
+                   ENDIF ; PGMODE FREE
+                   ENDIF ; SYSTEM_LARGE_MEMORY_MODEL
+                   ENDIF ; RAM_USE_CLASS_3
+                
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_4 )
+                   ; Nothing to do
+                   ENDIF ; RAM_USE_CLASS_4
+                
+ 0148 7F            ret
+ 0149           
+ 0149           ;---------------------------------------------------------------------------
+ 0149           ; Load Configuration receiver_config
+ 0149           ;
+ 0149           ;    Load configuration registers for receiver_config.
+ 0149           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
+ 0149           ;
+ 0149           ;       INPUTS: None.
+ 0149           ;      RETURNS: Nothing.
+ 0149           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
+ 0149           ;               modified as may the Page Pointer registers!
+ 0149           ;               In the large memory model currently only the page
+ 0149           ;               pointer registers listed below are modified.  This does
+ 0149           ;               not guarantee that in future implementations of this
+ 0149           ;               function other page pointer registers will not be
+ 0149           ;               modified.
+ 0149           ;          
+ 0149           ;               Page Pointer Registers Modified: 
+ 0149           ;               CUR_PP
+ 0149           ;
+ 0149           _LoadConfig_receiver_config:
+ 0149            LoadConfig_receiver_config:
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
+                   ; Nothing to do
+                   ENDIF ; RAM_USE_CLASS_1
+                
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_2 )
+                      IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                      or   F, FLAG_PGMODE_01b
+                   ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
+                      ENDIF
+                   ENDIF ; RAM_USE_CLASS_2
+                
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_3 )
+                      IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+                      and  F, ~FLAG_PGMODE_01b
+                   ENDIF ;  SYSTEM_LARGE_MEMORY_MODEL
+                      ENDIF
+                   ENDIF ; RAM_USE_CLASS_3
+                
+                   IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_4 )
+                   ; Nothing to do
+                   ENDIF ; RAM_USE_CLASS_4
+                
+ 0149 7110          or    F, FLAG_XIO_MASK
+ 014B           ; writing Port_0_DriveMode_0 register
+ 014B 4100FD            and             reg[ 0h], ~ 2h
+ 014E           ; writing Port_0_DriveMode_1 register
+ 014E 4101FD            and             reg[ 1h], ~ 2h
+ 0151 430102            or              reg[ 1h],  2h
+ 0154           ; writing Port_1_DriveMode_0 register
+ 0154 4104FE            and             reg[ 4h], ~ 1h
+ 0157           ; writing Port_1_DriveMode_1 register
+ 0157 4105FE            and             reg[ 5h], ~ 1h
+ 015A 430501            or              reg[ 5h],  1h
+ 015D           ; writing Port_1_DriveMode_2 register
+ 015D 70EF          and   F, ~FLAG_XIO_MASK
+ 015F 4107FE            and             reg[ 7h], ~ 1h
+ 0162 430701            or              reg[ 7h],  1h
+ 0165           ; writing AnalogColumnClockSelect register
+ 0165 7110          or    F, FLAG_XIO_MASK
+ 0167 4160CF            and             reg[60h], ~30h
+ 016A 436030            or              reg[60h], 30h
+ 016D           ; writing AnalogColumnInputSelect register
+ 016D 70EF          and   F, ~FLAG_XIO_MASK
+ 016F 4160C3            and             reg[60h], ~3ch
+ 0172 436034            or              reg[60h], 34h
+ 0175           ; writing Row_0_InputMux register
+ 0175 41B0CF            and             reg[b0h], ~30h
+ 0178           ; writing Row_0_OutputDrive_0 register
+ 0178 41B5EF            and             reg[b5h], ~10h
+ 017B           ; writing Row_1_InputMux register
+ 017B 41B8CC            and             reg[b8h], ~33h
+ 017E 43B811            or              reg[b8h], 11h
+ 0181           
+ 0181 10                push    x
+ 0182 70EF          and   F, ~FLAG_XIO_MASK
+ 0184 5000          mov     a, 0                    ; Specify bank 0
+ 0186 67            asr     a                       ; Store in carry flag
+ 0187                                               ; Load bank 0 table:
+ 0187 5000          mov     A, >LoadConfigTBL_receiver_config_Bank0
+ 0189 5700          mov     X, <LoadConfigTBL_receiver_config_Bank0
+ 018B 7C0220        lcall   LoadConfig              ; Load the bank 0 values
+ 018E           
+ 018E 5001          mov     a, 1                    ; Specify bank 1
+ 0190 67            asr     a                       ; Store in carry flag
+ 0191                                               ; Load bank 1 table:
+ 0191 5000          mov     A, >LoadConfigTBL_receiver_config_Bank1
+ 0193 5700          mov     X, <LoadConfigTBL_receiver_config_Bank1
+ 0195 7C0220        lcall   LoadConfig              ; Load the bank 1 values
+ 0198           
+                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
+ 0198 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
+                   ENDIF
+                ; set config active bit
+ 019B 2E0004            or              [ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], receiver_config_BIT
+ 019E 70EF          and   F, ~FLAG_XIO_MASK
+ 01A0 20                pop             x
  01A1           
-                   IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 01A1 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
-                   ENDIF
-                ; set config active bit
- 01A4 2E0004            or              [ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], receiver_config_BIT
- 01A7 70EF          and   F, ~FLAG_XIO_MASK
- 01A9 20                pop             x
- 01AA           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2070,30 +2065,30 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 01AA 7F            ret
- 01AB           
- 01AB           ;---------------------------------------------------------------------------
- 01AB           ; Unload Configuration receiver_config
- 01AB           ;
- 01AB           ;    Reset configuration registers for receiver_config
- 01AB           ;    to their values as initially configured.
- 01AB           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
- 01AB           ;
- 01AB           ;       INPUTS: None.
- 01AB           ;      RETURNS: Nothing.
- 01AB           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
- 01AB           ;               modified as may the Page Pointer registers!
- 01AB           ;               In the large memory model currently only the page
- 01AB           ;               pointer registers listed below are modified.  This does
- 01AB           ;               not guarantee that in future implementations of this
- 01AB           ;               function other page pointer registers will not be
- 01AB           ;               modified.
- 01AB           ;          
- 01AB           ;               Page Pointer Registers Modified: 
- 01AB           ;               CUR_PP
- 01AB           ;
- 01AB           _UnloadConfig_receiver_config:
- 01AB            UnloadConfig_receiver_config:
+ 01A1 7F            ret
+ 01A2           
+ 01A2           ;---------------------------------------------------------------------------
+ 01A2           ; Unload Configuration receiver_config
+ 01A2           ;
+ 01A2           ;    Reset configuration registers for receiver_config
+ 01A2           ;    to their values as initially configured.
+ 01A2           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
+ 01A2           ;
+ 01A2           ;       INPUTS: None.
+ 01A2           ;      RETURNS: Nothing.
+ 01A2           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
+ 01A2           ;               modified as may the Page Pointer registers!
+ 01A2           ;               In the large memory model currently only the page
+ 01A2           ;               pointer registers listed below are modified.  This does
+ 01A2           ;               not guarantee that in future implementations of this
+ 01A2           ;               function other page pointer registers will not be
+ 01A2           ;               modified.
+ 01A2           ;          
+ 01A2           ;               Page Pointer Registers Modified: 
+ 01A2           ;               CUR_PP
+ 01A2           ;
+ 01A2           _UnloadConfig_receiver_config:
+ 01A2            UnloadConfig_receiver_config:
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2119,60 +2114,60 @@
                    ENDIF ; RAM_USE_CLASS_4
                 
                 
- 01AB 10                push    x
- 01AC 70EF          and   F, ~FLAG_XIO_MASK
- 01AE 5000          mov     a, 0                    ; Specify bank 0
- 01B0 67            asr     a                       ; Store in carry flag
- 01B1                                               ; Bank 0 table address:
- 01B1 5000          mov     A, >UnloadConfigTBL_receiver_config_Bank0
- 01B3 5700          mov     X, <UnloadConfigTBL_receiver_config_Bank0
- 01B5 7C0229        lcall   LoadConfig              ; Unload the bank 0 values
- 01B8           
- 01B8 5001          mov     a, 1                    ; Specify bank 1
- 01BA 67            asr     a                       ; Store in carry flag
- 01BB                                               ; Bank 1 table address:
- 01BB 5000          mov     A, >UnloadConfigTBL_receiver_config_Bank1
- 01BD 5700          mov     X, <UnloadConfigTBL_receiver_config_Bank1
- 01BF 7C0229        lcall   LoadConfig              ; Unload the bank 1 values
- 01C2           
- 01C2 7110          or    F, FLAG_XIO_MASK
- 01C4           ; writing AnalogColumnClockSelect register
- 01C4 4160CF            and             reg[60h], ~30h
- 01C7           ; writing AnalogColumnInputSelect register
- 01C7 70EF          and   F, ~FLAG_XIO_MASK
- 01C9 4160C3            and             reg[60h], ~3ch
- 01CC 436028            or              reg[60h], 28h
- 01CF           ; writing Row_0_InputMux register
- 01CF 41B0CF            and             reg[b0h], ~30h
- 01D2 43B010            or              reg[b0h], 10h
- 01D5           ; writing Row_0_OutputDrive_0 register
- 01D5 41B5EF            and             reg[b5h], ~10h
- 01D8 43B510            or              reg[b5h], 10h
- 01DB           ; writing Row_1_InputMux register
- 01DB 41B8CC            and             reg[b8h], ~33h
- 01DE 43B802            or              reg[b8h],  2h
- 01E1           ; writing Port_1_DriveMode_2 register
- 01E1 4107FE            and             reg[ 7h], ~ 1h
- 01E4           ; writing Port_1_DriveMode_1 register
- 01E4 7110          or    F, FLAG_XIO_MASK
- 01E6 4105FE            and             reg[ 5h], ~ 1h
- 01E9           ; writing Port_1_DriveMode_0 register
- 01E9 4104FE            and             reg[ 4h], ~ 1h
- 01EC 430401            or              reg[ 4h],  1h
- 01EF           ; writing Port_0_DriveMode_1 register
- 01EF 4101FD            and             reg[ 1h], ~ 2h
- 01F2           ; writing Port_0_DriveMode_0 register
- 01F2 4100FD            and             reg[ 0h], ~ 2h
- 01F5 430002            or              reg[ 0h],  2h
- 01F8 70EF          and   F, ~FLAG_XIO_MASK
- 01FA           ; clear config active bit
+ 01A2 10                push    x
+ 01A3 70EF          and   F, ~FLAG_XIO_MASK
+ 01A5 5000          mov     a, 0                    ; Specify bank 0
+ 01A7 67            asr     a                       ; Store in carry flag
+ 01A8                                               ; Bank 0 table address:
+ 01A8 5000          mov     A, >UnloadConfigTBL_receiver_config_Bank0
+ 01AA 5700          mov     X, <UnloadConfigTBL_receiver_config_Bank0
+ 01AC 7C0220        lcall   LoadConfig              ; Unload the bank 0 values
+ 01AF           
+ 01AF 5001          mov     a, 1                    ; Specify bank 1
+ 01B1 67            asr     a                       ; Store in carry flag
+ 01B2                                               ; Bank 1 table address:
+ 01B2 5000          mov     A, >UnloadConfigTBL_receiver_config_Bank1
+ 01B4 5700          mov     X, <UnloadConfigTBL_receiver_config_Bank1
+ 01B6 7C0220        lcall   LoadConfig              ; Unload the bank 1 values
+ 01B9           
+ 01B9 7110          or    F, FLAG_XIO_MASK
+ 01BB           ; writing AnalogColumnClockSelect register
+ 01BB 4160CF            and             reg[60h], ~30h
+ 01BE           ; writing AnalogColumnInputSelect register
+ 01BE 70EF          and   F, ~FLAG_XIO_MASK
+ 01C0 4160C3            and             reg[60h], ~3ch
+ 01C3 436028            or              reg[60h], 28h
+ 01C6           ; writing Row_0_InputMux register
+ 01C6 41B0CF            and             reg[b0h], ~30h
+ 01C9 43B010            or              reg[b0h], 10h
+ 01CC           ; writing Row_0_OutputDrive_0 register
+ 01CC 41B5EF            and             reg[b5h], ~10h
+ 01CF 43B510            or              reg[b5h], 10h
+ 01D2           ; writing Row_1_InputMux register
+ 01D2 41B8CC            and             reg[b8h], ~33h
+ 01D5 43B802            or              reg[b8h],  2h
+ 01D8           ; writing Port_1_DriveMode_2 register
+ 01D8 4107FE            and             reg[ 7h], ~ 1h
+ 01DB           ; writing Port_1_DriveMode_1 register
+ 01DB 7110          or    F, FLAG_XIO_MASK
+ 01DD 4105FE            and             reg[ 5h], ~ 1h
+ 01E0           ; writing Port_1_DriveMode_0 register
+ 01E0 4104FE            and             reg[ 4h], ~ 1h
+ 01E3 430401            or              reg[ 4h],  1h
+ 01E6           ; writing Port_0_DriveMode_1 register
+ 01E6 4101FD            and             reg[ 1h], ~ 2h
+ 01E9           ; writing Port_0_DriveMode_0 register
+ 01E9 4100FD            and             reg[ 0h], ~ 2h
+ 01EC 430002            or              reg[ 0h],  2h
+ 01EF 70EF          and   F, ~FLAG_XIO_MASK
+ 01F1           ; clear config active bit
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 01FA 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
+ 01F1 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
                    ENDIF
- 01FD 2600FB            and             [ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], ~receiver_config_BIT
- 0200 70EF          and   F, ~FLAG_XIO_MASK
- 0202 20                pop             x
- 0203           
+ 01F4 2600FB            and             [ACTIVE_CONFIG_STATUS+receiver_config_ADDR_OFF], ~receiver_config_BIT
+ 01F7 70EF          and   F, ~FLAG_XIO_MASK
+ 01F9 20                pop             x
+ 01FA           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2215,30 +2210,30 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 0203 7F            ret
- 0204           
- 0204           ;---------------------------------------------------------------------------
- 0204           ; Unload Configuration Total
- 0204           ;
- 0204           ;    Reset configuration registers for Total
- 0204           ;    to their values as initially configured.
- 0204           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
- 0204           ;
- 0204           ;       INPUTS: None.
- 0204           ;      RETURNS: Nothing.
- 0204           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
- 0204           ;               modified as may the Page Pointer registers!
- 0204           ;               In the large memory model currently only the page
- 0204           ;               pointer registers listed below are modified.  This does
- 0204           ;               not guarantee that in future implementations of this
- 0204           ;               function other page pointer registers will not be
- 0204           ;               modified.
- 0204           ;          
- 0204           ;               Page Pointer Registers Modified: 
- 0204           ;               CUR_PP
- 0204           ;
- 0204           _UnloadConfig_Total:
- 0204            UnloadConfig_Total:
+ 01FA 7F            ret
+ 01FB           
+ 01FB           ;---------------------------------------------------------------------------
+ 01FB           ; Unload Configuration Total
+ 01FB           ;
+ 01FB           ;    Reset configuration registers for Total
+ 01FB           ;    to their values as initially configured.
+ 01FB           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
+ 01FB           ;
+ 01FB           ;       INPUTS: None.
+ 01FB           ;      RETURNS: Nothing.
+ 01FB           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
+ 01FB           ;               modified as may the Page Pointer registers!
+ 01FB           ;               In the large memory model currently only the page
+ 01FB           ;               pointer registers listed below are modified.  This does
+ 01FB           ;               not guarantee that in future implementations of this
+ 01FB           ;               function other page pointer registers will not be
+ 01FB           ;               modified.
+ 01FB           ;          
+ 01FB           ;               Page Pointer Registers Modified: 
+ 01FB           ;               CUR_PP
+ 01FB           ;
+ 01FB           _UnloadConfig_Total:
+ 01FB            UnloadConfig_Total:
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2264,32 +2259,32 @@
                    ENDIF ; RAM_USE_CLASS_4
                 
                 
- 0204 10                push    x
- 0205 70EF          and   F, ~FLAG_XIO_MASK
- 0207 5000          mov     a, 0                    ; Specify bank 0
- 0209 67            asr     a                       ; Store in carry flag
- 020A                                               ; Bank 0 table address:
- 020A 5000          mov     A, >UnloadConfigTBL_Total_Bank0
- 020C 5700          mov     X, <UnloadConfigTBL_Total_Bank0
- 020E 7C0229        lcall   LoadConfig              ; Unload the bank 0 values
- 0211           
- 0211 5001          mov     a, 1                    ; Specify bank 1
- 0213 67            asr     a                       ; Store in carry flag
- 0214                                               ; Bank 1 table address:
- 0214 5000          mov     A, >UnloadConfigTBL_Total_Bank1
- 0216 5700          mov     X, <UnloadConfigTBL_Total_Bank1
- 0218 7C0229        lcall   LoadConfig              ; Unload the bank 1 values
- 021B           
- 021B 7110          or    F, FLAG_XIO_MASK
- 021D 70EF          and   F, ~FLAG_XIO_MASK
- 021F           ; clear config active bit
+ 01FB 10                push    x
+ 01FC 70EF          and   F, ~FLAG_XIO_MASK
+ 01FE 5000          mov     a, 0                    ; Specify bank 0
+ 0200 67            asr     a                       ; Store in carry flag
+ 0201                                               ; Bank 0 table address:
+ 0201 5000          mov     A, >UnloadConfigTBL_Total_Bank0
+ 0203 5700          mov     X, <UnloadConfigTBL_Total_Bank0
+ 0205 7C0220        lcall   LoadConfig              ; Unload the bank 0 values
+ 0208           
+ 0208 5001          mov     a, 1                    ; Specify bank 1
+ 020A 67            asr     a                       ; Store in carry flag
+ 020B                                               ; Bank 1 table address:
+ 020B 5000          mov     A, >UnloadConfigTBL_Total_Bank1
+ 020D 5700          mov     X, <UnloadConfigTBL_Total_Bank1
+ 020F 7C0220        lcall   LoadConfig              ; Unload the bank 1 values
+ 0212           
+ 0212 7110          or    F, FLAG_XIO_MASK
+ 0214 70EF          and   F, ~FLAG_XIO_MASK
+ 0216           ; clear config active bit
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 021F 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
+ 0216 62D000          mov reg[CUR_PP], >ACTIVE_CONFIG_STATUS
                    ENDIF
- 0222 550000            mov             [ACTIVE_CONFIG_STATUS+0], 0
- 0225 70EF          and   F, ~FLAG_XIO_MASK
- 0227 20                pop             x
- 0228           
+ 0219 550000            mov             [ACTIVE_CONFIG_STATUS+0], 0
+ 021C 70EF          and   F, ~FLAG_XIO_MASK
+ 021E 20                pop             x
+ 021F           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2332,27 +2327,27 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 0228 7F            ret
- 0229           
- 0229           
- 0229           
- 0229           
- 0229           ;---------------------------------------------------------------------------
- 0229           ; LoadConfig - Set IO registers as specified in ROM table of (address,value)
- 0229           ;              pairs. Terminate on address=0xFF.
- 0229           ;
- 0229           ;  INPUTS:  [A,X] points to the table to be loaded
- 0229           ;           Flag Register Carry bit encodes the Register Bank
- 0229           ;           (Carry=0 => Bank 0; Carry=1 => Bank 1)
- 0229           ;
- 0229           ;  RETURNS: nothing.
- 0229           ;
- 0229           ;  STACK FRAME:  X-4 I/O Bank 0/1 indicator
- 0229           ;                X-3 Temporary store for register address
- 0229           ;                X-2 LSB of config table address
- 0229           ;                X-1 MSB of config table address
- 0229           ;
- 0229           LoadConfig:
+ 021F 7F            ret
+ 0220           
+ 0220           
+ 0220           
+ 0220           
+ 0220           ;---------------------------------------------------------------------------
+ 0220           ; LoadConfig - Set IO registers as specified in ROM table of (address,value)
+ 0220           ;              pairs. Terminate on address=0xFF.
+ 0220           ;
+ 0220           ;  INPUTS:  [A,X] points to the table to be loaded
+ 0220           ;           Flag Register Carry bit encodes the Register Bank
+ 0220           ;           (Carry=0 => Bank 0; Carry=1 => Bank 1)
+ 0220           ;
+ 0220           ;  RETURNS: nothing.
+ 0220           ;
+ 0220           ;  STACK FRAME:  X-4 I/O Bank 0/1 indicator
+ 0220           ;                X-3 Temporary store for register address
+ 0220           ;                X-2 LSB of config table address
+ 0220           ;                X-1 MSB of config table address
+ 0220           ;
+ 0220           LoadConfig:
                    IF ( RAM_USE_CLASS_2 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2377,48 +2372,48 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 0229 3802          add     SP, 2                   ; Set up local vars
- 022B 10            push    X                       ; Save config table address on stack
- 022C 08            push    A
- 022D 4F            mov     X, SP
- 022E 56FC00        mov     [X-4], 0                ; Set default Destination to Bank 0
- 0231 D004          jnc     .BankSelectSaved        ; Carry says Bank 0 is OK
- 0233 56FC01        mov     [X-4], 1                ; No Carry: default to Bank 1
- 0236           .BankSelectSaved:
- 0236 18            pop     A
- 0237 20            pop     X
- 0238           
- 0238           LoadConfigLp:
- 0238 70EF          and   F, ~FLAG_XIO_MASK
- 023A 62E300        mov   reg[RES_WDT], 00h
- 023D 10            push    X                       ; Preserve the config table address
- 023E 08            push    A
- 023F 28            romx                            ; Load register address from table
- 0240 39FF          cmp     A, END_CONFIG_TABLE     ; End of table?
- 0242 A01F          jz      EndLoadConfig           ;   Yes, go wrap it up
- 0244 4F            mov     X, SP                   ;
- 0245 48FC01        tst     [X-4], 1                ; Loading IO Bank 1?
- 0248 A003          jz      .IOBankNowSet           ;    No, Bank 0 is fine
- 024A 7110          or    F, FLAG_XIO_MASK
- 024C           .IOBankNowSet:
- 024C 54FD          mov     [X-3], A                ; Stash the register address
- 024E 18            pop     A                       ; Retrieve the table address
- 024F 20            pop     X
- 0250 75            inc     X                       ; Advance to the data byte
- 0251 0900          adc     A, 0
- 0253 10            push    X                       ; Save the config table address again
- 0254 08            push    A
- 0255 28            romx                            ; load config data from the table
- 0256 4F            mov     X, SP                   ; retrieve the register address
- 0257 59FD          mov     X, [X-3]
- 0259 6100          mov     reg[X], A               ; Configure the register
- 025B 18            pop     A                       ; retrieve the table address
- 025C 20            pop     X
- 025D 75            inc     X                       ; advance to next table entry
- 025E 0900          adc     A, 0
- 0260 8FD7          jmp     LoadConfigLp            ; loop to configure another register
- 0262           EndLoadConfig:
- 0262 38FC          add     SP, -4
+ 0220 3802          add     SP, 2                   ; Set up local vars
+ 0222 10            push    X                       ; Save config table address on stack
+ 0223 08            push    A
+ 0224 4F            mov     X, SP
+ 0225 56FC00        mov     [X-4], 0                ; Set default Destination to Bank 0
+ 0228 D004          jnc     .BankSelectSaved        ; Carry says Bank 0 is OK
+ 022A 56FC01        mov     [X-4], 1                ; No Carry: default to Bank 1
+ 022D           .BankSelectSaved:
+ 022D 18            pop     A
+ 022E 20            pop     X
+ 022F           
+ 022F           LoadConfigLp:
+ 022F 70EF          and   F, ~FLAG_XIO_MASK
+ 0231 62E300        mov   reg[RES_WDT], 00h
+ 0234 10            push    X                       ; Preserve the config table address
+ 0235 08            push    A
+ 0236 28            romx                            ; Load register address from table
+ 0237 39FF          cmp     A, END_CONFIG_TABLE     ; End of table?
+ 0239 A01F          jz      EndLoadConfig           ;   Yes, go wrap it up
+ 023B 4F            mov     X, SP                   ;
+ 023C 48FC01        tst     [X-4], 1                ; Loading IO Bank 1?
+ 023F A003          jz      .IOBankNowSet           ;    No, Bank 0 is fine
+ 0241 7110          or    F, FLAG_XIO_MASK
+ 0243           .IOBankNowSet:
+ 0243 54FD          mov     [X-3], A                ; Stash the register address
+ 0245 18            pop     A                       ; Retrieve the table address
+ 0246 20            pop     X
+ 0247 75            inc     X                       ; Advance to the data byte
+ 0248 0900          adc     A, 0
+ 024A 10            push    X                       ; Save the config table address again
+ 024B 08            push    A
+ 024C 28            romx                            ; load config data from the table
+ 024D 4F            mov     X, SP                   ; retrieve the register address
+ 024E 59FD          mov     X, [X-3]
+ 0250 6100          mov     reg[X], A               ; Configure the register
+ 0252 18            pop     A                       ; retrieve the table address
+ 0253 20            pop     X
+ 0254 75            inc     X                       ; advance to next table entry
+ 0255 0900          adc     A, 0
+ 0257 8FD7          jmp     LoadConfigLp            ; loop to configure another register
+ 0259           EndLoadConfig:
+ 0259 38FC          add     SP, -4
                    IF ( RAM_USE_CLASS_2 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -2427,8 +2422,8 @@
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
                    IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 0264 703F            and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
- 0266 71C0            or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
+ 025B 703F            and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
+ 025D 71C0            or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
                    ENDIF
                    ENDIF ;  PGMODE LOCKED
                    IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
@@ -2461,8 +2456,8 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 0268 7F            ret
- 0269           
+ 025F 7F            ret
+ 0260           
                 AREA InterruptRAM(ram, rel)
                 
  0000           NO_SHADOW:

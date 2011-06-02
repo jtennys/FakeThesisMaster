@@ -275,9 +275,6 @@ _LoadConfig_pc_listener:
 ; writing AnalogColumnInputSelect register
 	and		reg[60h], ~ ch
 	or		reg[60h],  ch
-; writing DecimatorControl_1 register
-	and		reg[e7h], ~40h
-	or		reg[e7h], 40h
 ; writing OscillatorControl_1 register
 	M8C_SetBank1
 	and		reg[e1h], ~ffh
@@ -362,8 +359,6 @@ _UnloadConfig_pc_listener:
 	M8C_SetBank0
 	and		reg[60h], ~ ch
 	or		reg[60h],  8h
-; writing DecimatorControl_1 register
-	and		reg[e7h], ~40h
 ; writing OscillatorControl_1 register
 	M8C_SetBank1
 	and		reg[e1h], ~ffh

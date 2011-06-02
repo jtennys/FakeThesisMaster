@@ -40,8 +40,8 @@ LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'receiver_config_RAM' uses 0 bytes in SRAM page 0
 LMM info: area 'transmitter_config_RAM' uses 0 bytes in SRAM page 0
-  ROM 24% full. 7897 bytes used (does not include absolute areas).
+  ROM 24% full. 7855 bytes used (does not include absolute areas).
   RAM 9% full. 163 bytes used (does not include stack usage).
 idata dump at output/FakeMaster.idata
  
-FakeMaster - 0 error(s) 1 warning(s) 12:09:31
+FakeMaster - 0 error(s) 1 warning(s) 13:33:04

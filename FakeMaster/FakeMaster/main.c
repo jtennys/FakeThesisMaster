@@ -51,7 +51,7 @@
 // the first module is found. After all of this, this module goes into a PC listening mode.
 #define		BUS_CLEAR_TIME				(100)	// Min time after a byte to assume bus is clear at boot.
 #define		BOOT_TIMEOUT				(300)	// If nothing is heard by this time, we start the init anyway.
-#define		MAX_TIMEOUTS				(10)	// Number of timeouts allowed before hello mode exit.
+#define		MAX_TIMEOUTS				(50)	// Number of timeouts allowed before hello mode exit.
 
 // This is the maximum number of allowable modules per branch out from the master
 #define		MAX_MODULES					(250)
@@ -463,8 +463,10 @@ void decodeTransmission(void)
 								{
 									if(RECEIVE_cGetChar() == ID)
 									{
+										// Check the length of the packet.
 										if(RECEIVE_cGetChar() == 3)
 										{
+											// Check to see that there were no errors.
 											if(RECEIVE_cGetChar() == 0)
 											{
 												tempByte = RECEIVE_cGetChar();
@@ -490,9 +492,7 @@ void decodeTransmission(void)
 						{
 							configToggle(PC_MODE);
 												
-							total = PARAM[0];
-							itoa(param,total,10);
-							COMP_SERIAL_PutString(param);
+							COMP_SERIAL_PutChar(PARAM[0]);
 							COMP_SERIAL_PutChar('\n');
 						}
 					}
@@ -502,7 +502,7 @@ void decodeTransmission(void)
 						if(pingModule(ID))
 						{	
 							configToggle(PC_MODE);
-												
+							
 							COMP_SERIAL_PutChar(PARAM[1]);
 							COMP_SERIAL_PutChar('\n');
 						}

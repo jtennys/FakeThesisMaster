@@ -209,7 +209,7 @@ LoadConfigTBL_transmitter_config_Bank0:
 LoadConfigTBL_transmitter_config_Bank1:
 ;  Instance name TRANSMIT, User Module TX8
 ;       Instance name TRANSMIT, Block Name TX8(DCB02)
-	db		28h, 0dh		;TRANSMIT_FUNC_REG     (DCB02FN)
+	db		28h, 1dh		;TRANSMIT_FUNC_REG     (DCB02FN)
 	db		29h, 01h		;TRANSMIT_INPUT_REG    (DCB02IN)
 	db		2ah, 85h		;TRANSMIT_OUTPUT_REG   (DCB02OU)
 ;  Instance name TX_TIMEOUT, User Module Timer16
@@ -351,7 +351,7 @@ ReloadConfigTBL_transmitter_config_Bank0:
 ReloadConfigTBL_transmitter_config_Bank1:
 ;  Instance name TRANSMIT, User Module TX8
 ;       Instance name TRANSMIT, Block Name TX8(DCB02)
-	db		28h, 0dh		;TRANSMIT_FUNC_REG     (DCB02FN)
+	db		28h, 1dh		;TRANSMIT_FUNC_REG     (DCB02FN)
 	db		29h, 01h		;TRANSMIT_INPUT_REG    (DCB02IN)
 	db		2ah, 85h		;TRANSMIT_OUTPUT_REG   (DCB02OU)
 ;  Instance name TX_TIMEOUT, User Module Timer16
