@@ -3,7 +3,7 @@
   <APP_EDITOR_SETTINGS>
     <OPEN_FILE PATH="C:\Users\Admin\Documents\PSoC Designer 5.0 Projects\FakeMaster\FakeMaster\FakeMaster\FakeMaster.soc" />
     <OPEN_FILE PATH="C:\Users\Admin\Documents\PSoC Designer 5.0 Projects\FakeMaster\FakeMaster\FakeMaster.cmx" />
-    <OPEN_FILE PATH="C:\Users\Admin\Documents\PSoC Designer 5.0 Projects\FakeMaster\FakeMaster\FakeMaster\main.c" ACTIVE="true" />
+    <OPEN_FILE PATH="C:\Users\Admin\Documents\PSoC Designer 5.0 Projects\FakeMaster\FakeMaster\FakeMaster\main.c" />
   </APP_EDITOR_SETTINGS>
   <DEBUGGER_SETTINGS>
     <TRACE_MODE VALUE="PCOnly" />

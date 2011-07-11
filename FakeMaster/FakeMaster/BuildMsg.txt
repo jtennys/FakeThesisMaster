@@ -1,5 +1,4 @@
 Starting MAKE...
-creating project.mk 
 lib/comp_serial.asm
 lib/comp_serialint.asm
 lib/comp_serialplus.asm
@@ -7,41 +6,57 @@ lib/psocconfig.asm
 lib/psocconfigtbl.asm
 lib/psocdynamic.asm
 lib/psocdynamicint.asm
-lib/receive.asm
-lib/receiveint.asm
-lib/receiveplus.asm
+lib/receive_1.asm
+lib/receive_1int.asm
+lib/receive_1plus.asm
+lib/receive_2.asm
+lib/receive_2int.asm
+lib/receive_2plus.asm
+lib/receive_3.asm
+lib/receive_3int.asm
+lib/receive_3plus.asm
+lib/receive_4.asm
+lib/receive_4int.asm
+lib/receive_4plus.asm
 lib/rx_timeout.asm
 lib/rx_timeoutint.asm
-lib/transmit.asm
-lib/transmitint.asm
-lib/transmitplus.asm
-lib/tx_repeater.asm
-lib/tx_repeaterint.asm
-lib/tx_repeaterplus.asm
+lib/tx_repeater_14.asm
+lib/tx_repeater_14int.asm
+lib/tx_repeater_14plus.asm
+lib/tx_repeater_23.asm
+lib/tx_repeater_23int.asm
+lib/tx_repeater_23plus.asm
 lib/tx_timeout.asm
 lib/tx_timeoutint.asm
 ./boot.asm
 ./main.c
-!W C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\main.c(589):[warning] expression with no effect elided
+!W C:\Users\Admin\DOCUME~1\PSOCDE~1.0PR\FAKEMA~1\FAKEMA~1\FAKEMA~1\main.c(685):[warning] expression with no effect elided
  
 Linking..
-LMM info: area 'InterruptRAM' uses 5 bytes in SRAM page 0
+LMM info: area 'InterruptRAM' uses 11 bytes in SRAM page 0
 LMM info: area 'COMP_SERIAL_RAM' item of 64 bytes allocated in SRAM page 0
-LMM info: area 'RECEIVE_RAM' item of 64 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_2_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_1_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_3_RAM' item of 16 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_4_RAM' item of 16 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 10 bytes allocated in SRAM page 0
 LMM info: area 'virtual_registers' uses 9 bytes in SRAM page 0
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_4_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_1_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_2_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'RECEIVE_3_RAM' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'COMP_SERIAL_RAM' item of 1 bytes allocated in SRAM page 0
-LMM info: area 'RECEIVE_RAM' item of 1 bytes allocated in SRAM page 0
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 LMM info: area 'receiver_config_RAM' uses 0 bytes in SRAM page 0
-LMM info: area 'transmitter_config_RAM' uses 0 bytes in SRAM page 0
-  ROM 24% full. 7855 bytes used (does not include absolute areas).
-  RAM 9% full. 163 bytes used (does not include stack usage).
+LMM info: area 'pc_listener_RAM' uses 0 bytes in SRAM page 0
+  ROM 29% full. 9647 bytes used (does not include absolute areas).
+  RAM 9% full. 173 bytes used (does not include stack usage).
 idata dump at output/FakeMaster.idata
  
-FakeMaster - 0 error(s) 1 warning(s) 13:33:04
+FakeMaster - 0 error(s) 1 warning(s) 15:03:53
